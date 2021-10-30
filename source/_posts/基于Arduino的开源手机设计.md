@@ -8,6 +8,8 @@ tags:
 >注意：本文是北京邮电大学全校公选课程“基于Arduino的开源手机设计”的开发记录。
 >本文采用的开发板为邹俊伟老师设计的VSOP(Very Simple Opensourse Phone)开发板。
 
+<!--more-->
+
 # Arduino的简单介绍
 Arduino是一款便捷灵活，方便上手的开源电子硬件平台，包括硬件与软件两个部分。硬件是指各种不同类型的Arduino开发板，而软件部分主
 要是一个

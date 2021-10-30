@@ -6,10 +6,10 @@ menu:
 
 # subNav-子导航
 subNav:
-  - github: "#"
-  - github: "#" # (支持设置多个)
-  - gitee: "#" # 码云
-  - jianshu: "#" #简书
+  - github: "https://github.com/jackfiled"
+  # - github: "#" # (支持设置多个)
+  - gitee: "https://gitee.com/ricardo-ren" # 码云
+  # - jianshu: "#" #简书
   # - cnblog: "#"
   # - blog: "#"
   # - csdn: "#"
@@ -22,7 +22,7 @@ subNav:
   # - segmentfault: "#"
   # - bilibili: "#"
   # - acfun: "#"
-  # - mail: "mailto:zhousiwei0911@qq.com"
+  - mail: "mailto:shicangjuner@outlook.com"
   # - facebook: "#"
   # - google: "#"
   # - twitter: "#"
@@ -62,7 +62,7 @@ open_in_new:
 
 # 打赏
 # 打赏type设定：0-关闭打赏； 1-文章对应的md文件里有reward:true属性，才有打赏； 2-所有文章均有打赏
-reward_type: 2
+reward_type: 0
 # 打赏wording
 reward_wording: '谢谢你请我吃糖果'
 # 支付宝二维码图片地址，跟你设置头像的方式一样。比如：/assets/img/alipay.jpg
@@ -90,7 +90,7 @@ google_analytics: ''
 favicon: /favicon.ico
 
 # 你的头像url
-avatar: /img/head.jpg
+avatar: /img/64981524_p0.jpg
 
 # 是否开启分享
 share_jia: true
@@ -174,7 +174,7 @@ copyright_type: 2
 copyright_text: 
 
 # 网站成立年份(默认为 2018，若填入年份小于当前年份，则显示为 2018-2019 类似的格式)
-since: 2018
+since: 2021
 
 # Progress Bar | 页面加载进度条
 # Demo: http://github.hubspot.com/pace/docs/welcome/
@@ -283,4 +283,4 @@ friends:
     url: https://blog.csdn.net/qq_30930805
 
 # 关于我
-aboutme: 主要涉及技术：<br>Java后端开发、聚合支付、<br>公众号开发、开源爱好者、Linux<br><br>联系QQ:2434387555<br><br>很惭愧<br><br>只做了一点微小的工作<br>谢谢大家
+aboutme: <br>很惭愧<br><br>只做了一点微小的工作<br>谢谢大家
