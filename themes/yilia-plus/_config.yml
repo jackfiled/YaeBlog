@@ -87,7 +87,7 @@ baidu_analytics: ''
 google_analytics: ''
 
 # 网站图标
-favicon: /favicon.ico
+favicon: /img/favicon.ico
 
 # 你的头像url
 avatar: /img/64981524_p0.jpg
@@ -266,21 +266,8 @@ smart_menu:
 
 # 友情链接
 friends:
-  技术笔记:  #网站名称
-    #网站地址
-    url: https://zhousiwei.gitee.io/ibooks/
-    #网站图片(可忽略不写)
-    img: https://zhousiwei.gitee.io/ibooks/favicon.ico
-    #网站简介(可忽略不写)
-    description: 记录工作和学习过程中的笔记：Java、前端开发、Hexo博客、聚合支付、Linux笔记、ElasticSearch、ELK日志分析
-  GitHub:
-    url: https://github.com/JoeyBling
-  码云:
-    url: https://gitee.com/zhousiwei
-  简书:
-    url: https://www.jianshu.com/u/02cbf31a043a
-  CSDN:
-    url: https://blog.csdn.net/qq_30930805
+  fa_555:
+    url: https://fa555.github.io
 
 # 关于我
-aboutme: <br>很惭愧<br><br>只做了一点微小的工作<br>谢谢大家
+aboutme: <br>还太菜了<br><br>连微小的工作都没办法做
