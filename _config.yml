@@ -13,7 +13,7 @@ timezone: ''
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://rrricardo.top
+url: http://rrricardo.top/blog
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -102,7 +102,10 @@ theme: yilia-plus
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
+  type: git
+  repo: git@gitee.com:ricardo-ren/blog-deploy.git
+  branch: master
+  message: Site Update {{now('YYYY-MM-DD HH:mm:ss')}}
 
 # 显示所有文章的设置
 jsonContent:
