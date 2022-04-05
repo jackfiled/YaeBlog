@@ -1,8 +1,11 @@
 ---
 title: missing-the-shell
-tags:
 typora-root-url: missing-the-shell
+date: 2022-04-05 13:48:39
+tags:
+toc: true
 ---
+
 
 # The missing semester in the CS
 
@@ -165,26 +168,38 @@ One thing you need to be root in order to do is writing to the `sysfs` file syst
 
 ## Exercises
 
-1. ```bash
+1. 直接查看`$SHELL`变量就可以
+   
+   
+   ```bash
    ricardo@g15:~$ echo $SHELL
    /bin/bash
    ```
-
-2. ```bash
+   
+2. 创建文件夹
+   
+   
+   ```bash
    ricardo@g15:/tmp$ mkdir missing
    ```
-
-3. ```bash
+   
+3. 查看`touch`命令的用法
+   
+   ```bash	
    ricardo@g15:/tmp$ man touch
    ```
 
    > touch 就是改变一个文件的最后修改时间，如果没有就是创建
-
-4. ```bash
+   
+4. 利用`touch`创建文件
+   
+   ```bash
    ricardo@g15:/tmp$ touch missing/semester
    ```
-
-5. ```bash
+   
+5. 在文件中写入数据
+   
+   ```bash
    ricardo@g15:/tmp/missing$ touch semester
    ricardo@g15:/tmp/missing$ echo '#!/bin/sh' > semester
    ricardo@g15:/tmp/missing$ echo curl --head --silent https://missing.csail.mit.edu >> semester
@@ -192,8 +207,10 @@ One thing you need to be root in order to do is writing to the `sysfs` file syst
    #!/bin/sh
    curl --head --silent https://missing.csail.mit.edu
    ```
-
-6. ```bash
+   
+6. 尝试直接运行文件，发现文件没有直接被执行的权限
+   
+   ```bash
    ricardo@g15:/tmp/missing$ ./semester
    -bash: ./semester: Permission denied
    ricardo@g15:/tmp/missing$ ll
@@ -202,8 +219,10 @@ One thing you need to be root in order to do is writing to the `sysfs` file syst
    drwxrwxrwt 7 root    root    20480 Mar 28 08:38 ../
    -rw-r--r-- 1 ricardo ricardo    61 Mar 28 08:47 semester
    ```
-
-7. ```bash
+   
+7. 利用指定的解释器运行写入的程序
+   
+   ```bash
    ricardo@g15:/tmp/missing$ sh ./semester
    HTTP/2 200
    server: GitHub.com
@@ -227,10 +246,12 @@ One thing you need to be root in order to do is writing to the `sysfs` file syst
    x-fastly-request-id: e71e5760a7ed66425c9ad2eb9572e5a12b23bee6
    content-length: 7991
    ```
-
+   
 8. > chmod命令用于修改文件的权限
 
-9. ```bash
+9. 修改文件的权限后直接执行
+   
+   ```bash
    ricardo@g15:/tmp/missing$ sudo chmod 777 semester
    [sudo] password for ricardo:
    ricardo@g15:/tmp/missing$ ll
@@ -262,13 +283,15 @@ One thing you need to be root in order to do is writing to the `sysfs` file syst
    x-fastly-request-id: 8271d76f868dc9951a9dc5b5d2b1da1d1ace0e89
    content-length: 7991
    ```
-
-10. ```bash
+   
+10. 用`grep`命令筛选指定的内容
+    
+    ```bash
     ricardo@g15:/tmp/missing$ ./semester | grep --ignore-case last-modified | cut --delimiter=':' -f2 > /home/ricardo/last-modified.txt
     ricardo@g15:/tmp/missing$ cat /home/ricardo/last-modified.txt
      Fri, 04 Mar 2022 17
     ```
-
+    
 11. >卡牌名称：WSL系统
     >
     >卡牌效果:当遇到使用`sysfs`的题目时，打出此牌，即可跳过该回合

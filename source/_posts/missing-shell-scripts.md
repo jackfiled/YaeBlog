@@ -1,8 +1,11 @@
 ---
 title: missing-shell-scripts
-tags:
 typora-root-url: missing-shell-scripts
+date: 2022-04-05 14:02:48
+tags:
+toc: true
 ---
+
 
 # The missing semester in the CS
 
@@ -13,8 +16,6 @@ typora-root-url: missing-shell-scripts
 本篇为`Shell Tools and Scripting`部分的学习笔记，课程地址为[Shell-tools](https://missing.csail.mit.edu/2020/shell-tools/)
 
 <!--more-->
-
-[TOC]
 
 ## Shell Scripting
 
@@ -176,7 +177,9 @@ More complex tools exist to quickly get an overview of a directory structure: [`
 
 ## Exercise
 
-1. ```bash
+1. 利用`man ls`查看`ls`相关的参数，满足自己的要求
+   
+   ```bash
    ricardo@g15:~$ ls -l -h -t
    total 20K
    drwxr-xr-x 2 ricardo ricardo 4.0K Apr  5 11:42 tmp
@@ -185,7 +188,7 @@ More complex tools exist to quickly get an overview of a directory structure: [`
    drwxr-xr-x 4 ricardo ricardo 4.0K Mar 16 21:25 download
    drwxr-xr-x 3 ricardo ricardo 4.0K Jan 21 18:21 github
    ```
-
+   
 2. 直接在`.bashrc`文件里面添加
 
    ```bash
@@ -236,7 +239,9 @@ More complex tools exist to quickly get an overview of a directory structure: [`
    It has run for 228 times.
    ```
 
-4. ```bash
+4. 将找到的文件通过`xargs`传递给压缩程序
+   
+   ```bash
    find . -name '*.html' | xargs tar
    ```
 
