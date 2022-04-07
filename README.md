@@ -1,13 +1,9 @@
-# Ricardo的个人博客
-目前架设在阿里云的服务器上，还没有域名。   
-仅开放给有限的人使用
+# Ricardo的博客
 
-## Issues 
-大部分的文章没有写完   
+[博客地址](https://rrricardo.top/blog/), 欢迎大家来玩。
 
+## 基本情况
 
-## TODO
-为这个博客购买域名，开始正式工作      
-借助这个博客学习网站的制作   
-为这个博客建立RSS   
-文章的分类   
+博客框架采用[Hexo](https://hexo.io), 采用的Hexo主题为[yilia-plus](https://github.com/JoeyBling/hexo-theme-yilia-plus),对主题进行了少部分的更改，主要是增加了域名的ICP备案号。
+
+目前这个博客除了能够显示我写的电子垃圾之外，还没有其他的功能。
