@@ -3,6 +3,8 @@ title: missing-shell-scripts
 typora-root-url: missing-shell-scripts
 date: 2022-04-05 14:02:48
 tags:
+  - missing
+  - 学习资料
 toc: true
 ---
 
