@@ -1,6 +1,7 @@
 ---
 title: 基于Arduino的开源手机设计
 tags:
+  - 技术笔记
 ---
 
 # 基于Arduino的开源手机设计
