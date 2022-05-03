@@ -13,7 +13,7 @@ date: 2022-04-21 11:45:12
 
 ## Introduction
 
-本篇是MIT的公开课程[计算机教学中消失的一学期](https://missing.csail.mit.edu/)的学习笔记第七篇。在笔记中，我将摘抄我认为是重点的语句，文中举出的例子我会在自己的电脑上操作一遍并给出其产生的结果，课程中的习题我也会给出我自己的答案。
+本篇是MIT的公开课程[计算机教学中消失的一学期](https://missing.csail.mit.edu/)的学习笔记第七篇。在笔记中，我将摘抄我认为是重点的语句，文中举出的例子我会在自己的电脑上操作一遍并给出其产生的结果。
 
 本篇是`Debugging and Profiling`部分的学习笔记，课程地址为[Debugging and Profiling](https://missing.csail.mit.edu/2020/debugging-profiling/).
 
