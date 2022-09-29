@@ -22,7 +22,7 @@ pretty_urls:
 
 # Directory
 source_dir: source
-public_dir: public
+public_dir: blog
 tag_dir: tags
 archive_dir: archives
 category_dir: categories
@@ -98,14 +98,6 @@ ignore:
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 theme: fluid
-
-# Deployment
-## Docs: https://hexo.io/docs/one-command-deployment
-deploy:
-  type: git
-  repo: git@gitee.com:ricardo-ren/blog-deploy.git
-  branch: master
-  message: Site Update {{now('YYYY-MM-DD HH:mm:ss')}}
 
 # 显示所有文章的设置
 jsonContent:

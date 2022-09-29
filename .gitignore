@@ -3,7 +3,5 @@ Thumbs.db
 db.json
 *.log
 node_modules/
-public/
+blog/
 .deploy*/
-.idea/
-source/_posts/人工智能和社会发展.md
