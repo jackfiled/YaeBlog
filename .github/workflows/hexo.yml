@@ -19,11 +19,14 @@ jobs:
     
     - name: Build Vuepress
       run: npm install && npm run build
+      
+    - name: list dir
+      run: ls -alh
     
     - name: Deploy to Github Pages
       uses: crazy-max/ghaction-github-pages@v3
       with:
         target_branch: gh-pages
-        build_dir: /blog/
+        build_dir: blog/
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
