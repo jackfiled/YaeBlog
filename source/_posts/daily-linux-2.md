@@ -4,6 +4,7 @@ tags:
   - 随笔
   - Linux
 date: 2023-07-23 11:44:34
+typora-root-url: daily-linux-2
 ---
 
 
@@ -19,7 +20,7 @@ date: 2023-07-23 11:44:34
 
 最近恰好被平铺式的窗口管理器种草，又在B站上看见一个动画绚丽的`wayland`合成器——[Hyprland](https://hyprland.org/)，当即脑袋一热，就把`kde`干掉，装上了`hyprland`。
 
-![img](daily-linux-2/df4211f6be2724b3b4725f7ce5a4078818844857.jpg@!web-comment-note.avif)
+![img](df4211f6be2724b3b4725f7ce5a4078818844857.jpg)
 
 安装`hyprland`的过程非常舒适，`hyprland`被打包为一个单独的二进制文件，使用`pacman`安装之后直接在`tty`下执行:
 
@@ -33,7 +34,7 @@ Hyprland
 
 在`Linux`下拥有了终端就好办了。首先装上`App Launcher`——没有这玩意儿我似乎就只能从终端里启动应用程序，显然是十二分的不方便。在一番比较之后，我在官方文档中选择了`fuzzel`，看上去挺好看的。
 
-![Screenshot](https://codeberg.org/dnkl/fuzzel/media/branch/master/doc/screenshot.png)
+> 本来这里想截一张`fuzzel`的图，但是似乎他们的主页挂掉了（
 
 安装了`App Launcher`之后，至少可以打开浏览器，愉快的复制粘贴安装了。剩下的安装过程就按下不表，基本上按照官方文档的`Useful Utilities`进行，在中间选择自己需要的软件的进行安装。然后便是根据配置文件的说明对于外观和使用快捷键进行调整，以及配置壁纸软件`hyprpaper`和状态栏组件`waybar`。具体的配置文件我都放在了自建的`git`服务器上，可以在[这里](https://git.rrricardo.top/jackfiled/dot-config)查看。
 

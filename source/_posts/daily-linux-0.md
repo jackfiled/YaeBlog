@@ -4,6 +4,7 @@ tags:
   - Linux
   - 随笔
 date: 2023-01-15 22:23:08
+typora-root-url: daily-linux-0
 ---
 
 
