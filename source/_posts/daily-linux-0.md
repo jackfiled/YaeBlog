@@ -94,7 +94,7 @@ sudo systemctl enable sddm.service
 
 我目前实现的效果大概长这样：
 
-![](daily-linux-0/2023-01-12-13-28-38-Screenshot_20230112_132829.png)
+![](2023-01-12-13-28-38-Screenshot_20230112_132829.png)
 
 颇有一种`Windows`和`MacOS`杂交的风格。
 
@@ -108,7 +108,7 @@ sudo systemctl enable sddm.service
 
 先上一张`shell`的系统概览截图：
 
-![](daily-linux-0/2023-01-12-13-36-45-Screenshot_20230112_133628.png)
+![](2023-01-12-13-36-45-Screenshot_20230112_133628.png)
 
 终端模拟器直接使用的`konsole`，目前没有进行改动。
 
