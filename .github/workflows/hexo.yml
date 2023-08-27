@@ -30,3 +30,6 @@ jobs:
         build_dir: blog/
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Refresh Server Cache
+      run: curl https://rrricardo.top/_/refresh -X POST -d "blog"
