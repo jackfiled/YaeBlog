@@ -4,7 +4,9 @@ tags:
   - 随笔
   - Linux
 typora-root-url: daily-linux-3
+date: 2023-09-04 14:47:46
 ---
+
 
 # 日用Linux挑战 第三篇
 
@@ -48,9 +50,12 @@ typora-root-url: daily-linux-3
 下面就简单讲讲这次使用`KDE`的美化思路。这次使用`KDE`几乎完全继承了之前的[美化思路](https://rrricardo.top/blog/2023/01/15/daily-linux-0/)，其中主要的变化为：
 
 - 使用`kitty`作为终端模拟器
+- 使用类似于`Windows`下的任务栏显示模式，而不是只显示图标
 - 继承了部分在`Hyprland`下的快捷键
   - `Meta+F`全屏应用
   - `Meta+W`关闭应用
+
+![](Screenshot_20230904_144149.png)
 
 ### Fuck You NVIDIA
 
