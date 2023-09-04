@@ -1,5 +1,5 @@
 ---
-title: spring-boot-custom-authorize
+title: SpringBoot自定义注解实现权限控制
 tags:
   - 技术笔记
   - Java
