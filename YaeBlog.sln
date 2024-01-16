@@ -5,8 +5,6 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YaeBlog.Core", "YaeBlog.Core\YaeBlog.Core.csproj", "{1671A8AE-78F6-4641-B97D-D8ABA5E9CBEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YaeBlog.Abstractions", "YaeBlog.Abstractions\YaeBlog.Abstractions.csproj", "{1C680F58-C1F4-4424-9C86-22CB98D6F6B6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YaeBlog.Theme.FluentUI", "YaeBlog.Theme.FluentUI\YaeBlog.Theme.FluentUI.csproj", "{E3EB73E2-0267-416A-BA0A-9D0FC93AAFA0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YaeBlog.Example", "YaeBlog.Example\YaeBlog.Example.csproj", "{3A768948-D4E8-4111-A1FE-DF98EBFC4991}"
@@ -24,10 +22,6 @@ Global
 		{1671A8AE-78F6-4641-B97D-D8ABA5E9CBEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1671A8AE-78F6-4641-B97D-D8ABA5E9CBEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1671A8AE-78F6-4641-B97D-D8ABA5E9CBEF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1C680F58-C1F4-4424-9C86-22CB98D6F6B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1C680F58-C1F4-4424-9C86-22CB98D6F6B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1C680F58-C1F4-4424-9C86-22CB98D6F6B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1C680F58-C1F4-4424-9C86-22CB98D6F6B6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E3EB73E2-0267-416A-BA0A-9D0FC93AAFA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E3EB73E2-0267-416A-BA0A-9D0FC93AAFA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3EB73E2-0267-416A-BA0A-9D0FC93AAFA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
