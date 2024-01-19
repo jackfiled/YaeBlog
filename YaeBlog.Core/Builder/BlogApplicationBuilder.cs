@@ -5,6 +5,7 @@ using Microsoft.Extensions.Diagnostics.Metrics;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using YaeBlog.Core.Extensions;
+using YamlDotNet.Serialization;
 
 namespace YaeBlog.Core.Builder;
 
@@ -12,12 +13,15 @@ public sealed class BlogApplicationBuilder : IHostApplicationBuilder
 {
     private readonly HostApplicationBuilder _hostApplicationBuilder;
 
-    public MarkdownPipelineBuilder MarkdigPipelineBuilder { get; set; }
+    public MarkdownPipelineBuilder MarkdigPipelineBuilder { get; }
+
+    public DeserializerBuilder YamlDeserializerBuilder { get; }
 
     internal BlogApplicationBuilder(BlogApplicationOptions options)
     {
         ConfigurationManager configuration = new();
         MarkdigPipelineBuilder = new MarkdownPipelineBuilder();
+        YamlDeserializerBuilder = new DeserializerBuilder();
 
         _hostApplicationBuilder = new HostApplicationBuilder(new HostApplicationBuilderSettings
         {
