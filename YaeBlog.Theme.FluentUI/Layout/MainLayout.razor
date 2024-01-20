@@ -1,0 +1,54 @@
+@inherits LayoutComponentBase
+
+<FluentLayout>
+    <FluentHeader>
+        <FluentStack Orientation="@Orientation.Horizontal">
+            <div style="width: 50px"></div>
+
+            <a href="/">
+                <FluentLabel Typo="@Typography.H4">
+                    Ricardo Ren
+                </FluentLabel>
+            </a>
+
+            <FluentSpacer/>
+
+            <a href="/">
+                <FluentLabel Typo="@Typography.Body">
+                    首页
+                </FluentLabel>
+            </a>
+
+            <a href="/archives">
+                <FluentLabel Typo="@Typography.Body">
+                    归档
+                </FluentLabel>
+            </a>
+
+            <a href="/tags">
+                <FluentLabel Typo="@Typography.Body">
+                    标签
+                </FluentLabel>
+            </a>
+
+            <a href="/about">
+                <FluentLabel Typo="@Typography.Body">
+                    关于
+                </FluentLabel>
+            </a>
+
+            <a href="/links">
+                <FluentLabel Typo="@Typography.Body">
+                    友链
+                </FluentLabel>
+            </a>
+
+            <div style="width: 50px"></div>
+        </FluentStack>
+    </FluentHeader>
+    <FluentBodyContent>
+        <main>
+            @Body
+        </main>
+    </FluentBodyContent>
+</FluentLayout>
