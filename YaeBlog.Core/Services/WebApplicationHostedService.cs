@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using YaeBlog.Core.Models;
 
 namespace YaeBlog.Core.Services;
 
@@ -74,6 +76,8 @@ public class WebApplicationHostedService : IHostedService
     {
         _websiteBuilder.Services.AddSingleton<EssayContentService>(_ =>
             provider.GetRequiredService<EssayContentService>());
+        _websiteBuilder.Services.AddTransient<BlogOptions>(_ =>
+            provider.GetRequiredService<IOptions<BlogOptions>>().Value);
     }
 
 

@@ -10,9 +10,9 @@ using YamlDotNet.Serialization.NamingConventions;
 
 namespace YaeBlog.Core.Extensions;
 
-internal static class BlogApplicationExtension
+public static class BlogApplicationExtension
 {
-    public static void ConfigureBlogApplication(this BlogApplicationBuilder builder)
+    internal static void ConfigureBlogApplication(this BlogApplicationBuilder builder)
     {
         builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
         builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json",
