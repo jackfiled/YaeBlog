@@ -2,5 +2,5 @@
 
 public class BlogApplicationOptions
 {
-    public string[]? Args { get; init; }
+    public required string[] Args { get; init; }
 }

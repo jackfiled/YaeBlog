@@ -1,4 +1,5 @@
 ﻿using Markdig;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using YaeBlog.Core.Builder;
@@ -11,7 +12,7 @@ namespace YaeBlog.Core.Extensions;
 
 internal static class BlogApplicationExtension
 {
-    public static BlogApplicationBuilder ConfigureBlogApplication(this BlogApplicationBuilder builder)
+    public static void ConfigureBlogApplication(this BlogApplicationBuilder builder)
     {
         builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
         builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json",
@@ -33,7 +34,14 @@ internal static class BlogApplicationExtension
         builder.Services.AddSingleton<EssayScanService>();
         builder.Services.AddSingleton<RendererService>();
         builder.Services.AddSingleton<EssayContentService>();
+    }
 
-        return builder;
+    public static void ConfigureWebApplication(this BlogApplicationBuilder builder,
+        Action<WebApplicationBuilder> configureWebApplicationBuilder,
+        Action<WebApplication> configureWebApplication)
+    {
+        builder.Services.AddHostedService<WebApplicationHostedService>(provider =>
+            new WebApplicationHostedService(configureWebApplicationBuilder,
+            configureWebApplication, provider));
     }
 }
