@@ -1,3 +1,54 @@
-.test {
-    color: purple;
+.banner {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.blog-title {
+    color: white;
+    text-align: center;
+    top: 43%;
+    position: absolute;
+    width: 100%;
+}
+
+.scroll-down {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.scroll-down-tag::before {
+    content: "V";
+}
+
+.scroll-down-tag {
+    font-family: "Font Awesome 6 Free", sans-serif;
+    font-size: 36px;
+    color: white;
+    text-align: center;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    animation: scroll-down-animation 1.5s infinite;
+}
+
+@keyframes scroll-down-animation {
+    0% {
+        top: 0;
+        opacity: 0.4;
+    }
+
+    50% {
+        top: -20px;
+        opacity: 1;
+    }
+
+    100% {
+        top: 0;
+        opacity: 0.4;
+    }
 }

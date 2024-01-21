@@ -6,5 +6,9 @@ public class BlogOptions
 
     public required string Root { get; set; }
 
+    public required string Author { get; set; }
+
     public required string ProjectName { get; set; }
+
+    public required string BannerImage { get; set; }
 }

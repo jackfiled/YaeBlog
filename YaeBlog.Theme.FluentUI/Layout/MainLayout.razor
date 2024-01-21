@@ -1,4 +1,7 @@
+@using YaeBlog.Core.Models
 @inherits LayoutComponentBase
+
+@inject BlogOptions BlogOptionsInstance
 
 <FluentLayout>
     <FluentHeader>
@@ -6,39 +9,39 @@
             <div style="width: 50px"></div>
 
             <a href="/">
-                <FluentLabel Typo="@Typography.H4">
-                    Ricardo Ren
+                <FluentLabel Typo="@Typography.H3">
+                    @BlogOptionsInstance.Author
                 </FluentLabel>
             </a>
 
             <FluentSpacer/>
 
-            <a href="/">
-                <FluentLabel Typo="@Typography.Body">
+            <a href="/" style="margin: auto 0 auto 0">
+                <FluentLabel Typo="@Typography.H5">
                     首页
                 </FluentLabel>
             </a>
 
-            <a href="/archives">
-                <FluentLabel Typo="@Typography.Body">
+            <a href="/archives" style="margin: auto 0 auto 0">
+                <FluentLabel Typo="@Typography.H5">
                     归档
                 </FluentLabel>
             </a>
 
-            <a href="/tags">
-                <FluentLabel Typo="@Typography.Body">
+            <a href="/tags" style="margin: auto 0 auto 0">
+                <FluentLabel Typo="@Typography.H5">
                     标签
                 </FluentLabel>
             </a>
 
-            <a href="/about">
-                <FluentLabel Typo="@Typography.Body">
+            <a href="/about" style="margin: auto 0 auto 0">
+                <FluentLabel Typo="@Typography.H5">
                     关于
                 </FluentLabel>
             </a>
 
-            <a href="/links">
-                <FluentLabel Typo="@Typography.Body">
+            <a href="/links" style="margin: auto 0 auto 0">
+                <FluentLabel Typo="@Typography.H5">
                     友链
                 </FluentLabel>
             </a>
@@ -46,8 +49,8 @@
             <div style="width: 50px"></div>
         </FluentStack>
     </FluentHeader>
-    <FluentBodyContent>
-        <main>
+    <FluentBodyContent Style="height: 100%">
+        <main style="height: 100%">
             @Body
         </main>
     </FluentBodyContent>

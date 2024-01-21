@@ -1,7 +1,81 @@
 @page "/"
-<h3>Home</h3>
+@using YaeBlog.Core.Models
 
-<p class="test">Color Text</p>
+@inject BlogOptions BlogOptionsInstance
+
+<div style="height: 100%">
+    <div class="banner" style="background-image: url('@BlogOptionsInstance.BannerImage')">
+        <div class="blog-title">
+            <FluentLabel Typo="@Typography.H1" Style="color: white">
+                @(BlogOptionsInstance.Author)'s Blog
+            </FluentLabel>
+        </div>
+
+        <div class="scroll-down">
+            <i class="scroll-down-tag"></i>
+        </div>
+    </div>
+
+    <div style="margin: 0 15% 0 15%">
+        <FluentCard>
+            <div>
+                asdfasdfsadf
+            </div>
+            <div>
+                asdfasdfsadf
+            </div>
+            <div>
+                asdfasdfsadf
+            </div>
+            <div>
+                asdfasdfsadf
+            </div>
+            <div>
+                asdfasdfsadf
+            </div>
+            <div>
+                asdfasdfsadf
+            </div>
+            <div>
+                asdfasdfsadf
+            </div>
+            <div>
+                asdfasdfsadf
+            </div>
+            <div>
+                asdfasdfsadf
+            </div>
+            <div>
+                asdfasdfsadf
+            </div>
+            <div>
+                asdfasdfsadf
+            </div>
+            <div>
+                asdfasdfsadf
+            </div>
+            <div>
+                asdfasdfsadf
+            </div>
+            <div>
+                asdfasdfsadf
+            </div>
+            <div>
+                asdfasdfsadf
+            </div>
+            <div>
+                asdfasdfsadf
+            </div>
+            <div>
+                asdfasdfsadf
+            </div>
+            <div>
+                asdfasdfsadf
+            </div>
+        </FluentCard>
+    </div>
+</div>
+
 
 @code {
 
