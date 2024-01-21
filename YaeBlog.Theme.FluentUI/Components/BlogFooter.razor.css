@@ -1,0 +1,14 @@
+.footer-content {
+    padding: 2rem 0 1rem 0;
+    text-align: center;
+}
+
+.love-tag {
+    font-style: normal;
+    font-weight: 400;
+    font-family: "Font Awesome 6 Free", sans-serif;
+}
+
+.love-tag::before {
+    content: "\f004";
+}

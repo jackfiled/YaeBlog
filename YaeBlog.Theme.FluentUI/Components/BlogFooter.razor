@@ -1,0 +1,33 @@
+@using YaeBlog.Core.Models
+@inject BlogOptions BlogOptionsInstance
+
+<div class="footer-content">
+    <div>
+        <a href="https://learn.microsoft.com/zh-cn/aspnet/core/blazor/" target="_blank" rel="nofollow noopener">
+            <span> Blazor </span>
+        </a>
+        <i class="love-tag"></i>
+        <span> YaeBlog </span>
+        <i class="love-tag"></i>
+        <span>FluentUI</span>
+    </div>
+
+    <div style="padding-top: 0.3rem">
+        <span>
+            ©@(BlogOptionsInstance.StartYear) - @(DateTime.Now.Year) By @(BlogOptionsInstance.Author)
+        </span>
+    </div>
+
+    @if (!string.IsNullOrEmpty(BlogOptionsInstance.RegisterInformation))
+    {
+        <div style="padding-top: 0.3rem">
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+                <span>@(BlogOptionsInstance.RegisterInformation)</span>
+            </a>
+        </div>
+    }
+</div>
+
+@code {
+
+}
