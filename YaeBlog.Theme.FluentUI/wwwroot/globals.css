@@ -5,3 +5,37 @@ body a {
 html, body {
     height: 100%;
 }
+
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #80c8f8;
+}
+
+*::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #80c8f8 transparent;
+}
+
+@font-face {
+    font-family: "Font Awesome 6 Free";
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    src: url(fonts/fa-regular-400.woff2) format("woff2"),url(fonts/fa-regular-400.ttf) format("truetype")
+}
+
+@font-face {
+    font-family: "Font Awesome 6 Free";
+    font-style: normal;
+    font-weight: 900;
+    font-display: block;
+    src: url(fonts/fa-solid-900.woff2) format("woff2"),url(fonts/fa-solid-900.ttf) format("truetype")
+}
