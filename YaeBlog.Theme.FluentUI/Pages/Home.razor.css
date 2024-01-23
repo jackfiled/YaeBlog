@@ -54,3 +54,37 @@
         opacity: 0.4;
     }
 }
+
+.essay-description {
+    vertical-align: middle;
+}
+
+.pagination {
+    font-size: 2em;
+}
+
+.pagination-item {
+    margin: auto 0 auto 0;
+}
+
+.chevron-left {
+    font-size: 1.2rem;
+    font-family: "Font Awesome 6 Free", sans-serif;
+    font-style: normal;
+    font-weight: 900;
+}
+
+.chevron-left::before {
+    content: "\f053";
+}
+
+.chevron-right {
+    font-size: 1.2rem;
+    font-family: "Font Awesome 6 Free", sans-serif;
+    font-style: normal;
+    font-weight: 900;
+}
+
+.chevron-right::before {
+    content: "\f054";
+}

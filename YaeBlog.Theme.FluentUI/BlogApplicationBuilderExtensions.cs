@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.FluentUI.AspNetCore.Components;
 using YaeBlog.Core.Builder;
 using YaeBlog.Core.Extensions;
 
@@ -15,6 +16,7 @@ public static class BlogApplicationBuilderExtensions
     private static void ConfigureWebApplicationBuilder(WebApplicationBuilder builder)
     {
         builder.Services.AddRazorComponents();
+        builder.Services.AddFluentUIComponents();
     }
 
     private static void ConfigureWebApplication(WebApplication application)

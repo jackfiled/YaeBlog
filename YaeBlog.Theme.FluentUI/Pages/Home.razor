@@ -1,7 +1,10 @@
 @page "/"
 @using YaeBlog.Core.Models
+@using YaeBlog.Core.Services
 
 @inject BlogOptions BlogOptionsInstance
+@inject EssayContentService EssayContentInstance
+@inject NavigationManager NavigationManagerInstance
 
 <div style="height: 100%">
     <div class="banner" style="background-image: url('@BlogOptionsInstance.BannerImage')">
@@ -16,65 +19,105 @@
         </div>
     </div>
 
-    <div style="height: 2rem"></div>
+    <div style="height: 2rem" id="blog-content"></div>
 
-    <div style="margin: 0 15% 0 15%">
-        <FluentCard>
-            <div>
-                asdfasdfsadf
-            </div>
-            <div>
-                asdfasdfsadf
-            </div>
-            <div>
-                asdfasdfsadf
-            </div>
-            <div>
-                asdfasdfsadf
-            </div>
-            <div>
-                asdfasdfsadf
-            </div>
-            <div>
-                asdfasdfsadf
-            </div>
-            <div>
-                asdfasdfsadf
-            </div>
-            <div>
-                asdfasdfsadf
-            </div>
-            <div>
-                asdfasdfsadf
-            </div>
-            <div>
-                asdfasdfsadf
-            </div>
-            <div>
-                asdfasdfsadf
-            </div>
-            <div>
-                asdfasdfsadf
-            </div>
-            <div>
-                asdfasdfsadf
-            </div>
-            <div>
-                asdfasdfsadf
-            </div>
-            <div>
-                asdfasdfsadf
-            </div>
-            <div>
-                asdfasdfsadf
-            </div>
-            <div>
-                asdfasdfsadf
-            </div>
-            <div>
-                asdfasdfsadf
-            </div>
-        </FluentCard>
+    <div style="margin: 0 8% 0 8%">
+        <FluentGrid>
+            <FluentGridItem xs="12" sm="12" md="8" lg="8">
+                <div>
+                    @foreach (KeyValuePair<string, BlogEssay> essay in _essays)
+                    {
+                        <FluentCard Style="margin: 2rem 0 2rem 0">
+                            <div>
+                                <a href="essays/@(essay.Key)">
+                                    <FluentLabel Typo="@Typography.H4">
+                                        @essay.Value.Title
+                                    </FluentLabel>
+                                </a>
+
+                                <FluentStack VerticalAlignment="@VerticalAlignment.Center"
+                                             Style="margin: 1rem 0 1rem 0"
+                                             HorizontalGap="4">
+                                    <FluentIcon Value="@(new Icons.Regular.Size16.Calendar())"/>
+                                    <span style="margin: auto 0 auto 0">
+                                        @(essay.Value.PublishTime.ToString("yyyy-MM-dd HH:mm:ss"))
+                                    </span>
+                                    @if (essay.Value.Tags.Count != 0)
+                                    {
+                                        <FluentIcon Value="@(new Icons.Regular.Size16.TagMultiple())"/>
+                                        @foreach (string tag in essay.Value.Tags)
+                                        {
+                                            <span style="margin: auto 0 auto 0">
+                                                @tag
+                                            </span>
+                                        }
+                                    }
+                                </FluentStack>
+                            </div>
+                        </FluentCard>
+                    }
+
+                    <div class="pagination">
+                        <FluentStack HorizontalAlignment="@HorizontalAlignment.Center"
+                                     HorizontalGap="20">
+                            @if (Page != 1)
+                            {
+                                <a href="/?page=@(Page - 1)#blog-content" class="pagination-item">
+                                    <i class="chevron-left"></i>
+                                </a>
+                            }
+
+                            @if (Page == 1)
+                            {
+                                <a href="/?page=1#blog-content" class="pagination-item">
+                                    <span>1</span>
+                                </a>
+                                <a href="/?page=2#blog-content" class="pagination-item">
+                                    <span>2</span>
+                                </a>
+                                <a href="/?page=3#blog-content" class="pagination-item">
+                                    <span>3</span>
+                                </a>
+                            }
+                            else if (Page == _pageCount)
+                            {
+                                <a href="/?page=@(_pageCount - 2)#blog-content" class="pagination-item">
+                                    <span>@(_pageCount - 2)</span>
+                                </a>
+                                <a href="/?page=@(_pageCount - 1)#blog-content" class="pagination-item">
+                                    <span>@(_pageCount - 1)</span>
+                                </a>
+                                <a href="/?page=@(_pageCount)#blog-content" class="pagination-item">
+                                    <span>@(_pageCount)</span>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="/?page=@(Page - 1)#blog-content" class="pagination-item">
+                                    <span>@(Page - 1)</span>
+                                </a>
+                                <a href="/?page=@(Page)#blog-content" class="pagination-item">
+                                    <span>@(Page)</span>
+                                </a>
+                                <a href="/?page=@(Page + 1)#blog-content" class="pagination-item">
+                                    <span>@(Page + 1)</span>
+                                </a>
+                            }
+
+                            @if (Page != _pageCount)
+                            {
+                                <a href="/?page=@(Page + 1)#blog-content" class="pagination-item">
+                                    <i class="chevron-right"></i>
+                                </a>
+                            }
+                        </FluentStack>
+                    </div>
+                </div>
+            </FluentGridItem>
+            <FluentGridItem xs="12" sm="12" md="4" lg="4">
+
+            </FluentGridItem>
+        </FluentGrid>
     </div>
 
     <BlogFooter/>
@@ -82,5 +125,39 @@
 
 
 @code {
+    [SupplyParameterFromQuery] private int? Page { get; set; }
+
+    private readonly List<KeyValuePair<string, BlogEssay>> _essays = [];
+    private int _pageCount;
+
+    protected override void OnInitialized()
+    {
+        Page ??= 1;
+
+        IEnumerable<KeyValuePair<string, BlogEssay>[]> chunks =
+            EssayContentInstance.Essays
+                .OrderByDescending(pair => pair.Value.PublishTime)
+                .Chunk(10);
+
+        var count = 1;
+        var flag = false;
+        foreach (KeyValuePair<string, BlogEssay>[] chunk in chunks)
+        {
+            if (Page == count)
+            {
+                flag = true;
+                _essays.AddRange(chunk);
+            }
+
+            count += 1;
+        }
+
+        _pageCount = count - 1;
+
+        if (flag is false)
+        {
+            NavigationManagerInstance.NavigateTo("NotFount");
+        }
+    }
 
 }
