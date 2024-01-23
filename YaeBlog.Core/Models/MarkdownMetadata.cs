@@ -6,5 +6,5 @@ public class MarkdownMetadata
 
     public DateTime? Date { get; set; }
 
-    public List<string> Tags { get; set; } = [];
+    public List<string>? Tags { get; set; }
 }

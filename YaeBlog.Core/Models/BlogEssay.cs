@@ -4,6 +4,8 @@ public class BlogEssay
 {
     public required string Title { get; init; }
 
+    public required string FileName { get; init; }
+
     public required DateTime PublishTime { get; init; }
 
     public List<string> Tags { get; } = [];
