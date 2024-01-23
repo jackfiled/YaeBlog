@@ -1,47 +1,29 @@
-﻿using Markdig;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using YaeBlog.Core.Abstractions;
 using YaeBlog.Core.Builder;
-using YaeBlog.Core.Models;
 using YaeBlog.Core.Services;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 
 namespace YaeBlog.Core.Extensions;
 
 public static class BlogApplicationExtension
 {
-    internal static void ConfigureBlogApplication(this BlogApplicationBuilder builder)
+    public static void UsePreRenderProcessor<T>(this BlogApplication application)
+        where T : IPreRenderProcessor
     {
-        builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-        builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json",
-            optional: true, reloadOnChange: true);
-        builder.Configuration.AddEnvironmentVariables();
-
-        builder.Services.Configure<BlogOptions>(
-            builder.Configuration.GetSection(BlogOptions.OptionName));
-
-        builder.YamlDeserializerBuilder.WithNamingConvention(CamelCaseNamingConvention.Instance);
-        builder.YamlDeserializerBuilder.IgnoreUnmatchedProperties();
-
-        builder.Services.AddSingleton<MarkdownPipeline>(
-            _ => builder.MarkdigPipelineBuilder.Build());
-        builder.Services.AddSingleton<IDeserializer>(
-            _ => builder.YamlDeserializerBuilder.Build());
-
-        builder.Services.AddHostedService<BlogHostedService>();
-        builder.Services.AddSingleton<EssayScanService>();
-        builder.Services.AddSingleton<RendererService>();
-        builder.Services.AddSingleton<EssayContentService>();
+        RendererService rendererService =
+            application.Services.GetRequiredService<RendererService>();
+        T preRenderProcessor =
+            application.Services.GetRequiredService<T>();
+        rendererService.AddPreRenderProcessor(preRenderProcessor);
     }
 
-    public static void ConfigureWebApplication(this BlogApplicationBuilder builder,
-        Action<WebApplicationBuilder> configureWebApplicationBuilder,
-        Action<WebApplication> configureWebApplication)
+    public static void UsePostRenderProcessor<T>(this BlogApplication application)
+        where T : IPostRenderProcessor
     {
-        builder.Services.AddHostedService<WebApplicationHostedService>(provider =>
-            new WebApplicationHostedService(configureWebApplicationBuilder,
-            configureWebApplication, provider));
+        RendererService rendererService =
+            application.Services.GetRequiredService<RendererService>();
+        T postRenderProcessor =
+            application.Services.GetRequiredService<T>();
+        rendererService.AddPostRenderProcessor(postRenderProcessor);
     }
 }
