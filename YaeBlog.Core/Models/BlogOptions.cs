@@ -30,6 +30,11 @@ public class BlogOptions
     public required string BannerImage { get; set; }
 
     /// <summary>
+    /// 文章页面的背景图片
+    /// </summary>
+    public required string EssayImage { get; set; }
+
+    /// <summary>
     /// 博客底部是否显示ICP备案信息
     /// </summary>
     public string? RegisterInformation { get; set; }
