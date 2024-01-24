@@ -8,7 +8,6 @@
 
 .essay-title {
     color: white;
-    text-align: center;
     top: 43%;
     position: absolute;
     width: 100%;
@@ -17,4 +16,9 @@
 .essay-content {
     font-size: 1rem;
     line-height: 1.6;
+}
+
+.essay-subtitle {
+    display: flex;
+    align-items: center;
 }

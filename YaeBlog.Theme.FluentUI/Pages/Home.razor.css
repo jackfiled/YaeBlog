@@ -56,7 +56,13 @@
 }
 
 .essay-description {
-    vertical-align: middle;
+    width: 100%;
+    line-height: 1.4rem;
+    word-break: break-word;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
 }
 
 .pagination {

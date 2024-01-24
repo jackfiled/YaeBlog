@@ -9,9 +9,26 @@
 <div style="height: 100%">
     <div class="essay-background" style="background-image: url('@(BlogOptionsInstance.EssayImage)')">
         <div class="essay-title">
-            <FluentLabel Typo="@Typography.H1" Style="color: white">
-                @(_essay!.Title)
-            </FluentLabel>
+            <FluentStack Orientation="@Orientation.Vertical"
+                         HorizontalAlignment="@HorizontalAlignment.Center">
+                <FluentLabel Typo="@Typography.H1" Style="color: white">
+                    @(_essay!.Title)
+                </FluentLabel>
+                <div class="essay-subtitle">
+                    <FluentIcon Value="@(new Icons.Regular.Size16.Calendar())"
+                                Color="@Color.Fill"/>
+                    <FluentLabel Typo="@Typography.H5" Style="color: white; margin-left: 0.25rem">
+                        @(_essay!.PublishTime.ToString("yyyy年MM月dd日"))
+                    </FluentLabel>
+                </div>
+                <div class="essay-subtitle">
+                    <FluentIcon Value="@(new Icons.Regular.Size16.DataBarVerticalAscending())"
+                                Color="@Color.Fill"/>
+                    <FluentLabel Typo="@Typography.H5" Style="color: white; margin-left: 0.25rem">
+                        @(_essay!.WordCount)字
+                    </FluentLabel>
+                </div>
+            </FluentStack>
         </div>
     </div>
 
@@ -35,8 +52,7 @@
 </div>
 
 @code {
-    [Parameter]
-    public string? Filename { get; set; }
+    [Parameter] public string? Filename { get; set; }
 
     private BlogEssay? _essay;
 

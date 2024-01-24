@@ -31,9 +31,17 @@
                             <div>
                                 <a href="essays/@(essay.Key)" target="_blank">
                                     <FluentLabel Typo="@Typography.H4">
-                                        @essay.Value.Title
+                                        @(essay.Value.Title)
                                     </FluentLabel>
                                 </a>
+
+                                <div style="margin: 0.5rem 0 0.5rem 0">
+                                    <a href="essays/@(essay.Key)" target="_blank" style="color: #718096;">
+                                        <div class="essay-description">
+                                            @(essay.Value.Description)
+                                        </div>
+                                    </a>
+                                </div>
 
                                 <FluentStack VerticalAlignment="@VerticalAlignment.Center"
                                              Style="margin: 1rem 0 1rem 0"
