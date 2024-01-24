@@ -4,7 +4,7 @@ namespace YaeBlog.Core.Abstractions;
 
 public interface IPostRenderProcessor
 {
-    BlogEssay Process(BlogEssay essay);
+    Task<BlogEssay> ProcessAsync(BlogEssay essay);
 
     string Name { get; }
 }

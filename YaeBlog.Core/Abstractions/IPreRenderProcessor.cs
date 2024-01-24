@@ -4,7 +4,7 @@ namespace YaeBlog.Core.Abstractions;
 
 public interface IPreRenderProcessor
 {
-    BlogContent Process(BlogContent content);
+    Task<BlogContent> ProcessAsync(BlogContent content);
 
     string Name { get; }
 }

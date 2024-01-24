@@ -112,11 +112,11 @@ public class RendererService(ILogger<RendererService> logger,
     {
         ConcurrentBag<BlogContent> processedContents = [];
 
-        Parallel.ForEach(contents, content =>
+        Parallel.ForEachAsync(contents, async (content, _) =>
         {
-            foreach (IPreRenderProcessor processor in _preRenderProcessors)
+            foreach (var processor in _preRenderProcessors)
             {
-                content = processor.Process(content);
+                content = await processor.ProcessAsync(content);
             }
 
             processedContents.Add(content);
@@ -127,11 +127,11 @@ public class RendererService(ILogger<RendererService> logger,
 
     private void PostProcess(IEnumerable<BlogEssay> essays)
     {
-        Parallel.ForEach(essays, essay =>
+        Parallel.ForEachAsync(essays, async (essay, _) =>
         {
             foreach (IPostRenderProcessor processor in _postRenderProcessors)
             {
-                essay = processor.Process(essay);
+                essay = await processor.ProcessAsync(essay);
             }
 
             if (!essayContentService.TryAdd(essay.FileName, essay))
@@ -139,8 +139,6 @@ public class RendererService(ILogger<RendererService> logger,
                 throw new BlogFileException(
                     $"There are two essays with the same name: '{essay.FileName}'.");
             }
-
-            logger.LogDebug("Post-Process essay: {}.", essay);
         });
     }
 
