@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Diagnostics;
+using System.Text;
 using Markdig;
 using Microsoft.Extensions.Logging;
 using YaeBlog.Core.Abstractions;
@@ -41,6 +42,8 @@ public class RendererService(ILogger<RendererService> logger,
                 {
                     Title = metadata?.Title ?? content.FileName,
                     FileName = content.FileName,
+                    Description = GetDescription(content),
+                    WordCount = GetWordCount(content),
                     PublishTime = metadata?.Date ?? DateTime.Now,
                     HtmlContent = content.FileContent
                 };
@@ -61,6 +64,8 @@ public class RendererService(ILogger<RendererService> logger,
             {
                 Title = essay.Title,
                 FileName = essay.FileName,
+                Description = essay.Description,
+                WordCount = essay.WordCount,
                 PublishTime = essay.PublishTime,
                 HtmlContent = Markdown.ToHtml(essay.HtmlContent, markdownPipeline)
             };
@@ -176,5 +181,58 @@ public class RendererService(ILogger<RendererService> logger,
             logger.LogWarning("Failed to parse '{}' metadata: {}", yamlContent, e);
             return null;
         }
+    }
+
+    private string GetDescription(BlogContent content)
+    {
+        const string delimiter = "<!--more-->";
+        int pos = content.FileContent.IndexOf(delimiter, StringComparison.Ordinal);
+        StringBuilder builder = new();
+
+        if (pos == -1)
+        {
+            // 自动截取前50个字符
+            pos = 50;
+        }
+
+        for (int i = 0; i < pos; i++)
+        {
+            char c = content.FileContent[i];
+
+            if (char.IsControl(c) || char.IsSymbol(c) ||
+                char.IsSeparator(c) || char.IsPunctuation(c) ||
+                char.IsAsciiLetter(c))
+            {
+                continue;
+            }
+
+            builder.Append(c);
+        }
+
+        string description = builder.ToString();
+
+        logger.LogDebug("Description of {} is {}.", content.FileName,
+            description);
+        return description;
+    }
+
+    private uint GetWordCount(BlogContent content)
+    {
+        uint count = 0;
+
+        foreach (char c in content.FileContent)
+        {
+            if (char.IsControl(c) || char.IsSymbol(c)
+                || char.IsSeparator(c))
+            {
+                continue;
+            }
+
+            count++;
+        }
+
+        logger.LogDebug("Word count of {} is {}", content.FileName,
+            count);
+        return count;
     }
 }

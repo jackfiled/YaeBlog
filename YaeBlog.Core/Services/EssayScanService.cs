@@ -46,7 +46,7 @@ public class EssayScanService(
 
             BlogContent content = new()
             {
-                FileName = info.Name, FileContent = await reader.ReadToEndAsync(token)
+                FileName = info.Name.Split('.')[0], FileContent = await reader.ReadToEndAsync(token)
             };
 
             contents.Add(content);
