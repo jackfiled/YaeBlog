@@ -29,8 +29,7 @@ public class RendererService(ILogger<RendererService> logger,
         logger.LogInformation("Render essays start.");
 
         List<BlogContent> contents = await essayScanService.ScanAsync();
-        IEnumerable<BlogContent> preProcessedContents =
-            PreProcess(contents);
+        IEnumerable<BlogContent> preProcessedContents = await PreProcess(contents);
 
         List<BlogEssay> essays = [];
         await Task.Run(() =>
@@ -59,23 +58,14 @@ public class RendererService(ILogger<RendererService> logger,
         ConcurrentBag<BlogEssay> postProcessEssays = [];
         Parallel.ForEach(essays, essay =>
         {
-
-            BlogEssay newEssay = new()
-            {
-                Title = essay.Title,
-                FileName = essay.FileName,
-                Description = essay.Description,
-                WordCount = essay.WordCount,
-                PublishTime = essay.PublishTime,
-                HtmlContent = Markdown.ToHtml(essay.HtmlContent, markdownPipeline)
-            };
-            newEssay.Tags.AddRange(essay.Tags);
+            BlogEssay newEssay =
+                essay.WithNewHtmlContent(Markdown.ToHtml(essay.HtmlContent, markdownPipeline));
 
             postProcessEssays.Add(newEssay);
             logger.LogDebug("Render markdown file {}.", newEssay);
         });
 
-        PostProcess(postProcessEssays);
+        await PostProcess(postProcessEssays);
 
         _stopwatch.Stop();
         logger.LogInformation("Render finished, consuming {} s.",
@@ -108,11 +98,11 @@ public class RendererService(ILogger<RendererService> logger,
         _postRenderProcessors.Add(processor);
     }
 
-    private IEnumerable<BlogContent> PreProcess(IEnumerable<BlogContent> contents)
+    private async Task<IEnumerable<BlogContent>> PreProcess(IEnumerable<BlogContent> contents)
     {
         ConcurrentBag<BlogContent> processedContents = [];
 
-        Parallel.ForEachAsync(contents, async (content, _) =>
+        await Parallel.ForEachAsync(contents, async (content, _) =>
         {
             foreach (var processor in _preRenderProcessors)
             {
@@ -125,9 +115,9 @@ public class RendererService(ILogger<RendererService> logger,
         return processedContents;
     }
 
-    private void PostProcess(IEnumerable<BlogEssay> essays)
+    private async Task PostProcess(IEnumerable<BlogEssay> essays)
     {
-        Parallel.ForEachAsync(essays, async (essay, _) =>
+        await Parallel.ForEachAsync(essays, async (essay, _) =>
         {
             foreach (IPostRenderProcessor processor in _postRenderProcessors)
             {
