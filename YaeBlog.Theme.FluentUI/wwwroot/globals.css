@@ -44,3 +44,13 @@ p {
     font-display: block;
     src: url(fonts/fa-solid-900.woff2) format("woff2"),url(fonts/fa-solid-900.ttf) format("truetype")
 }
+
+.essay-image {
+    width: 90%;
+    display: block;
+    margin: 1.5rem auto;
+    box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18),
+    0 4px 15px 0 rgba(0,0,0,0.15);
+    border-radius: 4px;
+    background-color: transparent;
+}
