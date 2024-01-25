@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using YaeBlog.Core.Builder;
 using YaeBlog.Core.Models;
+using YaeBlog.Core.Processors;
 using YaeBlog.Core.Services;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -34,6 +35,10 @@ public static class BlogApplicationBuilderExtension
         builder.Services.AddSingleton<EssayScanService>();
         builder.Services.AddSingleton<RendererService>();
         builder.Services.AddSingleton<EssayContentService>();
+
+        // 设置图像处理器
+        builder.Services.AddSingleton<ImagePostRenderProcessor>();
+        ImagePostRenderProcessor.AddImageApiEndpoint(builder);
 
         builder.Services.AddHostedService<WebApplicationHostedService>((provider)
             => new WebApplicationHostedService(builder.WebApplicationBuilderConfigurations,

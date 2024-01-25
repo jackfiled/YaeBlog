@@ -10,7 +10,7 @@ public static class BlogApplicationExtension
 {
     internal static void ConfigureDefaultBlogApplication(this BlogApplication application)
     {
-        //application.UsePostRenderProcessor<ImagePostRenderProcessor>();
+        application.UsePostRenderProcessor<ImagePostRenderProcessor>();
     }
 
     public static void UsePreRenderProcessor<T>(this BlogApplication application)
