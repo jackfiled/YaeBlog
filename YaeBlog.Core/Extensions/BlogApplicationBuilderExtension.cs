@@ -34,14 +34,21 @@ public static class BlogApplicationBuilderExtension
         builder.Services.AddSingleton<EssayScanService>();
         builder.Services.AddSingleton<RendererService>();
         builder.Services.AddSingleton<EssayContentService>();
+
+        builder.Services.AddHostedService<WebApplicationHostedService>((provider)
+            => new WebApplicationHostedService(builder.WebApplicationBuilderConfigurations,
+                builder.WebApplicationConfigurations, provider));
+    }
+
+    public static void ConfigureWebApplicationBuilder(this BlogApplicationBuilder builder,
+        Action<WebApplicationBuilder> configureWebApplicationBuilder)
+    {
+        builder.WebApplicationBuilderConfigurations.Add(configureWebApplicationBuilder);
     }
 
     public static void ConfigureWebApplication(this BlogApplicationBuilder builder,
-        Action<WebApplicationBuilder> configureWebApplicationBuilder,
         Action<WebApplication> configureWebApplication)
     {
-        builder.Services.AddHostedService<WebApplicationHostedService>(provider =>
-            new WebApplicationHostedService(configureWebApplicationBuilder,
-            configureWebApplication, provider));
+        builder.WebApplicationConfigurations.Add(configureWebApplication);
     }
 }

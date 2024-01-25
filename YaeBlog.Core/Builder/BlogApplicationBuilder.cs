@@ -1,4 +1,5 @@
 ﻿using Markdig;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.Metrics;
@@ -12,6 +13,10 @@ namespace YaeBlog.Core.Builder;
 public sealed class BlogApplicationBuilder : IHostApplicationBuilder
 {
     private readonly HostApplicationBuilder _hostApplicationBuilder;
+
+    internal List<Action<WebApplicationBuilder>> WebApplicationBuilderConfigurations { get; } = [];
+
+    internal List<Action<WebApplication>> WebApplicationConfigurations { get; } = [];
 
     public MarkdownPipelineBuilder MarkdigPipelineBuilder { get; }
 

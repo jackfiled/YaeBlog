@@ -10,16 +10,20 @@ public class WebApplicationHostedService : IHostedService
 {
     private readonly WebApplicationBuilder _websiteBuilder = WebApplication.CreateBuilder();
 
-    private readonly Action<WebApplication> _configureWebApplication;
+    private readonly List<Action<WebApplication>> _webApplicationConfigurations;
 
     private Website? _currentWebsite;
 
-    public WebApplicationHostedService(Action<WebApplicationBuilder> configureWebApplicationBuilder,
-        Action<WebApplication> configureWebApplication,
+    public WebApplicationHostedService(List<Action<WebApplicationBuilder>> webApplicationBuilderConfigurations,
+        List<Action<WebApplication>> webApplicationConfigurations,
         IServiceProvider hostServiceProvider)
     {
-        _configureWebApplication = configureWebApplication;
-        configureWebApplicationBuilder(_websiteBuilder);
+        _webApplicationConfigurations = webApplicationConfigurations;
+        foreach (Action<WebApplicationBuilder> configure in webApplicationBuilderConfigurations)
+        {
+            configure(_websiteBuilder);
+        }
+
         AddHostServices(hostServiceProvider);
     }
 
@@ -31,7 +35,10 @@ public class WebApplicationHostedService : IHostedService
         }
 
         WebApplication application = _websiteBuilder.Build();
-        _configureWebApplication(application);
+        foreach (Action<WebApplication> configure in _webApplicationConfigurations)
+        {
+            configure(application);
+        }
         IHostLifetime websiteLifetime = application.Services.GetRequiredService<IHostLifetime>();
         _currentWebsite = new Website(application, websiteLifetime);
     }

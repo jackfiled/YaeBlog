@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using YaeBlog.Core.Abstractions;
 using YaeBlog.Core.Builder;
+using YaeBlog.Core.Processors;
 using YaeBlog.Core.Services;
 
 namespace YaeBlog.Core.Extensions;
@@ -9,7 +10,7 @@ public static class BlogApplicationExtension
 {
     internal static void ConfigureDefaultBlogApplication(this BlogApplication application)
     {
-
+        //application.UsePostRenderProcessor<ImagePostRenderProcessor>();
     }
 
     public static void UsePreRenderProcessor<T>(this BlogApplication application)

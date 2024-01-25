@@ -10,7 +10,8 @@ public static class BlogApplicationBuilderExtensions
 {
     public static void UseFluentTheme(this BlogApplicationBuilder builder)
     {
-        builder.ConfigureWebApplication(ConfigureWebApplicationBuilder, ConfigureWebApplication);
+        builder.ConfigureWebApplicationBuilder(ConfigureWebApplicationBuilder);
+        builder.ConfigureWebApplication(ConfigureWebApplication);
     }
 
     private static void ConfigureWebApplicationBuilder(WebApplicationBuilder builder)
