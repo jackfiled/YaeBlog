@@ -31,8 +31,10 @@ public sealed class BlogApplicationBuilder : IHostApplicationBuilder
 
     public BlogApplication Build()
     {
-        this.ConfigureBlogApplication();
-        return new BlogApplication(_hostApplicationBuilder.Build());
+        this.ConfigureDefaultBlogApplicationBuilder();
+        BlogApplication application = new(_hostApplicationBuilder.Build());
+        application.ConfigureDefaultBlogApplication();
+        return application;
     }
 
     public void ConfigureContainer<TContainerBuilder>(

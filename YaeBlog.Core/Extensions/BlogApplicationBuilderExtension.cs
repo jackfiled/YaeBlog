@@ -12,7 +12,7 @@ namespace YaeBlog.Core.Extensions;
 
 public static class BlogApplicationBuilderExtension
 {
-    internal static void ConfigureBlogApplication(this BlogApplicationBuilder builder)
+    internal static void ConfigureDefaultBlogApplicationBuilder(this BlogApplicationBuilder builder)
     {
         builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
         builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json",

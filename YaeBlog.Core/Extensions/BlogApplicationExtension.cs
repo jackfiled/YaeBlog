@@ -7,6 +7,11 @@ namespace YaeBlog.Core.Extensions;
 
 public static class BlogApplicationExtension
 {
+    internal static void ConfigureDefaultBlogApplication(this BlogApplication application)
+    {
+
+    }
+
     public static void UsePreRenderProcessor<T>(this BlogApplication application)
         where T : IPreRenderProcessor
     {
