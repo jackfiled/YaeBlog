@@ -34,6 +34,11 @@ public class EssayContentService
                 }
             }
         }
+
+        foreach (KeyValuePair<string,List<BlogEssay>> pair in _tags)
+        {
+            pair.Value.Sort();
+        }
     }
 
     public IEnumerable<KeyValuePair<string, int>> Tags => from item in _tags

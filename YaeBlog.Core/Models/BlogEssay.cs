@@ -1,6 +1,6 @@
 ﻿namespace YaeBlog.Core.Models;
 
-public class BlogEssay
+public class BlogEssay : IComparable<BlogEssay>
 {
     public required string Title { get; init; }
 
@@ -30,6 +30,16 @@ public class BlogEssay
         essay.Tags.AddRange(Tags);
 
         return essay;
+    }
+
+    public int CompareTo(BlogEssay? other)
+    {
+        if (other is null)
+        {
+            return 1;
+        }
+
+        return PublishTime.CompareTo(other.PublishTime);
     }
 
     public override string ToString()

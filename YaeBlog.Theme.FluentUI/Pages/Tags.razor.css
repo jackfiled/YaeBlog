@@ -1,4 +1,4 @@
-.archive-background {
+.tag-background {
     position: relative;
     height: 60%;
     overflow: hidden;
@@ -6,19 +6,22 @@
     background-size: cover;
 }
 
-.archive-title {
+.tag-title {
     top: 43%;
     position: absolute;
     width: 100%;
 }
 
-.archive-item {
+.tag-item {
+    margin: 0.25rem auto;
+}
+
+.tag-essay-item {
     padding: 0.5rem 0.5rem 0.5rem 0.5rem;
     margin: 0.5rem 0 0.5rem 0;
     border-radius: 4px;
 }
 
-.archive-item:hover {
+.tag-essay-item:hover {
     background-color: rgba(169, 169, 169, 0.22);
 }
-
