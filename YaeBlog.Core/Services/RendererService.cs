@@ -66,6 +66,7 @@ public class RendererService(ILogger<RendererService> logger,
         });
 
         await PostProcess(postProcessEssays);
+        essayContentService.RefreshTags();
 
         _stopwatch.Stop();
         logger.LogInformation("Render finished, consuming {} s.",
