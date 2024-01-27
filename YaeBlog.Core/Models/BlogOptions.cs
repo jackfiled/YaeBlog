@@ -38,4 +38,6 @@ public class BlogOptions
     /// 博客底部是否显示ICP备案信息
     /// </summary>
     public string? RegisterInformation { get; set; }
+
+    public required AboutInfo About { get; set; }
 }

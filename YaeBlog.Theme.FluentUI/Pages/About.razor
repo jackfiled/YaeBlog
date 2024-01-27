@@ -1,0 +1,42 @@
+@page "/about"
+@using YaeBlog.Core.Models
+
+@inject BlogOptions BlogOptionsInstance
+
+<PageTitle>
+    关于 - @(BlogOptionsInstance.Author)
+</PageTitle>
+
+<div style="height: 100%">
+    <div class="about-background" style="background-image: url('@(BlogOptionsInstance.EssayImage)')">
+        <div class="about-content">
+            <FluentCard>
+                <FluentStack Orientation="@Orientation.Vertical"
+                             HorizontalAlignment="@HorizontalAlignment.Center">
+                    <div class="about-avatar">
+                        <img src="@(BlogOptionsInstance.About.AvatarImage)" alt="author-avatar"
+                             class="about-avatar-img">
+                    </div>
+                    <FluentLabel Typo="@Typography.H2">
+                        @(BlogOptionsInstance.Author)
+                    </FluentLabel>
+
+                    <FluentLabel Typo="@Typography.Body">
+                        @(BlogOptionsInstance.About.Introduction)
+                    </FluentLabel>
+                </FluentStack>
+
+                <div style="height: 2rem"></div>
+                <FluentLabel Typo="@Typography.Body">
+                    @(BlogOptionsInstance.About.Description)
+                </FluentLabel>
+            </FluentCard>
+        </div>
+    </div>
+
+    <BlogFooter/>
+</div>
+
+@code {
+
+}
