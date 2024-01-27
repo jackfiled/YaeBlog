@@ -6,6 +6,10 @@
 @inject EssayContentService EssayContent
 @inject NavigationManager NavigationInstance
 
+<PageTitle>
+    @(_essay!.Title)
+</PageTitle>
+
 <div style="height: 100%">
     <div class="essay-background" style="background-image: url('@(BlogOptionsInstance.EssayImage)')">
         <div class="essay-title">
