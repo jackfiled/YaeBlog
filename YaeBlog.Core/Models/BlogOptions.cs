@@ -40,4 +40,6 @@ public class BlogOptions
     public string? RegisterInformation { get; set; }
 
     public required AboutInfo About { get; set; }
+
+    public required List<FriendLink> Links { get; set; }
 }
