@@ -1,0 +1,53 @@
+@using YaeBlog.Core.Models
+@using YaeBlog.Core.Services
+
+@inject BlogOptions BlogOptionsInstance
+@inject EssayContentService EssayContentInstance
+
+<div style="margin: 2rem 0; width: 100%">
+    <FluentCard>
+        <FluentStack Orientation="@Orientation.Vertical"
+                     HorizontalAlignment="@HorizontalAlignment.Center">
+            <div class="about-avatar">
+                <img src="@(BlogOptionsInstance.About.AvatarImage)" alt="author-avatar"
+                     class="about-avatar-img">
+            </div>
+            <FluentLabel Typo="@Typography.H3">
+                @(BlogOptionsInstance.Author)
+            </FluentLabel>
+
+            <div style="height: 0.5rem"></div>
+
+            <FluentStack Orientation="@Orientation.Horizontal"
+                         HorizontalAlignment="@HorizontalAlignment.Center"
+                         HorizontalGap="20">
+                <a href="/archives">
+                    <div>
+                        <FluentLabel Typo="@Typography.H4">
+                            文章
+                        </FluentLabel>
+
+                        <FluentLabel Typo="@Typography.H4">
+                            @(EssayContentInstance.Count)
+                        </FluentLabel>
+                    </div>
+                </a>
+                <a href="/tags">
+                    <div>
+                        <FluentLabel Typo="@Typography.H4">
+                            标签
+                        </FluentLabel>
+
+                        <FluentLabel Typo="@Typography.H4">
+                            @(EssayContentInstance.TagCount)
+                        </FluentLabel>
+                    </div>
+                </a>
+            </FluentStack>
+        </FluentStack>
+    </FluentCard>
+</div>
+
+@code {
+
+}

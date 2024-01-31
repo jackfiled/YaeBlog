@@ -44,6 +44,8 @@ public class EssayContentService
     public IEnumerable<KeyValuePair<string, int>> Tags => from item in _tags
         select KeyValuePair.Create(item.Key, item.Value.Count);
 
+    public int TagCount => _tags.Count;
+
     public IEnumerable<BlogEssay> GetTag(string tag)
     {
         if (_tags.TryGetValue(tag, out var list))
