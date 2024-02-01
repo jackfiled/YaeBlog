@@ -14,6 +14,8 @@ public class BlogOptions
     /// </summary>
     public required string Author { get; set; }
 
+    public required string Announcement { get; set; }
+
     /// <summary>
     /// 博客的起始年份
     /// </summary>

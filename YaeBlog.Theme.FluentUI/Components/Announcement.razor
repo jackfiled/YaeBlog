@@ -1,0 +1,26 @@
+@using YaeBlog.Core.Models
+
+@inject BlogOptions BlogOptionsInstance
+
+<div style="width: 100%">
+    <FluentCard>
+        <div class="announcement-title">
+            <FluentIcon Value="@(new Icons.Regular.Size16.Note())" />
+            <FluentLabel Typo="@Typography.H5" Style="margin-left: 0.5rem">
+                公告
+            </FluentLabel>
+        </div>
+
+        <div style="height: 1rem"></div>
+
+        <FluentLabel>
+            @(BlogOptionsInstance.Announcement)
+        </FluentLabel>
+
+        <div style="height: 0.5rem"></div>
+    </FluentCard>
+</div>
+
+@code {
+
+}

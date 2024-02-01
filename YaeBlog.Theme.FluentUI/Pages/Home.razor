@@ -27,7 +27,7 @@
 
     <div style="margin: 0 8% 0 8%">
         <FluentGrid>
-            <FluentGridItem xs="12" sm="12" md="8" lg="8">
+            <FluentGridItem xs="12" sm="12" md="9" lg="9">
                 <div>
                     @foreach (KeyValuePair<string, BlogEssay> essay in _essays)
                     {
@@ -126,11 +126,11 @@
                     </div>
                 </div>
             </FluentGridItem>
-            <FluentGridItem xs="12" sm="12" md="4" lg="4">
+            <FluentGridItem xs="12" sm="12" md="3" lg="3">
                 <FluentStack Orientation="@Orientation.Vertical">
                     <AuthorInformation/>
 
-
+                    <Announcement/>
                 </FluentStack>
             </FluentGridItem>
         </FluentGrid>
