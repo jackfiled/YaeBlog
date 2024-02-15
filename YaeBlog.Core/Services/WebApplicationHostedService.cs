@@ -12,6 +12,8 @@ public class WebApplicationHostedService : IHostedService
 
     private readonly List<Action<WebApplication>> _webApplicationConfigurations;
 
+    private readonly IOptions<BlogOptions> _options;
+
     private Website? _currentWebsite;
 
     public WebApplicationHostedService(List<Action<WebApplicationBuilder>> webApplicationBuilderConfigurations,
@@ -19,6 +21,8 @@ public class WebApplicationHostedService : IHostedService
         IServiceProvider hostServiceProvider)
     {
         _webApplicationConfigurations = webApplicationConfigurations;
+        _options = hostServiceProvider.GetRequiredService<IOptions<BlogOptions>>();
+
         foreach (Action<WebApplicationBuilder> configure in webApplicationBuilderConfigurations)
         {
             configure(_websiteBuilder);
@@ -35,6 +39,7 @@ public class WebApplicationHostedService : IHostedService
         }
 
         WebApplication application = _websiteBuilder.Build();
+        application.UsePathBase("/" + _options.Value.SubPath);
         foreach (Action<WebApplication> configure in _webApplicationConfigurations)
         {
             configure(application);

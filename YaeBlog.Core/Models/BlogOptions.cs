@@ -10,6 +10,11 @@ public class BlogOptions
     public required string Root { get; set; }
 
     /// <summary>
+    /// 博客挂载的子路径
+    /// </summary>
+    public required string SubPath { get; set; }
+
+    /// <summary>
     /// 博客作者
     /// </summary>
     public required string Author { get; set; }
