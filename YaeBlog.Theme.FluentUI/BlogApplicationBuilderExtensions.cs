@@ -24,6 +24,7 @@ public static class BlogApplicationBuilderExtensions
     {
         application.UseStaticFiles();
         application.UseAntiforgery();
+        application.UseStatusCodePagesWithRedirects("~/NotFound");
         application.MapRazorComponents<App>();
     }
 }

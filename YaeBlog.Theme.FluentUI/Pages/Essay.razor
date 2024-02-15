@@ -41,7 +41,7 @@
     <div style="margin: 0 8% 0 8%">
         <FluentGrid>
             <FluentGridItem xs="12" sm="12" md="8" lg="8">
-                <FluentCard>
+                <FluentCard Style="margin: 2rem 0">
                     <div class="essay-content">
                         @((MarkupString)_essay!.HtmlContent)
                     </div>
@@ -49,7 +49,11 @@
             </FluentGridItem>
 
             <FluentGridItem xs="12" sm="12" md="4" lg="4">
+                <FluentStack Orientation="@Orientation.Vertical">
+                    <AuthorInformation/>
 
+                    <Announcement/>
+                </FluentStack>
             </FluentGridItem>
         </FluentGrid>
     </div>
