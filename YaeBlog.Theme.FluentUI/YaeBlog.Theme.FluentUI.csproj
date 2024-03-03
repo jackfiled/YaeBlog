@@ -11,6 +11,8 @@
     <Version>0.1.1</Version>
     <Authors>Ricardo Ren</Authors>
     <Company>Ricardo Ren</Company>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
 
@@ -26,8 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="**/.gitattributes"></Content>
-    <None Remove="**/.gitattributes"></None>
+    <Content Remove="**/.gitattributes"/>
+    <None Remove="**/.gitattributes"/>
+    <None Include="README.md" Pack="true" PackagePath="/"/>
   </ItemGroup>
 
 </Project>

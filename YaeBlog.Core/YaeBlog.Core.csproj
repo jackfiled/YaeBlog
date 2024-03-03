@@ -11,13 +11,15 @@
     <Version>0.1.0</Version>
     <Authors>Ricardo Ren</Authors>
     <Company>Ricardo Ren</Company>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
 
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
@@ -33,6 +35,7 @@
   <ItemGroup>
     <None Include="../.gitignore" />
     <None Include="../.editorconfig" />
+    <None Include="./README.md" Pack="true" PackagePath="/"/>
   </ItemGroup>
 
   <ItemGroup>
