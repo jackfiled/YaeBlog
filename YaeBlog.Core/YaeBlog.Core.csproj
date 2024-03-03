@@ -6,6 +6,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PackageId>YaeBlog.Core</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Ricardo Ren</Authors>
+    <Company>Ricardo Ren</Company>
+  </PropertyGroup>
+
 
   <ItemGroup>
     <SupportedPlatform Include="browser" />
