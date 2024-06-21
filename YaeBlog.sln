@@ -5,11 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YaeBlog.Core", "YaeBlog.Core\YaeBlog.Core.csproj", "{1671A8AE-78F6-4641-B97D-D8ABA5E9CBEF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YaeBlog.Theme.FluentUI", "YaeBlog.Theme.FluentUI\YaeBlog.Theme.FluentUI.csproj", "{E3EB73E2-0267-416A-BA0A-9D0FC93AAFA0}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YaeBlog.Example", "YaeBlog.Example\YaeBlog.Example.csproj", "{3A768948-D4E8-4111-A1FE-DF98EBFC4991}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YaeBlog.Tests", "YaeBlog.Tests\YaeBlog.Tests.csproj", "{5866CB58-6FE2-4DB8-AE20-8439D8C6C3B9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YaeBlog", "YaeBlog\YaeBlog.csproj", "{20438EFD-8DDE-43AF-92E2-76495C29233C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,18 +17,10 @@ Global
 		{1671A8AE-78F6-4641-B97D-D8ABA5E9CBEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1671A8AE-78F6-4641-B97D-D8ABA5E9CBEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1671A8AE-78F6-4641-B97D-D8ABA5E9CBEF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E3EB73E2-0267-416A-BA0A-9D0FC93AAFA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E3EB73E2-0267-416A-BA0A-9D0FC93AAFA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E3EB73E2-0267-416A-BA0A-9D0FC93AAFA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E3EB73E2-0267-416A-BA0A-9D0FC93AAFA0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3A768948-D4E8-4111-A1FE-DF98EBFC4991}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3A768948-D4E8-4111-A1FE-DF98EBFC4991}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3A768948-D4E8-4111-A1FE-DF98EBFC4991}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3A768948-D4E8-4111-A1FE-DF98EBFC4991}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5866CB58-6FE2-4DB8-AE20-8439D8C6C3B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5866CB58-6FE2-4DB8-AE20-8439D8C6C3B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5866CB58-6FE2-4DB8-AE20-8439D8C6C3B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5866CB58-6FE2-4DB8-AE20-8439D8C6C3B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20438EFD-8DDE-43AF-92E2-76495C29233C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20438EFD-8DDE-43AF-92E2-76495C29233C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20438EFD-8DDE-43AF-92E2-76495C29233C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20438EFD-8DDE-43AF-92E2-76495C29233C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

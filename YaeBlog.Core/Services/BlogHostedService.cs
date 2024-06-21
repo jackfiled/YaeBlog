@@ -19,6 +19,4 @@ public class BlogHostedService(
         logger.LogInformation("YaeBlog stopped!\nHave a nice day!");
         return Task.CompletedTask;
     }
-
-
 }
