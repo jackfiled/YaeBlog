@@ -7,6 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YaeBlog.Core", "YaeBlog.Cor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YaeBlog", "YaeBlog\YaeBlog.csproj", "{20438EFD-8DDE-43AF-92E2-76495C29233C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".gitea", ".gitea", "{9B5AAA29-37D8-454A-8D8F-3E6B6BCF38E6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{ADBC3DA8-F65C-4B5D-A97A-DC351F8E6592}"
+	ProjectSection(SolutionItems) = preProject
+		.gitea\workflows\build.yaml = .gitea\workflows\build.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +31,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ADBC3DA8-F65C-4B5D-A97A-DC351F8E6592} = {9B5AAA29-37D8-454A-8D8F-3E6B6BCF38E6}
 	EndGlobalSection
 EndGlobal

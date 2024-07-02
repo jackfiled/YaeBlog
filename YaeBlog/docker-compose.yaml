@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+    blog:
+        image: registry.cn-beijing.aliyuncs.com/jackfiled/blog:latest
+        restart: unless-stopped
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.blog.rule=Host(`rrricardo.top`) || Host(`www.rrricardo.top`)"
+            - "traefik.http.services.blog.loadbalancer.server.port=8080"
+            - "traefik.http.routers.blog.tls=true"
+            - "traefik.http.routers.blog.tls.certresolver=myresolver"

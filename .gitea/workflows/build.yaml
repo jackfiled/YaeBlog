@@ -1,0 +1,29 @@
+name: Build blog docker image
+on:
+    push:
+        branches:
+            - master
+jobs:
+    Build-Blog-Image:
+        runs-on: archlinux
+        steps:
+            -   uses: https://git.rrricardo.top/actions/checkout@v4
+                name: Check out code
+                with:
+                    lfs: true
+            -   name: Build project
+                run: |
+                    cd YaeBlog
+                    dotnet publish
+            -   name: Build docker image
+                run: |
+                    cd YaeBlog
+                    docker build . -t registry.cn-beijing.aliyuncs.com/jackfiled/blog:latest
+            -   name: Login aliyun docker registry
+                uses: https://git.rrricardo.top/actions/login-action@v3
+                with:
+                    registry: registry.cn-beijing.aliyuncs.com
+                    username: 初冬的朝阳
+                    password: ${{ secrets.ALIYUN_PASSWORD }}
+            -   name: Push docker image
+                run: docker push registry.cn-beijing.aliyuncs.com/jackfiled/blog:latest
