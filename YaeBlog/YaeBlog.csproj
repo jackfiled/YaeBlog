@@ -4,30 +4,6 @@
       <ProjectReference Include="..\YaeBlog.Core\YaeBlog.Core.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <AdditionalFiles Include="Layout\MainLayout.razor" />
-      <AdditionalFiles Include="Pages\About.razor" />
-      <AdditionalFiles Include="Pages\Archives.razor" />
-      <AdditionalFiles Include="Pages\Error.razor" />
-      <AdditionalFiles Include="Pages\Essay.razor" />
-      <AdditionalFiles Include="Pages\Home.razor" />
-      <AdditionalFiles Include="Pages\Links.razor" />
-      <AdditionalFiles Include="Pages\NotFound.razor" />
-      <AdditionalFiles Include="Pages\Tags.razor" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="Components\Pages\About.razor" />
-      <_ContentIncludedByDefault Remove="Components\Pages\Archives.razor" />
-      <_ContentIncludedByDefault Remove="Components\Pages\Error.razor" />
-      <_ContentIncludedByDefault Remove="Components\Pages\Essay.razor" />
-      <_ContentIncludedByDefault Remove="Components\Pages\Home.razor" />
-      <_ContentIncludedByDefault Remove="Components\Pages\Links.razor" />
-      <_ContentIncludedByDefault Remove="Components\Pages\NotFound.razor" />
-      <_ContentIncludedByDefault Remove="Components\Pages\Tags.razor" />
-      <_ContentIncludedByDefault Remove="Components\Layout\MainLayout.razor" />
-    </ItemGroup>
-
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>

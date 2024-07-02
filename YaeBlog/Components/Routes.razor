@@ -1,6 +1,14 @@
 ﻿<Router AppAssembly="typeof(Program).Assembly">
     <Found Context="routeData">
-        <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)"/>
+        @if (routeData.Template is not null && routeData.Template.StartsWith("/blog"))
+        {
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.BlogLayout)"/>
+        }
+        else
+        {
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)"></RouteView>
+        }
+
         <FocusOnNavigate RouteData="routeData" Selector="h1"/>
     </Found>
 </Router>

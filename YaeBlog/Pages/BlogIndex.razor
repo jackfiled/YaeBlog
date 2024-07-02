@@ -1,4 +1,4 @@
-@page "/"
+@page "/blog"
 @using YaeBlog.Core.Models
 @using YaeBlog.Core.Services
 
@@ -33,14 +33,14 @@
                     {
                         <FluentCard Style="margin: 2rem 0 2rem 0">
                             <div>
-                                <a href="essays/@(essay.Key)" target="_blank">
+                                <a href="/blog/essays/@(essay.Key)" target="_blank">
                                     <FluentLabel Typo="@Typography.H4">
                                         @(essay.Value.Title)
                                     </FluentLabel>
                                 </a>
 
                                 <div style="margin: 0.5rem 0 0.5rem 0">
-                                    <a href="essays/@(essay.Key)" target="_blank" style="color: #718096;">
+                                    <a href="/blog/essays/@(essay.Key)" target="_blank" style="color: #718096;">
                                         <div class="essay-description">
                                             @(essay.Value.Description)
                                         </div>
@@ -172,7 +172,7 @@
 
         if (flag is false)
         {
-            NavigationManagerInstance.NavigateTo("NotFount");
+            NavigationManagerInstance.NavigateTo("/NotFount");
         }
     }
 

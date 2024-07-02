@@ -1,4 +1,4 @@
-@page "/tags"
+@page "/blog/tags"
 @using YaeBlog.Core.Models
 @using YaeBlog.Core.Services
 
@@ -33,7 +33,7 @@
                         @foreach (KeyValuePair<string, int> pair in EssayContentInstance.Tags)
                         {
                             <div class="tag-item">
-                                <a href="tags?TagName=@(pair.Key)">
+                                <a href="/blog/tags?TagName=@(pair.Key)">
                                     <span style="font-size: @(14 + pair.Value)px; color: @(RandomColor())">
                                         @pair.Key
                                     </span>
@@ -52,7 +52,7 @@
                     {
                         <div style="margin: 0 4% 0 4%">
                             <div class="tag-essay-item">
-                                <a href="essays/@(essay.FileName)" target="_blank">
+                                <a href="/blog/essays/@(essay.FileName)" target="_blank">
                                     <FluentStack Orientation="@Orientation.Horizontal">
                                         <FluentLabel Typo="@Typography.H5" Style="width: 120px">
                                             @(essay.PublishTime.ToString("yyyy-MM-dd"))

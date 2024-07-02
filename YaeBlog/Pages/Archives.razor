@@ -1,4 +1,4 @@
-@page "/archives"
+@page "/blog/archives"
 @using YaeBlog.Core.Models
 @using YaeBlog.Core.Services
 
@@ -40,7 +40,7 @@
                         @foreach (KeyValuePair<string, BlogEssay> pair in group)
                         {
                             <div class="archive-item">
-                                <a href="essays/@(pair.Key)" target="_blank">
+                                <a href="/blog/essays/@(pair.Key)" target="_blank">
                                     <FluentStack Orientation="@Orientation.Horizontal">
                                         <FluentLabel Typo="@Typography.H5" Style="width: 80px">
                                             @(pair.Value.PublishTime.ToString("MM-dd"))

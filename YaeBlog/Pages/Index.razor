@@ -1,0 +1,90 @@
+@page "/"
+
+<PageTitle>
+    初冬的朝阳个人主页
+</PageTitle>
+
+<FluentStack Orientation="@Orientation.Vertical" Width="100%" Style="min-height: 100%">
+    <div style="width: 100%; height: auto">
+        <FluentGrid>
+            <FluentGridItem md="3" xs="12">
+                <FluentStack Orientation="@Orientation.Horizontal" HorizontalAlignment="@HorizontalAlignment.Center">
+                    <img src="images/avatar.png" alt="Ricardo's Avatar" class="avatar-image"/>
+                </FluentStack>
+            </FluentGridItem>
+
+            <FluentGridItem md="9" xs="12">
+                <FluentStack Orientation="@Orientation.Vertical" Style="padding: 25px" VerticalGap="20">
+                    <FluentLabel Typo="@Typography.H3" Weight="@FontWeight.Bold">
+                        初冬的朝阳 (Ricardo Ren)
+                    </FluentLabel>
+
+                    <FluentLabel Typo="@Typography.Body">
+                        a.k.a jackfiled
+                    </FluentLabel>
+
+                    <FluentLabel Typo="@Typography.Body" Style="font-style: italic">
+                        世界很大，时间很长。
+                    </FluentLabel>
+
+                    <FluentLabel Typo="@Typography.Body">
+                        一个平平无奇的CS学生。
+                    </FluentLabel>
+
+                    <FluentLabel Typo="@Typography.Body">
+                        还太菜了，连微小的贡献都没做。
+                    </FluentLabel>
+
+                    <div style="height: 20px"></div>
+
+                    <FluentStack Orientation="@Orientation.Horizontal" HorizontalGap="20">
+                        <FluentLabel Typo="@Typography.Body">
+                            <a href="https://github.com/jackfiled">Github</a>
+                        </FluentLabel>
+
+                        <FluentLabel Typo="@Typography.Body">
+                            <a href="https://git.rrricardo.top/jackfiled">Gitea</a>
+                        </FluentLabel>
+
+                        <FluentLabel Typo="@Typography.Body">
+                            <a href="mailto://shicangjuner@outlook.com">E-Mail</a>
+                        </FluentLabel>
+                    </FluentStack>
+                </FluentStack>
+            </FluentGridItem>
+        </FluentGrid>
+    </div>
+
+    <FluentStack Orientation="@Orientation.Horizontal" HorizontalAlignment="@HorizontalAlignment.Center">
+        <FluentDivider Style="width: 90%" Orientation="@Orientation.Horizontal" Role="@DividerRole.Separator"/>
+    </FluentStack>
+
+    <div style="width: 100%; height: auto">
+        <FluentGrid Justify="@JustifyContent.Center">
+            <WebsiteCard Name="部落格" Address="/blog/" ImageAddress="/images/blog-icon.png"
+                         Description="奇奇怪怪东西的聚集地"/>
+            <WebsiteCard Name="笔记本" Address="https://jackfiled.github.io/wiki/" ImageAddress="/images/wiki-icon.png"
+                         Description="技校学习笔记"/>
+        </FluentGrid>
+    </div>
+
+
+    <div style="flex: 1"></div>
+
+    <FluentStack Orientation="@Orientation.Horizontal" HorizontalAlignment="@HorizontalAlignment.Center">
+        <FluentStack Orientation="@Orientation.Vertical" HorizontalAlignment="@HorizontalAlignment.Center"
+                     Style="padding: 20px">
+            <FluentLabel>
+                2021 - @(DateTimeOffset.Now.Year) By <a href="https://rrricardo.top">Ricardo Ren</a>
+            </FluentLabel>
+
+            <FluentLabel>
+                <a href="https://beian.miit.gov.cn">蜀ICP备2022004429号-1</a>
+            </FluentLabel>
+        </FluentStack>
+    </FluentStack>
+</FluentStack>
+
+@code {
+
+}
