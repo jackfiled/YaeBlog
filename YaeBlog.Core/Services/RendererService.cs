@@ -181,7 +181,7 @@ public class RendererService(ILogger<RendererService> logger,
         if (pos == -1)
         {
             // 自动截取前50个字符
-            pos = 50;
+            pos = content.FileContent.Length < 50 ? content.FileContent.Length : 50;
         }
 
         for (int i = 0; i < pos; i++)

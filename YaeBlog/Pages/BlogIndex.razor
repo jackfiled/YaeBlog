@@ -74,51 +74,51 @@
                                      HorizontalGap="20">
                             @if (Page != 1)
                             {
-                                <a href="./?page=@(Page - 1)#blog-content" class="pagination-item">
+                                <a href="/blog/?page=@(Page - 1)#blog-content" class="pagination-item">
                                     <i class="chevron-left"></i>
                                 </a>
                             }
 
                             @if (Page == 1)
                             {
-                                <a href="./?page=1#blog-content" class="pagination-item">
+                                <a href="/blog/?page=1#blog-content" class="pagination-item">
                                     <span>1</span>
                                 </a>
-                                <a href="./?page=2#blog-content" class="pagination-item">
+                                <a href="/blog/?page=2#blog-content" class="pagination-item">
                                     <span>2</span>
                                 </a>
-                                <a href="./?page=3#blog-content" class="pagination-item">
+                                <a href="/blog/?page=3#blog-content" class="pagination-item">
                                     <span>3</span>
                                 </a>
                             }
                             else if (Page == _pageCount)
                             {
-                                <a href="./?page=@(_pageCount - 2)#blog-content" class="pagination-item">
+                                <a href="/blog/?page=@(_pageCount - 2)#blog-content" class="pagination-item">
                                     <span>@(_pageCount - 2)</span>
                                 </a>
-                                <a href="./?page=@(_pageCount - 1)#blog-content" class="pagination-item">
+                                <a href="/blog/?page=@(_pageCount - 1)#blog-content" class="pagination-item">
                                     <span>@(_pageCount - 1)</span>
                                 </a>
-                                <a href="./?page=@(_pageCount)#blog-content" class="pagination-item">
+                                <a href="/blog/?page=@(_pageCount)#blog-content" class="pagination-item">
                                     <span>@(_pageCount)</span>
                                 </a>
                             }
                             else
                             {
-                                <a href="./?page=@(Page - 1)#blog-content" class="pagination-item">
+                                <a href="/blog/?page=@(Page - 1)#blog-content" class="pagination-item">
                                     <span>@(Page - 1)</span>
                                 </a>
-                                <a href="./?page=@(Page)#blog-content" class="pagination-item">
+                                <a href="/blog/?page=@(Page)#blog-content" class="pagination-item">
                                     <span>@(Page)</span>
                                 </a>
-                                <a href="./?page=@(Page + 1)#blog-content" class="pagination-item">
+                                <a href="/blog/?page=@(Page + 1)#blog-content" class="pagination-item">
                                     <span>@(Page + 1)</span>
                                 </a>
                             }
 
                             @if (Page != _pageCount)
                             {
-                                <a href="./?page=@(Page + 1)#blog-content" class="pagination-item">
+                                <a href="/blog/?page=@(Page + 1)#blog-content" class="pagination-item">
                                     <i class="chevron-right"></i>
                                 </a>
                             }
