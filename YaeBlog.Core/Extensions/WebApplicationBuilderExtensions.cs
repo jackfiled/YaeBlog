@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Microsoft.FluentUI.AspNetCore.Components;
 using YaeBlog.Core.Models;
 using YaeBlog.Core.Processors;
 using YaeBlog.Core.Services;
@@ -15,7 +14,6 @@ public static class WebApplicationBuilderExtensions
         builder.Services.Configure<BlogOptions>(builder.Configuration.GetSection(BlogOptions.OptionName));
 
         builder.Services.AddHttpClient();
-        builder.Services.AddFluentUIComponents();
 
         builder.Services.AddMarkdig();
         builder.Services.AddYamlParser();
