@@ -11,6 +11,8 @@ public static class ServiceCollectionExtensions
     {
         MarkdownPipelineBuilder builder = new();
 
+        builder.UseAdvancedExtensions();
+
         collection.AddSingleton<MarkdownPipeline>(_ => builder.Build());
 
         return collection;
