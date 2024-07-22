@@ -14,9 +14,7 @@ public class EssayContentService
 
     public bool TryAdd(string key, BlogEssay essay) => _essays.TryAdd(key, essay);
 
-    public IEnumerable<KeyValuePair<string, BlogEssay>> Essays => _essays;
-
-    public int Count => _essays.Count;
+    public IDictionary<string, BlogEssay> Essays => _essays;
 
     public void RefreshTags()
     {
@@ -42,6 +40,7 @@ public class EssayContentService
     }
 
     public IEnumerable<KeyValuePair<string, int>> Tags => from item in _tags
+        orderby item.Value.Count descending
         select KeyValuePair.Create(item.Key, item.Value.Count);
 
     public int TagCount => _tags.Count;

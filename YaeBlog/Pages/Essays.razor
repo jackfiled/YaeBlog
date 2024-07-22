@@ -1,0 +1,61 @@
+@page "/blog/essays/{BlogKey}"
+@using YaeBlog.Core.Models
+@using YaeBlog.Core.Services
+
+@inject NavigationManager NavigationInstance
+@inject EssayContentService EssayContentInstance
+
+<PageTitle>
+    @(_essay!.Title)
+</PageTitle>
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-auto">
+            <h1>@(_essay!.Title)</h1>
+        </div>
+    </div>
+
+    <div class="row p-4">
+        <div class="col-auto fw-light">
+            @(_essay!.PublishTime.ToString("yyyy-MM-dd"))
+        </div>
+
+        @foreach (string tag in _essay!.Tags)
+        {
+            <div class="col-auto">
+                <a href="/tags/?tagName=@(tag)"># @(tag)</a>
+            </div>
+        }
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 col-md-12">
+            @((MarkupString)_essay!.HtmlContent)
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string? BlogKey { get; set; }
+
+    private BlogEssay? _essay;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        if (string.IsNullOrWhiteSpace(BlogKey))
+        {
+            NavigationInstance.NavigateTo("/NotFound");
+            return;
+        }
+
+        if (!EssayContentInstance.TryGet(BlogKey, out _essay))
+        {
+            NavigationInstance.NavigateTo("/NotFound");
+        }
+    }
+
+}

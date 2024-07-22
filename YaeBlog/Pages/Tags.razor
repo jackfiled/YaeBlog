@@ -1,96 +1,67 @@
-@page "/blog/tags"
+@page "/blog/tags/"
 @using YaeBlog.Core.Models
 @using YaeBlog.Core.Services
 
-@inject BlogOptions BlogOptionsInstance
 @inject EssayContentService EssayContentInstance
 
-<PageTitle>
-    标签
-</PageTitle>
-
-<div style="height: 100%">
-    <div class="tag-background" style="background-image: url('@(BlogOptionsInstance.EssayImage)')">
-        <div class="tag-title">
-            <FluentStack Orientation="@Orientation.Vertical"
-                         HorizontalAlignment="@HorizontalAlignment.Center">
-                <FluentLabel Typo="@Typography.H1" Color="@Color.Fill">
-                    @(TagName ?? "标  签")
-                </FluentLabel>
-            </FluentStack>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            @if (TagName is null)
+            {
+                <h1>标签</h1>
+            }
+            else
+            {
+                <h2>@(TagName)</h2>
+            }
         </div>
     </div>
 
-    <div style="height: 2rem"></div>
-
-    <div style="margin: 0 8% 0 8%">
-        <FluentCard>
-            <div style="margin: 0 8%">
-                @if (TagName is null)
-                {
-                    <FluentStack Orientation="@Orientation.Horizontal"
-                                 Wrap="true" Style="margin: 2rem 0">
-                        @foreach (KeyValuePair<string, int> pair in EssayContentInstance.Tags)
-                        {
-                            <div class="tag-item">
-                                <a href="/blog/tags?TagName=@(pair.Key)">
-                                    <span style="font-size: @(14 + pair.Value)px; color: @(RandomColor())">
-                                        @pair.Key
-                                    </span>
-                                </a>
-                            </div>
-                        }
-                    </FluentStack>
-                }
-                else
-                {
-                    <FluentLabel Typo="@Typography.H2" Style="margin: 3rem 0 2rem 0; color: #404853">
-                        共计@(EssayContentInstance.GetTag(TagName).Count())篇文章
-                    </FluentLabel>
-
-                    @foreach (BlogEssay essay in EssayContentInstance.GetTag(TagName))
-                    {
-                        <div style="margin: 0 4% 0 4%">
-                            <div class="tag-essay-item">
-                                <a href="/blog/essays/@(essay.FileName)" target="_blank">
-                                    <FluentStack Orientation="@Orientation.Horizontal">
-                                        <FluentLabel Typo="@Typography.H5" Style="width: 120px">
-                                            @(essay.PublishTime.ToString("yyyy-MM-dd"))
-                                        </FluentLabel>
-
-                                        <FluentLabel Typo="@Typography.H5">
-                                            @(essay.Title)
-                                        </FluentLabel>
-                                    </FluentStack>
-                                </a>
-                            </div>
-                        </div>
-                    }
-                }
-            </div>
-        </FluentCard>
+    <div class="row">
+        <div class="col fst-italic py-4">
+            在野外游荡的指针，走向未知的方向。
+        </div>
     </div>
 
-    <BlogFooter/>
+    @if (TagName is null)
+    {
+        <div>
+            <ul>
+                @foreach (KeyValuePair<string, int> pair in EssayContentInstance.Tags)
+                {
+                    <li class="p-2">
+                        <a href="/blog/tags/?tagName=@(pair.Key)">
+                            <div class="container fs-5">
+                                <div class="row">
+                                    <div class="col-auto">
+                                        # @(pair.Key)
+                                    </div>
+
+                                    <div class="col-auto tag-count">
+                                        @(pair.Value)
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+    else
+    {
+        <div class="container">
+            @foreach (BlogEssay essay in EssayContentInstance.GetTag(TagName).OrderByDescending(e => e.PublishTime))
+            {
+                <EssayCard Essay="@essay"/>
+            }
+        </div>
+    }
 </div>
 
 @code {
-    [SupplyParameterFromQuery]
-    private string? TagName { get; set; }
+    [SupplyParameterFromQuery] public string? TagName { get; set; }
 
-    private static string[] s_colors =
-    [
-        "#337ab7",
-        "#bbe",
-        "#4e87c2",
-        "#a0aee3",
-        "#6994cd",
-        "#85a1d8"
-    ];
-
-    private static string RandomColor()
-    {
-        return Random.Shared.GetItems(s_colors, 1)[0];
-    }
 
 }

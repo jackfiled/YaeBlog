@@ -1,0 +1,42 @@
+@using YaeBlog.Core.Services
+
+@inject EssayContentService EssayContentInstance
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-auto p-4">
+            <Image Src="images/avatar.png" Alt="Ricardo's avatar"/>
+        </div>
+    </div>
+
+    <div class="row justify-content-center p-3">
+        <div class="col-auto fs-4">
+            “奇奇怪怪东西的聚合地”
+        </div>
+    </div>
+
+    <div class="row justify-content-between px-2 py-1 fs-5">
+        <div class="col-auto">
+            文章
+        </div>
+
+        <div class="col-auto">
+            <a href="/blog/archives">
+                @(EssayContentInstance.Essays.Count)
+            </a>
+        </div>
+    </div>
+
+    <div class="row justify-content-between px-2 py-1 fs-5">
+        <div class="col-auto">
+            标签
+        </div>
+
+        <div class="col-auto">
+            <a href="/blog/tags">
+                @(EssayContentInstance.TagCount)
+            </a>
+        </div>
+    </div>
+</div>
+

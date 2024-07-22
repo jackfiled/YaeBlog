@@ -1,77 +1,49 @@
-﻿@using YaeBlog.Core.Models
 @inherits LayoutComponentBase
 
-@inject BlogOptions BlogOptionsInstance
+@attribute [StreamRendering]
 
-<FluentLayout>
-    <FluentHeader>
-        <FluentStack Orientation="@Orientation.Horizontal">
-            <div style="width: 50px"></div>
-
-            <a href="/blog">
-                <FluentLabel Typo="@Typography.H3" Color="@Color.Lightweight">
-                    @BlogOptionsInstance.Author
-                </FluentLabel>
+<main class="container">
+    <div class="row" style="height: 80px">
+        <div class="px-2 col-8">
+            <a href="/blog/" class="p-2">
+                <h4>Ricardo's Blog</h4>
             </a>
+        </div>
 
-            <FluentSpacer/>
-
-            <a href="/blog" style="margin: auto 0 auto 0">
-                <div class="quick-link">
-                    <FluentIcon Value="@(new Icons.Regular.Size16.Home())" Color="@Color.Fill"/>
-                    <FluentLabel Typo="@Typography.H5" Color="@Color.Lightweight"
-                                 Style="margin-left: 0.2rem">
-                        首页
-                    </FluentLabel>
+        <div class="col-4 d-flex justify-content-around align-items-center">
+            <a href="/blog/" class="p-2">
+                <div class="d-inline-flex" style="text-align: center">
+                    <Icon Name="@IconName.House" Color="@IconColor.Primary" class="px-2 d-none d-xl-block" Size="@IconSize.x5"/>
+                    <h5>首页</h5>
                 </div>
             </a>
 
-            <a href="/blog/archives" style="margin: auto 0 auto 0">
-                <div class="quick-link">
-                    <FluentIcon Value="@(new Icons.Regular.Size16.Archive())" Color="@Color.Fill"/>
-                    <FluentLabel Typo="@Typography.H5" Color="@Color.Lightweight"
-                                 Style="margin-left: 0.2rem">
-                        归档
-                    </FluentLabel>
+            <a href="/blog/archives/" class="p-2">
+                <div class="d-inline-flex">
+                    <Icon Name="@IconName.Archive" Color="@IconColor.Primary" class="px-2 d-none d-xl-block" Size="IconSize.x5"/>
+                    <h5>归档</h5>
                 </div>
             </a>
 
-            <a href="/blog/tags" style="margin: auto 0 auto 0">
-                <div class="quick-link">
-                    <FluentIcon Value="@(new Icons.Regular.Size16.Tag())" Color="@Color.Fill"/>
-                    <FluentLabel Typo="@Typography.H5" Color="@Color.Lightweight"
-                                 Style="margin-left: 0.2rem">
-                        标签
-                    </FluentLabel>
+            <a href="/blog/tags/" class="p-2">
+                <div class="d-inline-flex">
+                    <Icon Name="@IconName.Tags" Color="@IconColor.Primary" class="px-2 d-none d-xl-block" Size="@IconSize.x5"/>
+                    <h5>标签</h5>
                 </div>
             </a>
 
-            <a href="/blog/about" style="margin: auto 0 auto 0">
-                <div class="quick-link">
-                    <FluentIcon Value="@(new Icons.Regular.Size16.PersonInfo())" Color="@Color.Fill"/>
-                    <FluentLabel Typo="@Typography.H5" Color="@Color.Lightweight"
-                                 Style="margin-left: 0.2rem">
-                        关于
-                    </FluentLabel>
+            <a href="/blog/about/" class="p-2">
+                <div class="d-inline-flex">
+                    <Icon Name="@IconName.Person" Color="@IconColor.Primary" class="px-2 d-none d-xl-block" Size="@IconSize.x5"/>
+                    <h5>关于</h5>
                 </div>
             </a>
+        </div>
+    </div>
 
-            <a href="/blog/links" style="margin: auto 0 auto 0">
-                <div class="quick-link">
-                    <FluentIcon Value="@(new Icons.Regular.Size16.LinkMultiple())" Color="@Color.Fill"/>
-                    <FluentLabel Typo="@Typography.H5" Color="@Color.Lightweight"
-                                 Style="margin-left: 0.2rem">
-                        友链
-                    </FluentLabel>
-                </div>
-            </a>
+    <div class="row px-4 py-2">
+        @Body
+    </div>
 
-            <div style="width: 20px"></div>
-        </FluentStack>
-    </FluentHeader>
-    <FluentBodyContent Style="height: 100%">
-        <main style="height: 100%">
-            @Body
-        </main>
-    </FluentBodyContent>
-</FluentLayout>
+    <Foonter/>
+</main>
