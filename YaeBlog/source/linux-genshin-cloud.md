@@ -6,9 +6,6 @@ tags:
 date: 2023-10-09 23:56:34
 ---
 
-
-# 解决云原神无法在Linux中浏览器下运行的问题
-
 本文为转载`bilibili`用户[@SocialismTeen](https://space.bilibili.com/33027704)在他的[专栏](https://www.bilibili.com/read/cv26576757)中给出的解决办法。
 
 <!--more-->

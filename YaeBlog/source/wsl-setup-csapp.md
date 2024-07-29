@@ -7,9 +7,6 @@ typora-root-url: wsl-setup-csapp
 date: 2022-09-03 19:02:58
 ---
 
-
-# 利用WSL设置CSAPP实验环境
-
 `CSAPP`这本书为自学的学生们提供了不少的`LAB`供大家在联系中提高，但是这些`LAB`的编写普遍需要一个`Linux`的实验环境，但是目前大多数人手中的环境都是`Windows`平台，没有办法原生的运行这些`LAB`。在以前的实践中，这个问题往往是通过安装虚拟机来解决的，但是现在我们有了更好的解决方案——`Windows Subsystem for Linux`，简称`WSL`。
 
 <!--more-->

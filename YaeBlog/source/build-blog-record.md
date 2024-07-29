@@ -7,10 +7,6 @@ tags:
 ---
 
 
-# 建立博客过程的记录
-
-## 博客之始
-
 当我已经在Python的浩瀚大海遨（zheng）游（zha）了半个暑假后，我决定尝试一下传说中程序员专用的学(zhuang)习(bi)手(fangfa)段(fa)——建立自己的个人博客。作为一个半懂不懂的Python程序员，心中冒出的第一个想法自然是采用Python的Django作为开发自己的个人博客的手段。然而，在阅读了[用Django搭建个人博客](https://www.dusaiphoto.com/article/2/)等的其他人搭建这类动态博客的过程记录之后，我便义无反顾的转向了采用javascript开发的博客框架[Hexo](https://hexo.io)，<del>说好的Python信仰呢</del>。无他，唯简单尔。
 
 <!--more-->

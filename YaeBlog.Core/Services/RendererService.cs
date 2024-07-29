@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Text;
+using System.Text.RegularExpressions;
 using Markdig;
 using Microsoft.Extensions.Logging;
 using YaeBlog.Core.Abstractions;
@@ -11,7 +12,8 @@ using YamlDotNet.Serialization;
 
 namespace YaeBlog.Core.Services;
 
-public class RendererService(ILogger<RendererService> logger,
+public partial class RendererService(
+    ILogger<RendererService> logger,
     EssayScanService essayScanService,
     MarkdownPipeline markdownPipeline,
     IDeserializer yamlDeserializer,
@@ -37,12 +39,14 @@ public class RendererService(ILogger<RendererService> logger,
             foreach (BlogContent content in preProcessedContents)
             {
                 MarkdownMetadata? metadata = TryParseMetadata(content);
+                uint wordCount = GetWordCount(content);
                 BlogEssay essay = new()
                 {
                     Title = metadata?.Title ?? content.FileName,
                     FileName = content.FileName,
                     Description = GetDescription(content),
-                    WordCount = GetWordCount(content),
+                    WordCount = wordCount,
+                    ReadTime = CalculateReadTime(wordCount),
                     PublishTime = metadata?.Date ?? DateTime.Now,
                     HtmlContent = content.FileContent
                 };
@@ -51,6 +55,7 @@ public class RendererService(ILogger<RendererService> logger,
                 {
                     essay.Tags.AddRange(metadata.Tags);
                 }
+
                 essays.Add(essay);
             }
         });
@@ -125,7 +130,7 @@ public class RendererService(ILogger<RendererService> logger,
                 essay = await processor.ProcessAsync(essay);
             }
 
-            if (!essayContentService.TryAdd(essay.FileName, essay))
+            if (!essayContentService.TryAdd(essay))
             {
                 throw new BlogFileException(
                     $"There are two essays with the same name: '{essay.FileName}'.");
@@ -172,30 +177,34 @@ public class RendererService(ILogger<RendererService> logger,
         }
     }
 
+    [GeneratedRegex(@"(?<!\\)[^\#\*_\-\+\`{}\[\]!~]+")]
+    private static partial Regex DescriptionPattern();
+
     private string GetDescription(BlogContent content)
     {
         const string delimiter = "<!--more-->";
         int pos = content.FileContent.IndexOf(delimiter, StringComparison.Ordinal);
-        StringBuilder builder = new();
+        bool breakSentence = false;
 
         if (pos == -1)
         {
             // 自动截取前50个字符
             pos = content.FileContent.Length < 50 ? content.FileContent.Length : 50;
+            breakSentence = true;
         }
 
-        for (int i = 0; i < pos; i++)
+        string rawContent = content.FileContent[..pos];
+        MatchCollection matches = DescriptionPattern().Matches(rawContent);
+
+        StringBuilder builder = new();
+        foreach (Match match in matches)
         {
-            char c = content.FileContent[i];
+            builder.Append(match.Value);
+        }
 
-            if (char.IsControl(c) || char.IsSymbol(c) ||
-                char.IsSeparator(c) || char.IsPunctuation(c) ||
-                char.IsAsciiLetter(c))
-            {
-                continue;
-            }
-
-            builder.Append(c);
+        if (breakSentence)
+        {
+            builder.Append("……");
         }
 
         string description = builder.ToString();
@@ -212,7 +221,7 @@ public class RendererService(ILogger<RendererService> logger,
         foreach (char c in content.FileContent)
         {
             if (char.IsControl(c) || char.IsSymbol(c)
-                || char.IsSeparator(c))
+                                  || char.IsSeparator(c))
             {
                 continue;
             }
@@ -223,5 +232,14 @@ public class RendererService(ILogger<RendererService> logger,
         logger.LogDebug("Word count of {} is {}", content.FileName,
             count);
         return count;
+    }
+
+    private static string CalculateReadTime(uint wordCount)
+    {
+        // 据说语文教学大纲规定，中国高中问阅读现代文的速度是600字每分钟
+        int second = (int)wordCount / 10;
+        TimeSpan span = new TimeSpan(0, 0, second);
+
+        return span.ToString("mm'分 'ss'秒'");
     }
 }

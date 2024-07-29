@@ -1,8 +1,12 @@
 @page "/blog/archives"
+@using YaeBlog.Core.Abstractions
 @using YaeBlog.Core.Models
-@using YaeBlog.Core.Services
 
-@inject EssayContentService EssayContentInstance
+@inject IEssayContentService Contents
+
+<PageTitle>
+    归档
+</PageTitle>
 
 <div class="container">
     <div class="row">
@@ -64,9 +68,8 @@
     {
         base.OnInitialized();
 
-        _essays.AddRange(from essay in EssayContentInstance.Essays
+        _essays.AddRange(from essay in Contents.Essays
             orderby essay.Value.PublishTime descending
             group essay by new DateTime(essay.Value.PublishTime.Year, 1, 1));
     }
-
 }

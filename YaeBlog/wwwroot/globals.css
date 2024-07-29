@@ -1,3 +1,33 @@
+@font-face {
+    font-family: "Font Awesome 6 Free";
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    src: url(fonts/fa-regular-400.woff2) format("woff2"), url(fonts/fa-regular-400.ttf) format("truetype")
+}
+
+@font-face {
+    font-family: "Font Awesome 6 Free";
+    font-style: normal;
+    font-weight: 900;
+    font-display: block;
+    src: url(fonts/fa-solid-900.woff2) format("woff2"), url(fonts/fa-solid-900.ttf) format("truetype")
+}
+
+.essay-image {
+    width: 90%;
+    display: block;
+    margin: 1.5rem auto;
+    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18),
+    0 4px 15px 0 rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    background-color: transparent;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
 body a {
     text-decoration: none;
 }
@@ -8,28 +38,53 @@ body main {
     overflow-x: visible;
 }
 
-@font-face {
-    font-family: "Font Awesome 6 Free";
-    font-style: normal;
-    font-weight: 400;
-    font-display: block;
-    src: url(fonts/fa-regular-400.woff2) format("woff2"),url(fonts/fa-regular-400.ttf) format("truetype")
+body p {
+    margin: 0;
+    margin-block: 1em;
 }
 
-@font-face {
-    font-family: "Font Awesome 6 Free";
-    font-style: normal;
-    font-weight: 900;
-    font-display: block;
-    src: url(fonts/fa-solid-900.woff2) format("woff2"),url(fonts/fa-solid-900.ttf) format("truetype")
+h2, h3 {
+    margin-block-start: 1.5em;
+    margin-block-end: 1em;
 }
 
-.essay-image {
-    width: 90%;
-    display: block;
-    margin: 1.5rem auto;
-    box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18),
-    0 4px 15px 0 rgba(0,0,0,0.15);
-    border-radius: 4px;
-    background-color: transparent;
+h4, h5 {
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+}
+
+table {
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+table td {
+    padding: 3px 20px;
+    border: 1px var(--bs-border-color) solid;
+}
+
+table thead {
+    background: var(--bs-secondary-bg);
+}
+
+table thead td {
+    font-weight: 700;
+    border: none;
+}
+
+table thead th {
+    padding: 3px 20px;
+}
+
+table thead tr {
+    border: 1px var(--bs-border-color) solid;
+}
+
+blockquote {
+    margin: 20px 0;
+    padding: 0 20px;
+    color: var(--bs-body-color);
+    background-color: var(--bs-primary-bg-subtle);
+    border-block-start: .1em solid var(--bs-primary-border-subtle);
+    border-block-end: .1em solid var(--bs-primary-border-subtle);
 }

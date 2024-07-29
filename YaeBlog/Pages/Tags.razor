@@ -1,8 +1,14 @@
 @page "/blog/tags/"
+@using System.Text.Encodings.Web
+@using YaeBlog.Core.Abstractions
 @using YaeBlog.Core.Models
-@using YaeBlog.Core.Services
 
-@inject EssayContentService EssayContentInstance
+@inject IEssayContentService Contents
+@inject NavigationManager NavigationInstance
+
+<PageTitle>
+    @(TagName ?? "标签")
+</PageTitle>
 
 <div class="container">
     <div class="row">
@@ -28,18 +34,19 @@
     {
         <div>
             <ul>
-                @foreach (KeyValuePair<string, int> pair in EssayContentInstance.Tags)
+                @foreach (KeyValuePair<EssayTag, List<BlogEssay>> pair in
+                          Contents.Tags.OrderByDescending(pair => pair.Value.Count))
                 {
                     <li class="p-2">
-                        <a href="/blog/tags/?tagName=@(pair.Key)">
+                        <a href="/blog/tags/?tagName=@(pair.Key.UrlEncodedTagName)">
                             <div class="container fs-5">
                                 <div class="row">
                                     <div class="col-auto">
-                                        # @(pair.Key)
+                                        # @(pair.Key.TagName)
                                     </div>
 
                                     <div class="col-auto tag-count">
-                                        @(pair.Value)
+                                        @(pair.Value.Count)
                                     </div>
                                 </div>
                             </div>
@@ -52,7 +59,7 @@
     else
     {
         <div class="container">
-            @foreach (BlogEssay essay in EssayContentInstance.GetTag(TagName).OrderByDescending(e => e.PublishTime))
+            @foreach (BlogEssay essay in _essays)
             {
                 <EssayCard Essay="@essay"/>
             }
@@ -63,5 +70,23 @@
 @code {
     [SupplyParameterFromQuery] public string? TagName { get; set; }
 
+    private readonly List<BlogEssay> _essays = [];
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if (string.IsNullOrEmpty(TagName))
+        {
+            return;
+        }
+
+        if (!Contents.SearchByUrlEncodedTag(UrlEncoder.Default.Encode(TagName), out List<BlogEssay>? essays))
+        {
+            NavigationInstance.NavigateTo("/NotFound");
+            return;
+        }
+
+        _essays.AddRange(essays.OrderDescending());
+    }
 
 }

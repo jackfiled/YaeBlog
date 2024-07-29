@@ -1,6 +1,8 @@
-@using YaeBlog.Core.Services
+@using YaeBlog.Core.Abstractions
+@using YaeBlog.Core.Models
 
-@inject EssayContentService EssayContentInstance
+@inject IEssayContentService Contents
+@inject BlogOptions Options
 
 <div class="container">
     <div class="row justify-content-center">
@@ -22,7 +24,7 @@
 
         <div class="col-auto">
             <a href="/blog/archives">
-                @(EssayContentInstance.Essays.Count)
+                @(Contents.Essays.Count)
             </a>
         </div>
     </div>
@@ -34,9 +36,22 @@
 
         <div class="col-auto">
             <a href="/blog/tags">
-                @(EssayContentInstance.TagCount)
+                @(Contents.Tags.Count)
             </a>
         </div>
     </div>
-</div>
 
+    <div class="row justify-content-start fs-5" style="padding-top: 2em">
+        <div class="col-auto">
+            广而告之
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <p style="text-indent: 2em">
+                @(Options.Announcement)
+            </p>
+        </div>
+    </div>
+</div>

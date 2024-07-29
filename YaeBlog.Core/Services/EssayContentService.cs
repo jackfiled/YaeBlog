@@ -1,57 +1,48 @@
 ﻿using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
+using YaeBlog.Core.Abstractions;
 using YaeBlog.Core.Models;
 
 namespace YaeBlog.Core.Services;
 
-public class EssayContentService
+public class EssayContentService : IEssayContentService
 {
     private readonly ConcurrentDictionary<string, BlogEssay> _essays = new();
 
-    private readonly Dictionary<string, List<BlogEssay>> _tags = [];
+    private readonly Dictionary<EssayTag, List<BlogEssay>> _tags = [];
 
-    public bool TryGet(string key, out BlogEssay? essay)
-        => _essays.TryGetValue(key, out essay);
+    public bool TryAdd(BlogEssay essay) => _essays.TryAdd(essay.FileName, essay);
 
-    public bool TryAdd(string key, BlogEssay essay) => _essays.TryAdd(key, essay);
+    public IReadOnlyDictionary<string, BlogEssay> Essays => _essays;
 
-    public IDictionary<string, BlogEssay> Essays => _essays;
+    public IReadOnlyDictionary<EssayTag, List<BlogEssay>> Tags => _tags;
 
     public void RefreshTags()
     {
-        foreach (BlogEssay essay in _essays.Values)
-        {
-            foreach (string tag in essay.Tags)
-            {
-                if (_tags.TryGetValue(tag, out var list))
-                {
-                    list.Add(essay);
-                }
-                else
-                {
-                    _tags[tag] = [essay];
-                }
-            }
-        }
+         _tags.Clear();
 
-        foreach (KeyValuePair<string,List<BlogEssay>> pair in _tags)
-        {
-            pair.Value.Sort();
-        }
+         foreach (BlogEssay essay in _essays.Values)
+         {
+             foreach (EssayTag essayTag in essay.Tags.Select(tag => new EssayTag(tag)))
+             {
+                 if (_tags.TryGetValue(essayTag, out List<BlogEssay>? essays))
+                 {
+                     essays.Add(essay);
+                 }
+                 else
+                 {
+                     _tags.Add(essayTag, [essay]);
+                 }
+             }
+         }
     }
 
-    public IEnumerable<KeyValuePair<string, int>> Tags => from item in _tags
-        orderby item.Value.Count descending
-        select KeyValuePair.Create(item.Key, item.Value.Count);
-
-    public int TagCount => _tags.Count;
-
-    public IEnumerable<BlogEssay> GetTag(string tag)
+    public bool SearchByUrlEncodedTag(string tag, [NotNullWhen(true)] out List<BlogEssay>? result)
     {
-        if (_tags.TryGetValue(tag, out var list))
-        {
-            return list;
-        }
+        result = (from item in _tags
+            where item.Key.UrlEncodedTagName == tag
+            select item.Value).FirstOrDefault();
 
-        throw new KeyNotFoundException("Selected tag not found.");
+        return result is not null;
     }
 }
