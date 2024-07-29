@@ -7,9 +7,6 @@ date: 2023-01-15 22:23:08
 typora-root-url: daily-linux-0
 ---
 
-
-# 日用Linux挑战 第0篇
-
 在将开发重心移到`WSL`上一年之后，我最终还是决定完全抛弃Windows，转向使用Linux作为我日常使用的主力系统。目前，我已经使用Linux作为主力系统一个月了。
 
 <!--more-->

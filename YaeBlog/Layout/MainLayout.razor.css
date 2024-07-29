@@ -1,7 +1,7 @@
 .center {
     margin: 0 auto;
-    min-height: 100vh;
     max-width: 48em;
+    min-height: calc(100vh - 80px);
     position: relative;
     display: flex;
     flex-direction: column;

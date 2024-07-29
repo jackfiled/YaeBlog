@@ -38,7 +38,7 @@ public class ImagePostRenderProcessor(ILogger<ImagePostRenderProcessor> logger,
         return essay.WithNewHtmlContent(html.DocumentElement.OuterHtml);
     }
 
-    public string Name => "ImagePostRenderProcessor";
+    public string Name => nameof(ImagePostRenderProcessor);
 
     private string GenerateImageLink(string filename, string essayFilename)
     {

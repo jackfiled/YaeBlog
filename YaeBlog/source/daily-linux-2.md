@@ -8,8 +8,6 @@ typora-root-url: daily-linux-2
 ---
 
 
-# 日用Linux挑战 第2篇
-
 使用`Linux`6个月，我成功戒掉了原神。
 
 <!--more-->

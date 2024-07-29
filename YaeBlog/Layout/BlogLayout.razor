@@ -1,9 +1,63 @@
 @inherits LayoutComponentBase
 
-<main>
-    @Body
+@attribute [StreamRendering]
+
+<main class="container">
+    <div class="row d-none d-xl-flex" style="height: 80px">
+        <div class="px-2 col-9">
+            <a href="/blog/" class="p-2">
+                <h4>Ricardo's Blog</h4>
+            </a>
+        </div>
+
+        <div class="col-3 d-flex justify-content-around align-items-center">
+            <a href="/blog/" class="p-2">
+                <h5>首页</h5>
+            </a>
+
+            <a href="/blog/archives/" class="p-2">
+                <h5>归档</h5>
+            </a>
+
+            <a href="/blog/tags/" class="p-2">
+                <h5>标签</h5>
+            </a>
+
+            <a href="/blog/about/" class="p-2">
+                <h5>关于</h5>
+            </a>
+        </div>
+    </div>
+
+    <div class="row d-xl-none">
+        <div class="px-2 col-12">
+            <a href="/blog/" class="p-2">
+                <h4>Ricardo's Blog</h4>
+            </a>
+        </div>
+
+        <div class="px-2 col-12 justify-content-end d-flex">
+            <a href="/blog/" class="p-2">
+                <h5>首页</h5>
+            </a>
+
+            <a href="/blog/archives/" class="p-2">
+                <h5>归档</h5>
+            </a>
+
+            <a href="/blog/tags/" class="p-2">
+                <h5>标签</h5>
+            </a>
+
+            <a href="/blog/about/" class="p-2">
+                <h5>关于</h5>
+            </a>
+        </div>
+    </div>
+
+    <div class="row px-4 py-2">
+        @Body
+    </div>
+
+    <Foonter/>
 </main>
-
-@code {
-
-}

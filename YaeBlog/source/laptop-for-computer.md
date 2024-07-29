@@ -7,8 +7,6 @@ date: 2022-06-13 16:17:27
 ---
 
 
-# 大学生用啥配置——计算机专业
-
 > 本文是应B站UP主[远古时代装机猿](https://space.bilibili.com/35359510)发起的[大学生用啥配置](https://www.bilibili.com/video/BV1kZ4y1i7Le)公益活动而写
 >
 > 目前某不知名211大学计算机专业在读

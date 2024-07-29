@@ -1,0 +1,135 @@
+@page "/blog/essays/{BlogKey}"
+@using YaeBlog.Core.Abstractions
+@using YaeBlog.Core.Models
+
+@inject IEssayContentService Contents
+@inject ITableOfContentService TableOfContent
+@inject NavigationManager NavigationInstance
+
+<PageTitle>
+    @(_essay!.Title)
+</PageTitle>
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-auto">
+            <h1 id="title">@(_essay!.Title)</h1>
+        </div>
+    </div>
+
+    <div class="row px-4 py-1">
+        <div class="col-auto fw-light">
+            @(_essay!.PublishTime.ToString("yyyy-MM-dd"))
+        </div>
+
+        @foreach (string tag in _essay!.Tags)
+        {
+            <div class="col-auto">
+                <a href="/tags/?tagName=@(tag)"># @(tag)</a>
+            </div>
+        }
+    </div>
+
+    <div class="row px-4 py-1">
+        <div class="col-auto fw-light">
+            总字数：@(_essay!.WordCount)字，预计阅读时间 @(_essay!.ReadTime)。
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 col-md-12">
+            @((MarkupString)_essay!.HtmlContent)
+
+            <LicenseDisclaimer EssayAddress="@BlogKey"/>
+        </div>
+
+        <div class="col-lg-4 col-md-12">
+            <div class="row sticky-lg-top justify-content-center">
+                <div class="col-auto">
+                    <div class="row">
+                        <div class="col-auto">
+                            <h3 style="margin-block-start: 1em; margin-block-end: 0.5em">
+                                文章目录
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding-left: 10px">
+                        <div class="col-auto">
+                            @foreach (BlogHeadline level2 in _headline!.Children)
+                            {
+                                <div class="row py-1">
+                                    <div class="col-auto">
+                                        <a href="@(GenerateSelectorUrl(level2.SelectorId))">@(level2.Title)</a>
+                                    </div>
+                                </div>
+
+                                @foreach (BlogHeadline level3 in level2.Children)
+                                {
+                                    <div class="row py-1">
+                                        <div class="col-auto">
+                                            <a style="padding-left: 20px" href="@GenerateSelectorUrl(level3.SelectorId)">
+                                                @(level3.Title)
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    @foreach (BlogHeadline level4 in level3.Children)
+                                    {
+                                        <div class="row py-1">
+                                            <div class="col-auto">
+                                                <a style="padding-left: 40px" href="@(GenerateSelectorUrl(level4.SelectorId))">
+                                                    @(level4.Title)
+                                                </a>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+
+                    @if (_headline!.Children.Count == 0)
+                    {
+                        <div class="row">
+                            <div class="col fst-italic">
+                                坏了(* Ŏ∀Ŏ)，没有在文章中识别到目录
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@code {
+    [Parameter] public string? BlogKey { get; set; }
+
+    private BlogEssay? _essay;
+
+    private BlogHeadline? _headline;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        if (string.IsNullOrWhiteSpace(BlogKey))
+        {
+            NavigationInstance.NavigateTo("/NotFound");
+            return;
+        }
+
+        if (!Contents.Essays.TryGetValue(BlogKey, out _essay))
+        {
+            NavigationInstance.NavigateTo("/NotFound");
+        }
+
+        _headline = TableOfContent.Headlines[BlogKey];
+    }
+
+    private string GenerateSelectorUrl(string selectorId)
+        => $"/blog/essays/{BlogKey!}#{selectorId}";
+
+}

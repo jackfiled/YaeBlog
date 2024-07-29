@@ -12,6 +12,8 @@ public class BlogEssay : IComparable<BlogEssay>
 
     public required uint WordCount { get; init; }
 
+    public required string ReadTime { get; init; }
+
     public List<string> Tags { get; } = [];
 
     public required string HtmlContent { get; init; }
@@ -25,6 +27,7 @@ public class BlogEssay : IComparable<BlogEssay>
             PublishTime = PublishTime,
             Description = Description,
             WordCount = WordCount,
+            ReadTime = ReadTime,
             HtmlContent = newHtmlContent
         };
         essay.Tags.AddRange(Tags);

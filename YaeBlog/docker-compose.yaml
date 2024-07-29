@@ -10,3 +10,4 @@ services:
             - "traefik.http.services.blog.loadbalancer.server.port=8080"
             - "traefik.http.routers.blog.tls=true"
             - "traefik.http.routers.blog.tls.certresolver=myresolver"
+            - "com.centurylinklabs.watchtower.enable=true"

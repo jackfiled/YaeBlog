@@ -5,7 +5,7 @@ tags:
   - 技术笔记
 ---
 
-# 优雅地使用学校VPN
+睿智的Global Protect!
 
 <!--more-->
 

@@ -8,11 +8,12 @@ namespace YaeBlog.Core.Extensions;
 
 public static class WebApplicationExtensions
 {
-    public static WebApplication UseMiddleRenderProcessors(this WebApplication application)
+    public static void UseYaeBlog(this WebApplication application)
     {
         application.UsePostRenderProcessor<ImagePostRenderProcessor>();
-
-        return application;
+        application.UsePostRenderProcessor<CodeBlockPostRenderProcessor>();
+        application.UsePostRenderProcessor<TablePostRenderProcessor>();
+        application.UsePostRenderProcessor<HeadlinePostRenderProcessor>();
     }
 
     private static void UsePreRenderProcessor<T>(this WebApplication application) where T : IPreRenderProcessor

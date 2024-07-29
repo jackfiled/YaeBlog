@@ -10,10 +10,8 @@ public class BlogOptions
     public required string Root { get; set; }
 
     /// <summary>
-    /// 博客作者
+    /// 博客正文的广而告之
     /// </summary>
-    public required string Author { get; set; }
-
     public required string Announcement { get; set; }
 
     /// <summary>
@@ -22,21 +20,7 @@ public class BlogOptions
     public required int StartYear { get; set; }
 
     /// <summary>
-    /// 博客起始页面的背景图片
+    /// 博客的友链
     /// </summary>
-    public required string BannerImage { get; set; }
-
-    /// <summary>
-    /// 文章页面的背景图片
-    /// </summary>
-    public required string EssayImage { get; set; }
-
-    /// <summary>
-    /// 博客底部是否显示ICP备案信息
-    /// </summary>
-    public string? RegisterInformation { get; set; }
-
-    public required AboutInfo About { get; set; }
-
     public required List<FriendLink> Links { get; set; }
 }

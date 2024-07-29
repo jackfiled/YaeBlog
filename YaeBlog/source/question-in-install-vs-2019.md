@@ -5,7 +5,6 @@ tags:
     - 技术笔记
 ---
 
-# 安装Visual Studio 2019中遇到的坑
 在某个月黑风高的夜晚，我在折腾了很久的Python之后，突然感觉自己应该去学学C和C++，于是乎我便打算折腾一下在vscode上写C和C++。在网上一番搜寻之后，我发现了这篇[知乎文章](https://zhuanlan.zhihu.com/p/87864677)和这篇[知乎文章](https://zhuanlan.zhihu.com/p/147366852),然后我就被安装MinGW编译器和配置一大堆的json文件给干碎了。<br>
 于是，我决定转向传说中的宇宙第一IDE——Visual Studio。<br>
 <!--more-->

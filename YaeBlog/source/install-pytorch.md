@@ -7,7 +7,7 @@ tags:
 typora-root-url: 安装pytorch，来有深度的学习
 ---
 
-# 深度学习预备篇——安装深度学习框架——pytorch
+鄙人在下不才我精通深度学习框架的安装和卸载。
 
 <!--more-->
 

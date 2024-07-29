@@ -6,9 +6,9 @@ tags:
 date: 2024-1-12 20:10:06
 ---
 
-<!--more-->
-
 让Minecraft游戏使用`Wayland`显示协议。
+
+<!--more-->
 
 ## Update At 2024-2-24
 

@@ -13,7 +13,7 @@ WebApplication application = builder.Build();
 
 application.UseStaticFiles();
 application.UseAntiforgery();
-application.UseMiddleRenderProcessors();
+application.UseYaeBlog();
 
 application.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();

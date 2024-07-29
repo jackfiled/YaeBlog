@@ -1,0 +1,75 @@
+@page "/blog/archives"
+@using YaeBlog.Core.Abstractions
+@using YaeBlog.Core.Models
+
+@inject IEssayContentService Contents
+
+<PageTitle>
+    归档
+</PageTitle>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <h1>归档</h1>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col fst-italic py-4">
+                        时光图书馆，黑历史集散地。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @foreach (IGrouping<DateTime, KeyValuePair<string, BlogEssay>> group in _essays)
+    {
+        <div class="row">
+            <div class="col">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <h3>@(group.Key.Year)</h3>
+                        </div>
+                    </div>
+
+                    <div class="container px-3 py-2">
+                        @foreach (KeyValuePair<string, BlogEssay> essay in group)
+                        {
+                            <div class="row py-1">
+                                <div class="col-auto">
+                                    @(essay.Value.PublishTime.ToString("MM-dd"))
+                                </div>
+
+                                <div class="col-auto">
+                                    <a href="/blog/@(essay.Key)">
+                                        @(essay.Value.Title)
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+@code {
+    private readonly List<IGrouping<DateTime, KeyValuePair<string, BlogEssay>>> _essays = [];
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        _essays.AddRange(from essay in Contents.Essays
+            orderby essay.Value.PublishTime descending
+            group essay by new DateTime(essay.Value.PublishTime.Year, 1, 1));
+    }
+}
