@@ -1,3 +1,4 @@
+@using System.Text.Encodings.Web
 @using YaeBlog.Core.Models
 
 <div class="container p-3">
@@ -13,7 +14,7 @@
         @foreach (string key in Essay.Tags)
         {
             <div class="col-auto">
-                <a href="/blog/tags/?tagName=@key">
+                <a href="/blog/tags/?tagName=@(UrlEncoder.Default.Encode(key))">
                     # @key
                 </a>
             </div>

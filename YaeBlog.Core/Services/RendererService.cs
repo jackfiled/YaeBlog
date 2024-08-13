@@ -216,29 +216,20 @@ public partial class RendererService(
 
     private uint GetWordCount(BlogContent content)
     {
-        uint count = 0;
-
-        foreach (char c in content.FileContent)
-        {
-            if (char.IsControl(c) || char.IsSymbol(c)
-                                  || char.IsSeparator(c))
-            {
-                continue;
-            }
-
-            count++;
-        }
+        int count = (from c in content.FileContent
+            where char.IsLetterOrDigit(c)
+            select c).Count();
 
         logger.LogDebug("Word count of {} is {}", content.FileName,
             count);
-        return count;
+        return (uint)count;
     }
 
     private static string CalculateReadTime(uint wordCount)
     {
-        // 据说语文教学大纲规定，中国高中问阅读现代文的速度是600字每分钟
+        // 据说语文教学大纲规定，中国高中生阅读现代文的速度是600字每分钟
         int second = (int)wordCount / 10;
-        TimeSpan span = new TimeSpan(0, 0, second);
+        TimeSpan span = new(0, 0, second);
 
         return span.ToString("mm'分 'ss'秒'");
     }
