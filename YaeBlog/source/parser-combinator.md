@@ -3,7 +3,8 @@ title: 使用Parser Combinator编写编译器前端
 tags:
   - 编译原理
   - C#
-  - dotnet
+  - 技术笔记
+date: 2024-08-13 18:09:10
 ---
 
 在函数式编程思想的指导下，使用Parser Combinator编写编译器前端。
