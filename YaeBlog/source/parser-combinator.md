@@ -77,7 +77,7 @@ public abstract class Parser<T>
 
 ## 实现一个C#的Parser Combinator库
 
-## 解析器基类、输入状态接口和解析结果基类
+### 解析器基类、输入状态接口和解析结果基类
 
 在正式开始设计解析器和组合子之前，还请允许我再啰唆一下库中最为重要的那些接口和基类设计。
 
@@ -208,7 +208,7 @@ public abstract class Parser<TToken, T>
 
 在解析器基类的设计上仍然使用了常见的CPS(Continuous Passing Style)设计范式，在解析器运行函数中需要传入一**后继函数**，对该解析器返回的解析结果进行进一个的处理之后再返回。在后续`sequence`类别的组合子设计中也将会利用这一点。
 
-## 基础解析器和组合子的选择与设计
+### 基础解析器和组合子的选择与设计
 
 在设计解析器和组合子时，我们分成三类，分别是基础组合子（Basic），修改解析结果的解析器组合子（Modified Parser）和原组合子（Primitive Parser）。
 
@@ -353,7 +353,7 @@ internal sealed class SatisfyParser<TToken>(Func<TToken, bool> predicate) : Prim
 }
 ```
 
-## 进阶组合子的设计和实现
+### 进阶组合子的设计和实现
 
 目前的组合子库中大致一共实现了50个组合子，这里并不会解释涉及到的所有组合子，只列举一些我们实现过程中比较迷惑的组合子。
 
