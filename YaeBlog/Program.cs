@@ -1,22 +1,9 @@
-using YaeBlog.Components;
-using YaeBlog.Core.Extensions;
+using System.CommandLine;
+using YaeBlog.Commands;
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+RootCommand rootCommand = new("YaeBlog CLI");
 
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
-builder.Services.AddControllers();
-builder.Services.AddBlazorBootstrap();
-builder.AddYaeBlog();
+rootCommand.AddServeCommand();
+rootCommand.AddNewCommand();
 
-WebApplication application = builder.Build();
-
-application.UseStaticFiles();
-application.UseAntiforgery();
-application.UseYaeBlog();
-
-application.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
-application.MapControllers();
-
-await application.RunAsync();
+await rootCommand.InvokeAsync(args);
