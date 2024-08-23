@@ -1,12 +1,15 @@
 ﻿using System.CommandLine;
+using YaeBlog.Commands.Binders;
 using YaeBlog.Components;
 using YaeBlog.Core.Extensions;
+using YaeBlog.Core.Models;
+using YaeBlog.Core.Services;
 
 namespace YaeBlog.Commands;
 
 public static class CommandExtensions
 {
-    public static Command AddServeCommand(this RootCommand rootCommand)
+    public static void AddServeCommand(this RootCommand rootCommand)
     {
         Command serveCommand = new("serve", "Start http server.");
         rootCommand.AddCommand(serveCommand);
@@ -20,6 +23,7 @@ public static class CommandExtensions
             builder.Services.AddControllers();
             builder.Services.AddBlazorBootstrap();
             builder.AddYaeBlog();
+            builder.AddServer();
 
             WebApplication application = builder.Build();
 
@@ -34,11 +38,40 @@ public static class CommandExtensions
             CancellationToken token = context.GetCancellationToken();
             await application.RunAsync(token);
         });
-
-        return rootCommand;
     }
 
-    public static Command AddNewCommand(this RootCommand rootCommand)
+    public static void AddWatchCommand(this RootCommand rootCommand)
+    {
+        Command command = new("watch", "Start a blog watcher that re-render when file changes.");
+        rootCommand.AddCommand(command);
+
+        command.SetHandler(async context =>
+        {
+            WebApplicationBuilder builder = WebApplication.CreateBuilder();
+
+            builder.Services.AddRazorComponents()
+                .AddInteractiveServerComponents();
+            builder.Services.AddControllers();
+            builder.Services.AddBlazorBootstrap();
+            builder.AddYaeBlog();
+            builder.AddWatcher();
+
+            WebApplication application = builder.Build();
+
+            application.UseStaticFiles();
+            application.UseAntiforgery();
+            application.UseYaeBlog();
+
+            application.MapRazorComponents<App>()
+                .AddInteractiveServerRenderMode();
+            application.MapControllers();
+
+            CancellationToken token = context.GetCancellationToken();
+            await application.RunAsync(token);
+        });
+    }
+
+    public static void AddNewCommand(this RootCommand rootCommand)
     {
         Command newCommand = new("new", "Create a new blog file and image directory.");
         rootCommand.AddCommand(newCommand);
@@ -46,45 +79,40 @@ public static class CommandExtensions
         Argument<string> filenameArgument = new(name: "blog name", description: "The created blog filename.");
         newCommand.AddArgument(filenameArgument);
 
-        newCommand.SetHandler(async (file, blogOptions) =>
+        newCommand.SetHandler(async (file, _, _, essayScanService) =>
+            {
+                await essayScanService.SaveBlogContent(new BlogContent
+                {
+                    FileName = file,
+                    FileContent = string.Empty,
+                    Metadata = new MarkdownMetadata { Title = file, Date = DateTime.Now }
+                });
+
+                Console.WriteLine($"Created new blog '{file}.");
+            }, filenameArgument, new BlogOptionsBinder(), new LoggerBinder<EssayScanService>(),
+            new EssayScanServiceBinder());
+    }
+
+    public static void AddListCommand(this RootCommand rootCommand)
+    {
+        Command command = new("list", "List all blogs");
+        rootCommand.Add(command);
+
+        command.SetHandler(async (_, _, essyScanService) =>
         {
-            string fileWithExtension;
-            if (file.EndsWith(".md"))
+            BlogContents contents = await essyScanService.ScanContents();
+
+            Console.WriteLine($"All {contents.Posts.Count} Posts:");
+            foreach (BlogContent content in contents.Posts)
             {
-                fileWithExtension = file;
-                file = fileWithExtension[..fileWithExtension.LastIndexOf('.')];
-            }
-            else
-            {
-                fileWithExtension = file + ".md";
+                Console.WriteLine($" - {content.FileName}");
             }
 
-            DirectoryInfo rootDir = new(Path.Combine(Environment.CurrentDirectory, blogOptions.Root));
-            if (!rootDir.Exists)
+            Console.WriteLine($"All {contents.Drafts.Count} Drafts:");
+            foreach (BlogContent content in contents.Drafts)
             {
-                throw new InvalidOperationException($"Blog source directory '{blogOptions.Root} doesn't exist.");
+                Console.WriteLine($" - {content.FileName}");
             }
-
-            if (rootDir.EnumerateFiles().Any(f => f.Name == fileWithExtension))
-            {
-                throw new InvalidOperationException($"Target blog '{file}' has been created!");
-            }
-
-            FileInfo newBlogFile = new(Path.Combine(rootDir.FullName, fileWithExtension));
-            await using StreamWriter newStream = newBlogFile.CreateText();
-
-            await newStream.WriteAsync($"""
-                                        ---
-                                        title: {file}
-                                        tags:
-                                        ---
-                                        <!--more-->
-                                        """);
-
-            Console.WriteLine($"Created new blog '{file}.");
-        }, filenameArgument, new BlogOptionsBinder());
-
-
-        return newCommand;
+        }, new BlogOptionsBinder(), new LoggerBinder<EssayScanService>(), new EssayScanServiceBinder());
     }
 }

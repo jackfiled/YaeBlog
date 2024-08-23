@@ -11,11 +11,17 @@ public class EssayContentService : IEssayContentService
 
     private readonly Dictionary<EssayTag, List<BlogEssay>> _tags = [];
 
+    private readonly ConcurrentDictionary<string, BlogHeadline> _headlines = new();
+
     public bool TryAdd(BlogEssay essay) => _essays.TryAdd(essay.FileName, essay);
+
+    public bool TryAddHeadline(string filename, BlogHeadline headline) => _headlines.TryAdd(filename, headline);
 
     public IReadOnlyDictionary<string, BlogEssay> Essays => _essays;
 
     public IReadOnlyDictionary<EssayTag, List<BlogEssay>> Tags => _tags;
+
+    public IReadOnlyDictionary<string, BlogHeadline> Headlines => _headlines;
 
     public void RefreshTags()
     {
@@ -44,5 +50,12 @@ public class EssayContentService : IEssayContentService
             select item.Value).FirstOrDefault();
 
         return result is not null;
+    }
+
+    public void Clear()
+    {
+        _essays.Clear();
+        _tags.Clear();
+        _headlines.Clear();
     }
 }

@@ -20,14 +20,9 @@ public static class WebApplicationBuilderExtensions
         builder.Services.AddMarkdig();
         builder.Services.AddYamlParser();
         builder.Services.AddSingleton<IConfiguration>(_ => Configuration.Default);
-        builder.Services.AddSingleton<EssayScanService>();
+        builder.Services.AddSingleton<IEssayScanService, EssayScanService>();
         builder.Services.AddSingleton<RendererService>();
-        builder.Services.AddSingleton<EssayContentService>();
-        builder.Services.AddSingleton<IEssayContentService, EssayContentService>(provider =>
-            provider.GetRequiredService<EssayContentService>());
-        builder.Services.AddSingleton<TableOfContentService>();
-        builder.Services.AddSingleton<ITableOfContentService, TableOfContentService>(provider =>
-            provider.GetRequiredService<TableOfContentService>());
+        builder.Services.AddSingleton<IEssayContentService, EssayContentService>();
         builder.Services.AddTransient<ImagePostRenderProcessor>();
         builder.Services.AddTransient<CodeBlockPostRenderProcessor>();
         builder.Services.AddTransient<TablePostRenderProcessor>();
@@ -35,7 +30,20 @@ public static class WebApplicationBuilderExtensions
         builder.Services.AddTransient<BlogOptions>(provider =>
             provider.GetRequiredService<IOptions<BlogOptions>>().Value);
 
+        return builder;
+    }
+
+    public static WebApplicationBuilder AddServer(this WebApplicationBuilder builder)
+    {
         builder.Services.AddHostedService<BlogHostedService>();
+
+        return builder;
+    }
+
+    public static WebApplicationBuilder AddWatcher(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddTransient<BlogChangeWatcher>();
+        builder.Services.AddHostedService<BlogHotReloadService>();
 
         return builder;
     }

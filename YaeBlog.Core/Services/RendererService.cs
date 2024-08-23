@@ -7,17 +7,14 @@ using Microsoft.Extensions.Logging;
 using YaeBlog.Core.Abstractions;
 using YaeBlog.Core.Exceptions;
 using YaeBlog.Core.Models;
-using YamlDotNet.Core;
-using YamlDotNet.Serialization;
 
 namespace YaeBlog.Core.Services;
 
 public partial class RendererService(
     ILogger<RendererService> logger,
-    EssayScanService essayScanService,
+    IEssayScanService essayScanService,
     MarkdownPipeline markdownPipeline,
-    IDeserializer yamlDeserializer,
-    EssayContentService essayContentService)
+    IEssayContentService essayContentService)
 {
     private readonly Stopwatch _stopwatch = new();
 
@@ -30,30 +27,30 @@ public partial class RendererService(
         _stopwatch.Start();
         logger.LogInformation("Render essays start.");
 
-        List<BlogContent> contents = await essayScanService.ScanAsync();
-        IEnumerable<BlogContent> preProcessedContents = await PreProcess(contents);
+        BlogContents contents = await essayScanService.ScanContents();
+        List<BlogContent> posts = contents.Posts.ToList();
+        IEnumerable<BlogContent> preProcessedContents = await PreProcess(posts);
 
         List<BlogEssay> essays = [];
         await Task.Run(() =>
         {
             foreach (BlogContent content in preProcessedContents)
             {
-                MarkdownMetadata? metadata = TryParseMetadata(content);
                 uint wordCount = GetWordCount(content);
                 BlogEssay essay = new()
                 {
-                    Title = metadata?.Title ?? content.FileName,
+                    Title = content.Metadata.Title ?? content.FileName,
                     FileName = content.FileName,
                     Description = GetDescription(content),
                     WordCount = wordCount,
                     ReadTime = CalculateReadTime(wordCount),
-                    PublishTime = metadata?.Date ?? DateTime.Now,
+                    PublishTime = content.Metadata.Date ?? DateTime.Now,
                     HtmlContent = content.FileContent
                 };
 
-                if (metadata?.Tags is not null)
+                if (content.Metadata.Tags is not null)
                 {
-                    essay.Tags.AddRange(metadata.Tags);
+                    essay.Tags.AddRange(content.Metadata.Tags);
                 }
 
                 essays.Add(essay);
@@ -136,45 +133,6 @@ public partial class RendererService(
                     $"There are two essays with the same name: '{essay.FileName}'.");
             }
         });
-    }
-
-    private MarkdownMetadata? TryParseMetadata(BlogContent content)
-    {
-        string fileContent = content.FileContent.Trim();
-
-        if (!fileContent.StartsWith("---"))
-        {
-            return null;
-        }
-
-        // 移除起始的---
-        fileContent = fileContent[3..];
-
-        int lastPos = fileContent.IndexOf("---", StringComparison.Ordinal);
-        if (lastPos is -1 or 0)
-        {
-            return null;
-        }
-
-        string yamlContent = fileContent[..lastPos];
-        // 返回去掉元数据之后的文本
-        lastPos += 3;
-        content.FileContent = fileContent[lastPos..];
-
-        try
-        {
-            MarkdownMetadata metadata =
-                yamlDeserializer.Deserialize<MarkdownMetadata>(yamlContent);
-            logger.LogDebug("Title: {}, Publish Date: {}.",
-                metadata.Title, metadata.Date);
-
-            return metadata;
-        }
-        catch (YamlException e)
-        {
-            logger.LogWarning("Failed to parse '{}' metadata: {}", yamlContent, e);
-            return null;
-        }
     }
 
     [GeneratedRegex(@"(?<!\\)[^\#\*_\-\+\`{}\[\]!~]+")]

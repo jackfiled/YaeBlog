@@ -3,6 +3,7 @@ using AngleSharp.Dom;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using YaeBlog.Core.Abstractions;
+using YaeBlog.Core.Exceptions;
 using YaeBlog.Core.Models;
 
 namespace YaeBlog.Core.Processors;
@@ -47,12 +48,12 @@ public class ImagePostRenderProcessor(ILogger<ImagePostRenderProcessor> logger,
             filename = Path.Combine(essayFilename, filename);
         }
 
-        filename = Path.Combine(_options.Root, filename);
+        filename = Path.Combine(_options.Root, "posts", filename);
 
         if (!Path.Exists(filename))
         {
             logger.LogError("Failed to found image: {}.", filename);
-            throw new InvalidOperationException();
+            throw new BlogFileException($"Image {filename} doesn't exist.");
         }
 
         string imageLink = "api/files/" + filename;

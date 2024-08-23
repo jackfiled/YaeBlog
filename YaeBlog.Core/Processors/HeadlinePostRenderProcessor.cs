@@ -1,14 +1,15 @@
 using AngleSharp;
 using AngleSharp.Dom;
+using Microsoft.Extensions.Logging;
 using YaeBlog.Core.Abstractions;
 using YaeBlog.Core.Models;
-using YaeBlog.Core.Services;
 
 namespace YaeBlog.Core.Processors;
 
 public class HeadlinePostRenderProcessor(
     IConfiguration angleConfiguration,
-    TableOfContentService tableOfContentService) : IPostRenderProcessor
+    IEssayContentService essayContentService,
+    ILogger<HeadlinePostRenderProcessor> logger) : IPostRenderProcessor
 {
     public async Task<BlogEssay> ProcessAsync(BlogEssay essay)
     {
@@ -62,7 +63,10 @@ public class HeadlinePostRenderProcessor(
         FindParentHeadline(topHeadline, level2List).Children.AddRange(level3List);
         topHeadline.Children.AddRange(level2List);
 
-        tableOfContentService.AddHeadline(essay.FileName, topHeadline);
+        if (!essayContentService.TryAddHeadline(essay.FileName, topHeadline))
+        {
+            logger.LogWarning("Failed to add headline of {}.", essay.FileName);
+        }
 
         return essay.WithNewHtmlContent(document.DocumentElement.OuterHtml);
     }

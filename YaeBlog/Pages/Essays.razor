@@ -4,7 +4,6 @@
 @using YaeBlog.Core.Models
 
 @inject IEssayContentService Contents
-@inject ITableOfContentService TableOfContent
 @inject NavigationManager NavigationInstance
 
 <PageTitle>
@@ -129,7 +128,7 @@
             NavigationInstance.NavigateTo("/NotFound");
         }
 
-        _headline = TableOfContent.Headlines[BlogKey];
+        _headline = Contents.Headlines[BlogKey];
     }
 
     private string GenerateSelectorUrl(string selectorId)
