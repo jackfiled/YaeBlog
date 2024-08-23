@@ -20,12 +20,14 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddYamlParser(this IServiceCollection collection)
     {
-        DeserializerBuilder builder = new();
+        DeserializerBuilder deserializerBuilder = new();
+        deserializerBuilder.WithNamingConvention(CamelCaseNamingConvention.Instance);
+        deserializerBuilder.IgnoreUnmatchedProperties();
+        collection.AddSingleton(deserializerBuilder.Build());
 
-        builder.WithNamingConvention(CamelCaseNamingConvention.Instance);
-        builder.IgnoreUnmatchedProperties();
-
-        collection.AddSingleton<IDeserializer>(_ => builder.Build());
+        SerializerBuilder serializerBuilder = new();
+        serializerBuilder.WithNamingConvention(CamelCaseNamingConvention.Instance);
+        collection.AddSingleton(serializerBuilder.Build());
 
         return collection;
     }

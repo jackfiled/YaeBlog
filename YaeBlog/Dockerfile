@@ -5,4 +5,4 @@ COPY bin/Release/net8.0/publish/ ./
 COPY source/ ./source/
 COPY appsettings.json .
 
-ENTRYPOINT ["dotnet", "YaeBlog.dll"]
+ENTRYPOINT ["dotnet", "YaeBlog.dll", "serve"]

@@ -1,9 +1,9 @@
 @page "/blog/essays/{BlogKey}"
+@using System.Text.Encodings.Web
 @using YaeBlog.Core.Abstractions
 @using YaeBlog.Core.Models
 
 @inject IEssayContentService Contents
-@inject ITableOfContentService TableOfContent
 @inject NavigationManager NavigationInstance
 
 <PageTitle>
@@ -25,7 +25,9 @@
         @foreach (string tag in _essay!.Tags)
         {
             <div class="col-auto">
-                <a href="/tags/?tagName=@(tag)"># @(tag)</a>
+                <a href="/blog/tags/?tagName=@(UrlEncoder.Default.Encode(tag))">
+                    # @(tag)
+                </a>
             </div>
         }
     </div>
@@ -126,7 +128,7 @@
             NavigationInstance.NavigateTo("/NotFound");
         }
 
-        _headline = TableOfContent.Headlines[BlogKey];
+        _headline = Contents.Headlines[BlogKey];
     }
 
     private string GenerateSelectorUrl(string selectorId)

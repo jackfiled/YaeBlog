@@ -6,20 +6,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <PackageId>YaeBlog.Core</PackageId>
-    <Version>0.1.0</Version>
-    <Authors>Ricardo Ren</Authors>
-    <Company>Ricardo Ren</Company>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-  </PropertyGroup>
-
-
-  <ItemGroup>
-    <SupportedPlatform Include="browser" />
-  </ItemGroup>
-
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
@@ -30,12 +16,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.6" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="YamlDotNet" Version="13.7.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="../.gitignore" />
-    <None Include="../.editorconfig" />
-    <None Include="./README.md" Pack="true" PackagePath="/"/>
   </ItemGroup>
 
   <ItemGroup>
