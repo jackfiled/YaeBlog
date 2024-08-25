@@ -1,5 +1,5 @@
 ---
-title: 日用Linux挑战 第三篇
+title: 日用Linux挑战 第3篇 放弃Wayland
 tags:
   - 随笔
   - Linux

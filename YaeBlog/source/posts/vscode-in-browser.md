@@ -55,7 +55,7 @@ cert: false
 在进行了这些更改之后，我们再次输入code-server重启服务，如果一次顺利，我们可以看见以下的启动信息
 ![启动信息](./vscode-in-browser/1.png)
 我们可以打开浏览器，在地址栏中输入你的服务器公网IP加上你自己设置的端口号，就可以打开自己的VSCode Online界面了。    
-![主界面](./vscode-in-browser/1.png)
+![主界面](./vscode-in-browser/2.png)
 输入自己的设置密码，就可以开始把浏览器中的VSCode当作自己本地计算机上的VSCode使用了，不过其中的文件是位于自己的服务器上的。
 >如果你和我一样使用的阿里云的服务器，可能还需要到服务器的管理界面设置安全组放行相应的端口，具体参考[这篇文章](https://help.aliyun.com/document_detail/59086.html?spm=5176.10173289.help.dexternal.4ff02e77892BZP)
 

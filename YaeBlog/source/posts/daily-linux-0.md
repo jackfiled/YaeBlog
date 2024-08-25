@@ -1,5 +1,5 @@
 ---
-title: 日用Linux挑战 第0篇
+title: 日用Linux挑战 第0篇 初见Arch Linux
 tags:
   - Linux
   - 随笔
