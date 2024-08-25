@@ -1,5 +1,5 @@
 ---
-title: 日用Linux挑战 第2篇
+title: 日用Linux挑战 第2篇 Wayland
 tags:
   - 随笔
   - Linux

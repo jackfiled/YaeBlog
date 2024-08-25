@@ -7,4 +7,6 @@ public interface IEssayScanService
     public Task<BlogContents> ScanContents();
 
     public Task SaveBlogContent(BlogContent content, bool isDraft = true);
+
+    public Task<ImageScanResult> ScanImages();
 }

@@ -1,5 +1,5 @@
 ---
-title: 日用Linux挑战第五篇 ArchLinux标准安装流程
+title: 日用Linux挑战 第5篇 标准安装流程
 date: 2024-7-16 20:08:37
 tags:
   - Linux

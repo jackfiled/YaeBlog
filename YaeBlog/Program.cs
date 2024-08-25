@@ -7,5 +7,7 @@ rootCommand.AddServeCommand();
 rootCommand.AddNewCommand();
 rootCommand.AddListCommand();
 rootCommand.AddWatchCommand();
+rootCommand.AddScanCommand();
+rootCommand.AddPublishCommand();
 
 await rootCommand.InvokeAsync(args);
