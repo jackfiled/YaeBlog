@@ -63,8 +63,9 @@ public partial class EssayScanService(
 
     private async Task<ConcurrentBag<BlogContent>> ScanContentsInternal(DirectoryInfo directory)
     {
+        // 扫描以md结果的但是不是隐藏文件的文件
         IEnumerable<FileInfo> markdownFiles = from file in directory.EnumerateFiles()
-            where file.Extension == ".md"
+            where file.Extension == ".md" && !file.Name.StartsWith('.')
             select file;
 
         ConcurrentBag<(string, string)> fileContents = [];
