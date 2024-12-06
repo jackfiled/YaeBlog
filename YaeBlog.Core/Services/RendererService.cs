@@ -136,7 +136,8 @@ public partial class RendererService(
     }
 
     [GeneratedRegex(@"(?<!\\)[^\#\*_\-\+\`{}\[\]!~]+")]
-    private static partial Regex DescriptionPattern();
+    // private static partial Regex DescriptionPattern();
+    private static partial Regex DescriptionPattern { get; }
 
     private string GetDescription(BlogContent content)
     {
@@ -152,7 +153,7 @@ public partial class RendererService(
         }
 
         string rawContent = content.FileContent[..pos];
-        MatchCollection matches = DescriptionPattern().Matches(rawContent);
+        MatchCollection matches = DescriptionPattern.Matches(rawContent);
 
         StringBuilder builder = new();
         foreach (Match match in matches)

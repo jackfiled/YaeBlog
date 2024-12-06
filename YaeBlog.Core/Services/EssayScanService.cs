@@ -133,13 +133,12 @@ public partial class EssayScanService(
     private static Task<ImageScanResult> ScanUnusedImagesInternal(IEnumerable<BlogContent> contents,
         DirectoryInfo root)
     {
-        Regex imageRegex = ImageRegex();
         ConcurrentBag<FileInfo> unusedImage = [];
         ConcurrentBag<FileInfo> notFoundImage = [];
 
         Parallel.ForEach(contents, content =>
         {
-            MatchCollection result = imageRegex.Matches(content.FileContent);
+            MatchCollection result = ImagePattern.Matches(content.FileContent);
             DirectoryInfo imageDirectory = new(Path.Combine(root.FullName, content.FileName));
 
             Dictionary<string, bool> usedDictionary;
@@ -182,7 +181,7 @@ public partial class EssayScanService(
     }
 
     [GeneratedRegex(@"\!\[.*?\]\((.*?)\)")]
-    private static partial Regex ImageRegex();
+    private static partial Regex ImagePattern { get; }
 
     private void ValidateDirectory(string root, out DirectoryInfo drafts, out DirectoryInfo posts)
     {
