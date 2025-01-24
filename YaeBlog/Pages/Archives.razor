@@ -1,6 +1,6 @@
 @page "/blog/archives"
-@using YaeBlog.Core.Abstractions
-@using YaeBlog.Core.Models
+@using YaeBlog.Abstraction
+@using YaeBlog.Models
 
 @inject IEssayContentService Contents
 
@@ -8,68 +8,56 @@
     归档
 </PageTitle>
 
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <h1>归档</h1>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col fst-italic py-4">
-                        时光图书馆，黑历史集散地。(๑◔‿◔๑)
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="flex flex-col">
+    <div>
+        <h1 class="text-4xl">归档</h1>
     </div>
 
-    @foreach (IGrouping<DateTime, KeyValuePair<string, BlogEssay>> group in _essays)
-    {
-        <div class="row">
-            <div class="col">
-                <div class="container">
-                    <div class="row">
-                        <div class="col">
-                            <h3>@(group.Key.Year)</h3>
-                        </div>
-                    </div>
+    <div class="py-4">
+        <span class="italic">
+            时光图书馆，黑历史集散地。(๑◔‿◔๑)
+        </span>
+    </div>
 
-                    <div class="container px-3 py-2">
-                        @foreach (KeyValuePair<string, BlogEssay> essay in group)
-                        {
-                            <div class="row py-1">
-                                <div class="col-auto">
-                                    @(essay.Value.PublishTime.ToString("MM-dd"))
+    @foreach (IGrouping<DateTime, BlogEssay> group in _essays)
+    {
+        <div class="p-2">
+            <div class="flex flex-col">
+                <div>
+                    <h3 class="text-xl">@(group.Key.Year)</h3>
+                </div>
+
+                <div class="px-4 py-4 flex flex-col">
+                    @foreach (BlogEssay essay in group)
+                    {
+                        <a target="_blank" href="@($"/blog/essays/{essay.FileName}")">
+                            <div class="flex flex-row p-2 mx-1 rounded-lg hover:bg-gray-300">
+                                <div class="w-20">
+                                    @(essay.PublishTime.ToString("MM月dd日"))
                                 </div>
 
-                                <div class="col-auto">
-                                    <a href="/blog/essays/@(essay.Key)">
-                                        @(essay.Value.Title)
-                                    </a>
+                                <div>
+                                    <span class="text-blue-600">
+                                        @(essay.Title)
+                                    </span>
                                 </div>
                             </div>
-                        }
-                    </div>
+                        </a>
+                    }
                 </div>
             </div>
         </div>
     }
-
 </div>
 
 @code {
-    private readonly List<IGrouping<DateTime, KeyValuePair<string, BlogEssay>>> _essays = [];
+    private readonly List<IGrouping<DateTime, BlogEssay>> _essays = [];
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
 
         _essays.AddRange(from essay in Contents.Essays
-            orderby essay.Value.PublishTime descending
-            group essay by new DateTime(essay.Value.PublishTime.Year, 1, 1));
+            group essay by new DateTime(essay.PublishTime.Year, 1, 1));
     }
 }

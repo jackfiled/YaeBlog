@@ -1,7 +1,7 @@
 ﻿using System.CommandLine.Binding;
 using System.Text.Json;
 using Microsoft.Extensions.Options;
-using YaeBlog.Core.Models;
+using YaeBlog.Models;
 
 namespace YaeBlog.Commands.Binders;
 

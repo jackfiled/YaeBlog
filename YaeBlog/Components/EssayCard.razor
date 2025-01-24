@@ -1,19 +1,19 @@
 @using System.Text.Encodings.Web
-@using YaeBlog.Core.Models
+@using YaeBlog.Models
 
-<div class="container p-3">
-    <div class="row fs-2 fw-bold py-2 essay-title">
+<div class="flex flex-col p-3">
+    <div class="text-3xl font-bold py-2">
         <a href="/blog/essays/@(Essay.FileName)" target="_blank">@(Essay.Title)</a>
     </div>
 
-    <div class="row p-2 justify-content-start">
-        <div class="col-auto fw-light">
+    <div class="p-2 flex flex-row justify-content-start gap-2">
+        <div class="font-light">
             @(Essay.PublishTime.ToString("yyyy-MM-dd"))
         </div>
 
         @foreach (string key in Essay.Tags)
         {
-            <div class="col-auto">
+            <div class="text-sky-600">
                 <a href="/blog/tags/?tagName=@(UrlEncoder.Default.Encode(key))">
                     # @key
                 </a>
@@ -21,20 +21,11 @@
         }
     </div>
 
-    <div class="row p-2">
-        <div class="col">
-            @(Essay.Description)
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col border-bottom">
-
-        </div>
+    <div class="p-2">
+        @(Essay.Description)
     </div>
 </div>
 
 @code {
-    [Parameter]
-    public required BlogEssay Essay { get; set; }
+    [Parameter] public required BlogEssay Essay { get; set; }
 }

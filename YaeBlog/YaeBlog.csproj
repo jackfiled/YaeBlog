@@ -1,18 +1,33 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-    <ItemGroup>
-      <ProjectReference Include="..\YaeBlog.Core\YaeBlog.Core.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1"/>
+    <PackageReference Include="AngleSharp" Version="1.1.0"/>
+    <PackageReference Include="Markdig" Version="0.38.0"/>
+    <PackageReference Include="YamlDotNet" Version="16.2.1"/>
+  </ItemGroup>
 
-    <ItemGroup>
-      <PackageReference Include="Blazor.Bootstrap" Version="3.2.0" />
-      <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
-    </ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
 
-    <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
-    </PropertyGroup>
+  <Target Name="EnsurePnpmInstalled" BeforeTargets="Build">
+    <Message Importance="low" Text="Ensure pnpm is installed..."/>
+    <Exec Command="pnpm --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
+    </Exec>
+
+    <Error Condition="$(ErrorCode) != 0" Text="Pnpm is not installed which is required for build."/>
+
+    <Message Importance="normal" Text="Installing pakages using pnpm..."/>
+    <Exec Command="pnpm install"/>
+  </Target>
+
+  <Target Name="TailwindGenerate" AfterTargets="EnsurePnpmInstalled">
+    <Message Importance="normal" Text="Generate css files using tailwind..."/>
+    <Exec Command="pnpm tailwind -i wwwroot/input.css -o wwwroot/output.css"/>
+  </Target>
 
 </Project>

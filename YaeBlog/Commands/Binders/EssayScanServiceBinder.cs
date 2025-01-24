@@ -1,8 +1,8 @@
 ﻿using System.CommandLine.Binding;
 using Microsoft.Extensions.Options;
-using YaeBlog.Core.Abstractions;
-using YaeBlog.Core.Models;
-using YaeBlog.Core.Services;
+using YaeBlog.Abstraction;
+using YaeBlog.Models;
+using YaeBlog.Services;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 

@@ -1,0 +1,46 @@
+<div class="flex flex-row justify-center gap-3">
+    @if (Page != 1)
+    {
+        <PageAnchor Address="@GenerateAddress(Page - 1)" Text="<"/>
+    }
+
+    @if (Page == 1)
+    {
+        <PageAnchor Address="@GenerateAddress(1)" Text="1" Selected="@true"/>
+
+        <PageAnchor Address="@GenerateAddress(2)" Text="2"/>
+
+        <PageAnchor Address="@GenerateAddress(3)" Text="3"/>
+    }
+    else if (Page == PageCount)
+    {
+        <PageAnchor Address="@GenerateAddress(PageCount - 2)" Text="@($"{PageCount - 2}")"/>
+
+        <PageAnchor Address="@GenerateAddress(PageCount - 1)" Text="@($"{PageCount - 1}")"/>
+
+        <PageAnchor Address="@GenerateAddress(PageCount)" Text="@($"{PageCount}")" Selected="@true"/>
+    }
+    else
+    {
+        <PageAnchor Address="@GenerateAddress(Page - 1)" Text="@($"{Page - 1}")"/>
+
+        <PageAnchor Address="@GenerateAddress(Page)" Text="@($"{Page}")" Selected="@true"/>
+
+        <PageAnchor Address="@GenerateAddress(Page + 1)" Text="@($"{Page + 1}")"/>
+    }
+
+    @if (Page != PageCount)
+    {
+        <PageAnchor Address="@GenerateAddress(Page + 1)" Text=">"/>
+    }
+</div>
+
+@code {
+    [Parameter] public string? BaseUrl { get; set; }
+
+    [Parameter] public int PageCount { get; set; }
+
+    [Parameter] public int Page { get; set; }
+
+    private string GenerateAddress(int page) => $"{BaseUrl}?page={page}";
+}
