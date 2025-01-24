@@ -2,60 +2,41 @@
 
 @attribute [StreamRendering]
 
-<main class="container">
-    <div class="row d-none d-xl-flex" style="height: 80px">
-        <div class="px-2 col-9">
-            <a href="/blog/" class="p-2">
-                <h4>Ricardo's Blog</h4>
+<main class="container mx-auto flex flex-col min-h-screen">
+    <div class="grid grid-cols-3 mx-3">
+        <div class="md:col-span-2 col-span-3 h-20 flex items-center">
+            <a href="/blog/">
+                <span class="text-blue-600 text-2xl">Ricardo's Blog</span>
             </a>
         </div>
 
-        <div class="col-3 d-flex justify-content-around align-items-center">
-            <a href="/blog/" class="p-2">
-                <h5>首页</h5>
-            </a>
-
-            <a href="/blog/archives/" class="p-2">
-                <h5>归档</h5>
-            </a>
-
-            <a href="/blog/tags/" class="p-2">
-                <h5>标签</h5>
-            </a>
-
-            <a href="/blog/about/" class="p-2">
-                <h5>关于</h5>
-            </a>
-        </div>
-    </div>
-
-    <div class="row d-xl-none">
-        <div class="px-2 col-12">
-            <a href="/blog/" class="p-2">
-                <h4>Ricardo's Blog</h4>
-            </a>
-        </div>
-
-        <div class="px-2 col-12 justify-content-end d-flex">
-            <a href="/blog/" class="p-2">
-                <h5>首页</h5>
-            </a>
-
-            <a href="/blog/archives/" class="p-2">
-                <h5>归档</h5>
-            </a>
-
-            <a href="/blog/tags/" class="p-2">
-                <h5>标签</h5>
-            </a>
-
-            <a href="/blog/about/" class="p-2">
-                <h5>关于</h5>
-            </a>
+        <div class="md:col-span-1 col-span-3 h-20 flex items-center">
+            <div class="flex flex-row w-full px-2 gap-3 md:justify-center justify-end">
+                <div>
+                    <a href="/blog/archives/">
+                        <span class="text-xl text-blue-600">归档</span>
+                    </a>
+                </div>
+                <div>
+                    <a href="/blog/tags/">
+                        <span class="text-xl text-blue-600">标签</span>
+                    </a>
+                </div>
+                <div>
+                    <a href="/about/" target="_blank">
+                        <span class="text-xl text-blue-600">关于</span>
+                    </a>
+                </div>
+                <div>
+                    <a href="/friends/" target="_blank">
+                        <span class="text-xl text-blue-600">友链</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="row px-4 py-2">
+    <div class="px-4 py-2 flex-grow">
         @Body
     </div>
 

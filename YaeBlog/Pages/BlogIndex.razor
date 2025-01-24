@@ -1,6 +1,6 @@
 @page "/blog"
-@using YaeBlog.Core.Abstractions
-@using YaeBlog.Core.Models
+@using YaeBlog.Abstraction
+@using YaeBlog.Models
 
 @inject IEssayContentService Contents
 @inject NavigationManager NavigationInstance
@@ -9,79 +9,18 @@
     Ricardo's Blog
 </PageTitle>
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12 col-md-9">
-            @foreach (KeyValuePair<string, BlogEssay> pair in _essays)
+<div>
+    <div class="grid grid-cols-4">
+        <div class="col-span-4 md:col-span-3">
+            @foreach (BlogEssay essay in _essays)
             {
-                <EssayCard Essay="@(pair.Value)"/>
+                <EssayCard Essay="@(essay)"/>
             }
 
-            <div class="row align-items-center justify-content-center p-3">
-                @if (_page == 1)
-                {
-                    <div class="col-auto fw-light">上一页</div>
-                }
-                else
-                {
-                    <div class="col-auto">
-                        <a href="/blog/?page=@(_page - 1)">上一页</a>
-                    </div>
-                }
-
-                @if (_page == 1)
-                {
-                    <div class="col-auto">
-                        1
-                    </div>
-                    <div class="col-auto">
-                        <a href="/blog/?page=2">2</a>
-                    </div>
-                    <div class="col-auto">
-                        <a href="/blog/?page=3">3</a>
-                    </div>
-                }
-                else if (_page == _pageCount)
-                {
-                    <div class="col-auto">
-                        <a href="/blog/?page=@(_pageCount - 2)">@(_pageCount - 2)</a>
-                    </div>
-                    <div class="col-auto">
-                        <a href="/blog/?page=@(_pageCount - 1)">@(_pageCount - 1)</a>
-                    </div>
-                    <div class="col-auto">
-                        @(_pageCount)
-                    </div>
-                }
-                else
-                {
-                    <div class="col-auto">
-                        <a href="/blog/?page=@(_page - 1)">@(_page - 1)</a>
-                    </div>
-                    <div class="col-auto">
-                        @(_page)
-                    </div>
-                    <div class="col-auto">
-                        <a href="/blog/?page=@(_page + 1)">@(_page + 1)</a>
-                    </div>
-                }
-
-                @if (_page == _pageCount)
-                {
-                    <div class="col-auto fw-light">
-                        下一页
-                    </div>
-                }
-                else
-                {
-                    <div class="col-auto">
-                        <a href="/blog/?page=@(_page + 1)">下一页</a>
-                    </div>
-                }
-            </div>
+            <Pagination BaseUrl="/blog/" Page="_page" PageCount="_pageCount"/>
         </div>
 
-        <div class="col-sm-12 col-md-3">
+        <div class="col-span-4 md:col-span-1">
             <BlogInformationCard/>
         </div>
     </div>
@@ -91,7 +30,7 @@
 
     [SupplyParameterFromQuery] private int? Page { get; set; }
 
-    private readonly List<KeyValuePair<string, BlogEssay>> _essays = [];
+    private readonly List<BlogEssay> _essays = [];
     private const int EssaysPerPage = 8;
     private int _pageCount = 1;
     private int _page = 1;
@@ -99,16 +38,15 @@
     protected override void OnInitialized()
     {
         _page = Page ?? 1;
-        _pageCount = Contents.Essays.Count / EssaysPerPage + 1;
+        _pageCount = Contents.Count / EssaysPerPage + 1;
 
-        if (EssaysPerPage * _page > Contents.Essays.Count + EssaysPerPage)
+        if (EssaysPerPage * _page > Contents.Count + EssaysPerPage)
         {
             NavigationInstance.NavigateTo("/NotFount");
             return;
         }
 
         _essays.AddRange(Contents.Essays
-            .OrderByDescending(p => p.Value.PublishTime)
             .Skip((_page - 1) * EssaysPerPage)
             .Take(EssaysPerPage));
     }

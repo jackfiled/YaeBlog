@@ -1,0 +1,9 @@
+<a href="@Address" class="text-blue-600" target="@(NewPage ? "_blank" : "_self")">@Text</a>
+
+@code {
+    [Parameter] public string? Address { get; set; }
+
+    [Parameter] public string? Text { get; set; }
+
+    [Parameter] public bool NewPage { get; set; }
+}

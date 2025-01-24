@@ -1,7 +1,7 @@
 @page "/blog/tags/"
 @using System.Text.Encodings.Web
-@using YaeBlog.Core.Abstractions
-@using YaeBlog.Core.Models
+@using YaeBlog.Abstraction
+@using YaeBlog.Models
 
 @inject IEssayContentService Contents
 @inject NavigationManager NavigationInstance
@@ -10,24 +10,22 @@
     @(TagName ?? "标签")
 </PageTitle>
 
-<div class="container">
-    <div class="row">
-        <div class="col">
-            @if (TagName is null)
-            {
-                <h1>标签</h1>
-            }
-            else
-            {
-                <h2>@(TagName)</h2>
-            }
-        </div>
+<div class="flex flex-col">
+    <div>
+        @if (TagName is null)
+        {
+            <h1 class="text-4xl">标签</h1>
+        }
+        else
+        {
+            <h2 class="text-2xl">@(TagName)</h2>
+        }
     </div>
 
-    <div class="row">
-        <div class="col fst-italic py-4">
+    <div class="py-4">
+        <span class="italic">
             在野外游荡的指针，走向未知的方向。٩(๑˃̵ᴗ˂̵๑)۶
-        </div>
+        </span>
     </div>
 
     @if (TagName is null)
@@ -38,19 +36,17 @@
                           Contents.Tags.OrderByDescending(pair => pair.Value.Count))
                 {
                     <li class="p-2">
-                        <a href="/blog/tags/?tagName=@(pair.Key.UrlEncodedTagName)">
-                            <div class="container fs-5">
-                                <div class="row">
-                                    <div class="col-auto">
-                                        # @(pair.Key.TagName)
-                                    </div>
-
-                                    <div class="col-auto tag-count">
-                                        @(pair.Value.Count)
-                                    </div>
+                        <div class="flex flex-row">
+                            <a href="/blog/tags/?tagName=@(pair.Key.UrlEncodedTagName)">
+                                <div class="text-sky-600 text-lg">
+                                    # @(pair.Key.TagName)
                                 </div>
+                            </a>
+
+                            <div class="mx-2 px-1 text-lg bg-gray-300 rounded-lg">
+                                @(pair.Value.Count)
                             </div>
-                        </a>
+                        </div>
                     </li>
                 }
             </ul>
