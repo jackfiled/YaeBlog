@@ -1,36 +1,33 @@
-@using YaeBlog.Core.Models
-
+@using YaeBlog.Models
 @inject BlogOptions Options
 
-<div class="row px-2 py-4 copyright border border-primary rounded-1 bg-primary-subtle">
-    <div class="col">
-        <div class="row p-1">
-            <div class="col">
-                文章作者：<a href="https://rrricardo.top" target="_blank">Ricardo Ren</a>
-            </div>
+<div class="px-4 py-8 border border-sky-700 rounded-md bg-sky-200">
+    <div class="flex flex-col gap-3 text-md">
+        <div>
+            文章作者：<a href="https://rrricardo.top" target="_blank" class="text-blue-600">Ricardo Ren</a>
         </div>
 
-        <div class="row p-1">
-            <div class="col">
-                文章地址：
-                <a href="/blog/essays/@(EssayAddress)" target="_blank">
-                    @($"https://rrricardo.top/blog/essays/{EssayAddress}")
-                </a>
-            </div>
+        <div>
+            文章地址：
+            <a href="/blog/essays/@(EssayFilename)" target="_blank" class="text-blue-600">
+                @($"https://rrricardo.top/blog/essays/{EssayFilename}")
+            </a>
         </div>
 
-        <div class="row p-1">
-            <div class="col">
-                版权声明：本博客所有文章除特别声明外，均采用
-                <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a>
-                许可协议，转载请注明来自
-                <a href="https://rrricardo.top/blog/" target="_blank">Ricardo's Blog</a>。
-            </div>
+        <div>
+            版权声明：本博客所有文章除特别声明外，均采用
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="text-blue-600">
+                CC BY-NC-SA 4.0
+            </a>
+            许可协议，诸位读者如有兴趣可任意转载，不必征询许可，但请注明“转载自
+            <a href="https://rrricardo.top/blog/" target="_blank" class="text-blue-600">
+                Ricardo's Blog
+            </a>”。
         </div>
     </div>
 </div>
 
 @code
 {
-    [Parameter] public string? EssayAddress { get; set; }
+    [Parameter] public string? EssayFilename { get; set; }
 }

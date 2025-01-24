@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YaeBlog.Core", "YaeBlog.Core\YaeBlog.Core.csproj", "{1671A8AE-78F6-4641-B97D-D8ABA5E9CBEF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YaeBlog", "YaeBlog\YaeBlog.csproj", "{20438EFD-8DDE-43AF-92E2-76495C29233C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".gitea", ".gitea", "{9B5AAA29-37D8-454A-8D8F-3E6B6BCF38E6}"
@@ -29,10 +27,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1671A8AE-78F6-4641-B97D-D8ABA5E9CBEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1671A8AE-78F6-4641-B97D-D8ABA5E9CBEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1671A8AE-78F6-4641-B97D-D8ABA5E9CBEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1671A8AE-78F6-4641-B97D-D8ABA5E9CBEF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{20438EFD-8DDE-43AF-92E2-76495C29233C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{20438EFD-8DDE-43AF-92E2-76495C29233C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20438EFD-8DDE-43AF-92E2-76495C29233C}.Release|Any CPU.ActiveCfg = Release|Any CPU

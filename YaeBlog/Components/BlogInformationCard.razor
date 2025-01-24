@@ -1,57 +1,49 @@
-@using YaeBlog.Core.Abstractions
-@using YaeBlog.Core.Models
+@using YaeBlog.Abstraction
+@using YaeBlog.Models
 
 @inject IEssayContentService Contents
 @inject BlogOptions Options
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-auto p-4">
-            <Image Src="images/avatar.png" Alt="Ricardo's avatar"/>
-        </div>
+<div class="flex flex-col">
+    <div class="p-10">
+        <img src="images/avatar.png" alt="Ricardo's Avatar" class="h-auto max-w-full"/>
     </div>
 
-    <div class="row justify-content-center p-3">
-        <div class="col-auto fs-4">
-            “奇奇怪怪东西的聚合地”
-        </div>
+    <div class="px-10 py-2 text-xl">
+        “奇奇怪怪东西的聚合地”
     </div>
 
-    <div class="row justify-content-between px-2 py-1 fs-5">
-        <div class="col-auto">
+    <div class="flex flex-row justify-between px-6 py-2 text-xl">
+        <div>
             文章
         </div>
 
-        <div class="col-auto">
-            <a href="/blog/archives">
-                @(Contents.Essays.Count)
-            </a>
-        </div>
+        <a href="/blog/archives/">
+            <div>
+                @(Contents.Count)
+            </div>
+        </a>
     </div>
 
-    <div class="row justify-content-between px-2 py-1 fs-5">
-        <div class="col-auto">
+    <div class="flex flex-row justify-between px-6 py-2 text-xl">
+        <div>
             标签
         </div>
 
-        <div class="col-auto">
-            <a href="/blog/tags">
+        <a href="/blog/tags/">
+            <div>
                 @(Contents.Tags.Count)
-            </a>
-        </div>
+            </div>
+        </a>
     </div>
 
-    <div class="row justify-content-start fs-5" style="padding-top: 2em">
-        <div class="col-auto">
-            广而告之
-        </div>
+    <div class="text-xl px-2 py-2">
+        广而告之
     </div>
 
-    <div class="row">
-        <div class="col">
-            <p style="text-indent: 2em">
-                @(Options.Announcement)
-            </p>
-        </div>
+    <div class="px-6">
+        <p class="text-lg">
+            @(Options.Announcement)
+        </p>
     </div>
 </div>

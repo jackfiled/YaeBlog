@@ -1,14 +1,22 @@
-<div class="row align-items-end text-center">
-    <div class="row">
-        <p class="fs-6">
-            2021 - @(DateTimeOffset.Now.Year) © <a href="https://rrricardo.top" target="_blank">Ricardo Ren</a>，
-            由 <a href="https://dotnet.microsoft.com/zh-cn/" target="_blank">.NET @(Environment.Version)</a> 驱动。
+<div class="flex flex-col text-center py-2">
+    <div>
+        <p class="text-md">
+            2021 - @(DateTimeOffset.Now.Year) ©
+            <Anchor Address="https://rrricardot.top" Text="Ricardo Ren"/>
+            ，由
+            <Anchor Address="https://dotnet.microsoft.com" Text="@DotnetVersion"/>
+            驱动。
         </p>
     </div>
 
-    <div class="row">
-        <p class="fs-6">
-            <a href="https://beian.miit.gov.cn" target="_blank">蜀ICP备2022004429号-1</a>
+    <div>
+        <p class="text-md">
+            <a href="https://beian.miit.gov.cn" target="_blank" class="text-black">蜀ICP备2022004429号-1</a>
         </p>
     </div>
 </div>
+
+@code
+{
+    private string DotnetVersion => $".NET {Environment.Version}";
+}

@@ -1,0 +1,22 @@
+@if (Selected)
+{
+    <div class="border rounded-lg shadow-neutral-500 bg-sky-400 w-8 h-8 inline-block leading-8 text-center">
+        <span class="text-white">@(Text)</span>
+    </div>
+}
+else
+{
+    <a href="@Address">
+        <div class="border rounded-lg shadow-neutral-500 w-8 h-8 inline-block leading-8 text-center">
+            <span>@(Text)</span>
+        </div>
+    </a>
+}
+
+@code {
+    [Parameter] public string? Address { get; set; }
+
+    [Parameter] public string? Text { get; set; }
+
+    [Parameter] public bool Selected { get; set; }
+}

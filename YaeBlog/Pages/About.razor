@@ -1,141 +1,74 @@
-@page "/blog/about"
-@using YaeBlog.Core.Models
-
-@inject BlogOptions Options
+@page "/about"
 
 <PageTitle>
     关于
 </PageTitle>
 
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <h1>关于</h1>
-        </div>
+<div class="flex flex-col">
+    <div>
+        <h1 class="text-4xl">关于</h1>
     </div>
 
-    <div class="row">
-        <div class="col fst-italic py-2">
-            把字刻在石头上！(･’ω’･)
-        </div>
+    <div class="py-4">
+        <span class="italic">把字刻在石头上！(･’ω’･)</span>
     </div>
 
-    <div class="row p-2">
-        <div class="col">
-            <div class="row">
-                <div class="col">
-                    <h3>关于我</h3>
-                </div>
+    <div class="flex flex-col p-2">
+        <div class="flex flex-col p-2">
+            <div class="pb-2">
+                <h3 class="text-2xl">关于我</h3>
             </div>
 
-            <div class="row py-2">
-                <div class="col">
-                    计算机科学与技术在读大学生，明光村幼儿园附属大学所属。正处于读书和失业的叠加态。
-                    一般在互联网上使用<span class="fst-italic">初冬的朝阳</span>或者<span class="fst-italic">jackfiled</span>的名字活动。
-                    <span class="text-decoration-line-through">都是ICP备案过的人了，网名似乎没有太大的用处（</span>
-                </div>
+            <div class="py-2">
+                计算机科学与技术在读大学生，明光村幼儿园附属大学所属。正处于读书和失业的叠加态。
+                一般在互联网上使用<span class="italic">初冬的朝阳</span>或者<span class="italic">jackfiled</span>的名字活动。
+                <span class="line-through">都是ICP备案过的人了，网名似乎没有太大的用处（</span>
             </div>
 
-            <div class="row py-2">
-                <div class="col">
-                    主要是一个C#程序员，目前也在尝试写一点Rust。
-                    总体上对于编程语言的态度是“<span>大家都是我的翅膀.jpg</span>”。
-                    前后端分离的项目本当上手。
-                    常常因为现实的压力而写一些C/C++。
-                    <span class="text-decoration-line-through">对于Java和Go的评价很低。</span>
-                    日常使用ArchLinux。
-                </div>
+            <div class="py-2">
+                主要是一个C#程序员，目前也在尝试写一点Rust。
+                总体上对于编程语言的态度是“<span>大家都是我的翅膀.jpg</span>”。
+                前后端分离的项目本当上手。
+                常常因为现实的压力而写一些C/C++。
+                <span class="line-through">对于Java和Go的评价很低。</span>
+                日常使用ArchLinux。
             </div>
 
-            <div class="row py-2">
-                <div class="col">
-                    100%社恐。日常生活是宅在电脑前面自言自语。兴趣活动是读书和看番。
-                </div>
+            <div class="py-2">
+                100%社恐。日常生活是宅在电脑前面自言自语。
+                兴趣活动是读书和看番，目前在玩原神和三角洲。
             </div>
 
-            <div class="row py-2">
-                <div class="col">
-                    常常被人批评没有梦想，这里就随便瞎编一下。
-                    成为嵌入式工程师，修好桌面上的<a href="https://www.bilibili.com/video/BV1VA411p7MD">HoloCubic</a>。
-                    完成第一个不是课程设计的个人开源项目。
-                    遇到能够搭伙过日子的人也算是一大梦想，虽然社恐人根本不知道从何开始的说，
-                    <span class="text-decoration-line-through">什么时候天上才能掉美少女？</span>
-                </div>
+            <div class="py-4">
+                常常被人批评没有梦想，这里就随便瞎编一下。
+                成为嵌入式工程师，修好桌面上的<a href="https://www.bilibili.com/video/BV1VA411p7MD">HoloCubic</a>。
+                完成第一个不是课程设计的个人开源项目。
+                遇到能够搭伙过日子的人也算是一大梦想，虽然社恐人根本不知道从何开始的说，
+                <span class="line-through">什么时候天上才能掉美少女？</span>
             </div>
 
-            <div class="row py-2">
-                <div class="col">
-                    公开的联系渠道是<a href="mailto:shicangjuner@outlook.com">电子邮件</a>。
-                    也可以试试在各大平台搜索上面提到的名字。
-                </div>
+            <div class="py-2">
+                公开的联系渠道是<a href="mailto:shicangjuner@outlook.com">电子邮件</a>。
+                也可以试试在各大平台搜索上面提到的名字。
             </div>
         </div>
-    </div>
 
-    <div class="row p-2">
-        <div class="col">
-            <div class="row">
-                <div class="col">
-                    <h3>关于本站</h3>
-                </div>
+        <div class="flex flex-col p-2">
+            <div class="pb-2">
+                <h3 class="text-2xl">关于本站</h3>
             </div>
 
-            <div class="row py-2">
-                <div class="col">
-                    本站肇始于2021年下半年，在开始的两年中个人网站和博客是分别的两个网站，个人网站是裸HTML写的，博客是用
-                    <a href="https://hexo.io">Hexo</a>渲染的。
-                </div>
+            <div class="py-2">
+                本站肇始于2021年下半年，在开始的两年中个人网站和博客是分别的两个网站，个人网站是裸HTML写的，博客是用
+                <a href="https://hexo.io">Hexo</a>渲染的。
             </div>
 
-            <div class="row py-2">
-                <div class="col">
-                    2024年，我们决定使用.NET技术完全重构两个网站，合二为一。虽然目前这个版本还是一个半成品，但是我们一定会努力的~（确信。
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row p-2">
-        <div class="col">
-            <div class="row">
-                <div class="col">
-                    <h3>友链</h3>
-                </div>
+            <div class="py-2">
+                2024年，我们决定使用.NET技术完全重构两个网站，合二为一。虽然目前这个版本还是一个半成品，但是我们一定会努力的~（确信。
             </div>
 
-            <div class="row py-2">
-                <div class="col fst-italic">
-                    欢迎所有人联系我添加友链！(´｡✪ω✪｡｀)
-                </div>
-            </div>
-
-            <div class="row py-2">
-                @foreach (FriendLink link in Options.Links)
-                {
-                    <div class="col-sm-12 col-md-4 col-lg-3">
-                        <a href="@(link.Link)" target="_blank" class="m-3">
-                            <div class="row link-item">
-                                <div class="col-4">
-                                    <Image Src="@(link.AvatarImage)" Alt="@(link.Name)" Style="border-radius: 50%"/>
-                                </div>
-
-                                <div class="col-8">
-                                    <div class="row">
-                                        <div class="col-auto fs-5">
-                                            @(link.Name)
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-auto fst-italic">
-                                            @(link.Description)
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                }
+            <div class="py-2">
+                2025年，我们将使用的样式库从Bootstrap迁移到Tailwind CSS，将现代的前端技术同Blazor结合起来。
             </div>
         </div>
     </div>
