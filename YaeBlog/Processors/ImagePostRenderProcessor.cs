@@ -7,7 +7,8 @@ using YaeBlog.Models;
 
 namespace YaeBlog.Processors;
 
-public class ImagePostRenderProcessor(ILogger<ImagePostRenderProcessor> logger,
+public class ImagePostRenderProcessor(
+    ILogger<ImagePostRenderProcessor> logger,
     IOptions<BlogOptions> options)
     : IPostRenderProcessor
 {
@@ -29,22 +30,27 @@ public class ImagePostRenderProcessor(ILogger<ImagePostRenderProcessor> logger,
             if (attr is not null)
             {
                 logger.LogDebug("Found image link: '{}'", attr.Value);
-                attr.Value = GenerateImageLink(attr.Value, essay.FileName);
+                attr.Value = GenerateImageLink(attr.Value, essay.FileName, essay.IsDraft);
             }
         }
+
         return essay.WithNewHtmlContent(html.DocumentElement.OuterHtml);
     }
 
     public string Name => nameof(ImagePostRenderProcessor);
 
-    private string GenerateImageLink(string filename, string essayFilename)
+    private string GenerateImageLink(string filename, string essayFilename, bool isDraft)
     {
+        // 如果图片路径中没有包含文件名
+        // 则添加文件名
         if (!filename.Contains(essayFilename))
         {
             filename = Path.Combine(essayFilename, filename);
         }
 
-        filename = Path.Combine(_options.Root, "posts", filename);
+        filename = isDraft
+            ? Path.Combine(_options.Root, "drafts", filename)
+            : Path.Combine(_options.Root, "posts", filename);
 
         if (!Path.Exists(filename))
         {
