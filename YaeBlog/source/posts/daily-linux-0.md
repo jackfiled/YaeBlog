@@ -2,7 +2,7 @@
 title: 日用Linux挑战 第0篇 初见Arch Linux
 tags:
   - Linux
-  - 随笔
+  - 杂谈
 date: 2023-01-15 22:23:08
 typora-root-url: daily-linux-0
 ---

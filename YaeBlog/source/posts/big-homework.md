@@ -1,7 +1,7 @@
 ---
 title: 人生代码大作业初体验
 tags:
-  - 随笔
+  - 杂谈
 typora-root-url: big-homework
 date: 2022-07-27 11:34:49
 ---

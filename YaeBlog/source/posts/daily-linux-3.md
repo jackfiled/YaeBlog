@@ -1,7 +1,7 @@
 ---
 title: 日用Linux挑战 第3篇 放弃Wayland
 tags:
-  - 随笔
+  - 杂谈
   - Linux
 typora-root-url: daily-linux-3
 date: 2023-09-04 14:47:46

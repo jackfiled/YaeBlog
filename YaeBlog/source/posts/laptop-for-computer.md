@@ -1,7 +1,7 @@
 ---
 title: 大学生用啥配置——计算机专业
 tags:
-  - 随笔
+  - 杂谈
 typora-root-url: laptop-for-computer
 date: 2022-06-13 16:17:27
 ---

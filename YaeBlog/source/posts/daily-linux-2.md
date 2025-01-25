@@ -1,7 +1,7 @@
 ---
 title: 日用Linux挑战 第2篇 Wayland
 tags:
-  - 随笔
+  - 杂谈
   - Linux
 date: 2023-07-23 11:44:34
 typora-root-url: daily-linux-2

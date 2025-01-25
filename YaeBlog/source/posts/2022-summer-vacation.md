@@ -1,7 +1,7 @@
 ---
 title: 2022年暑假碎碎念
 tags:
-  - 随笔
+  - 杂谈
 typora-root-url: 2022-summer-vacation
 date: 2022-08-22 15:39:13
 ---
