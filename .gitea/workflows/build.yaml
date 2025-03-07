@@ -7,7 +7,7 @@ jobs:
     Build-Blog-Image:
         runs-on: archlinux
         steps:
-            -   uses: https://git.rrricardo.top/actions/checkout@v4
+            -   uses: https://mirrors.rrricardo.top/actions/checkout.git@v4
                 name: Check out code
                 with:
                     lfs: true
@@ -15,12 +15,15 @@ jobs:
                 run: |
                     cd YaeBlog
                     dotnet publish
+            -   name: Alias podman as docker
+                run: |
+                    echo 'alias docker="podman"' >> $HOME/.bashrc
             -   name: Build docker image
                 run: |
                     cd YaeBlog
                     docker build . -t registry.cn-beijing.aliyuncs.com/jackfiled/blog:latest
             -   name: Login aliyun docker registry
-                uses: https://git.rrricardo.top/actions/login-action@v3
+                uses: https://mirrors.rrricardo.top/actions/login-action.git@v3
                 with:
                     registry: registry.cn-beijing.aliyuncs.com
                     username: 初冬的朝阳
