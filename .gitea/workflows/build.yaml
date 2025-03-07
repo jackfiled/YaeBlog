@@ -15,9 +15,6 @@ jobs:
                 run: |
                     cd YaeBlog
                     dotnet publish
-            -   name: Alias podman as docker
-                run: |
-                    echo 'alias docker="podman"' >> $HOME/.bashrc
             -   name: Build docker image
                 run: |
                     cd YaeBlog
