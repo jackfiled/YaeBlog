@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/.gitea/" />
+  <Folder Name="/.gitea/workflows/">
+    <File Path=".gitea/workflows/build.yaml" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="YaeBlog/YaeBlog.csproj" />
+</Solution>

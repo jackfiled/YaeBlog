@@ -18,12 +18,12 @@ jobs:
             -   name: Build docker image
                 run: |
                     cd YaeBlog
-                    docker build . -t registry.cn-beijing.aliyuncs.com/jackfiled/blog:latest
+                    podman build . -t registry.cn-beijing.aliyuncs.com/jackfiled/blog:latest
             -   name: Login aliyun docker registry
-                uses: https://mirrors.rrricardo.top/actions/login-action.git@v3
+                uses: https://mirrors.rrricardo.top/actions/podman-login.git@v1
                 with:
                     registry: registry.cn-beijing.aliyuncs.com
                     username: 初冬的朝阳
                     password: ${{ secrets.ALIYUN_PASSWORD }}
             -   name: Push docker image
-                run: docker push registry.cn-beijing.aliyuncs.com/jackfiled/blog:latest
+                run: podman push registry.cn-beijing.aliyuncs.com/jackfiled/blog:latest
