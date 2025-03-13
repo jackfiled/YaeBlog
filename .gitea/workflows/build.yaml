@@ -19,6 +19,9 @@ jobs:
                 run: |
                     cd YaeBlog
                     podman build . -t registry.cn-beijing.aliyuncs.com/jackfiled/blog:latest
+            -   name: Workaround to make sure podman login succeed
+                run: |
+                    mkdir /root/.docker
             -   name: Login aliyun docker registry
                 uses: https://mirrors.rrricardo.top/actions/podman-login.git@v1
                 with:
