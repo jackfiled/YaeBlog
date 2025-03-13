@@ -25,5 +25,6 @@ jobs:
                     registry: registry.cn-beijing.aliyuncs.com
                     username: 初冬的朝阳
                     password: ${{ secrets.ALIYUN_PASSWORD }}
+                    auth_file_path: /auth.json
             -   name: Push docker image
                 run: podman push registry.cn-beijing.aliyuncs.com/jackfiled/blog:latest
