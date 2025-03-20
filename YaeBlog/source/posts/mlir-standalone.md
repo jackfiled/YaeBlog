@@ -144,7 +144,7 @@ source .llvm-lit/bin/activate
 pip install lit
 ```
 
-不过这个库似乎没有提供运行入口点，需要我们手动创建一个可执行的`python`文件：
+~~不过这个库似乎没有提供运行入口点，需要我们手动创建一个可执行的`python`文件：~~
 
 ```python
 #!/usr/bin/env python
@@ -153,10 +153,10 @@ if __name__ == '__main__':
     main()
 ```
 
-然后尝试在`cmake`指令中修改为`lit`为这个可执行文件：
+经哥们纠正说`lit`包在某个版本之后会安装`lit`的可执行文件，在安装之后可以直接在命令行调用`lit`。因此在激活虚拟环境之后，`cmake`中直接在`LLVM_EXTERNAL_LIT`配置为`$(which lit)`即可。
 
 ```shell
-cmake -G Ninja -DMLIR_DIR=$LLVM_DIR/lib/cmake/mlir -DLLVM_EXTERNAL_LIT=$(pwd)/../llvm-lit ..
+cmake -G Ninja -DMLIR_DIR=$LLVM_DIR/lib/cmake/mlir -DLLVM_EXTERNAL_LIT=$(which lit) ..
 ninja test-standalone
 ```
 
