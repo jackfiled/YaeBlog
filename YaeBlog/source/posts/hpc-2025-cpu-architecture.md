@@ -1,5 +1,5 @@
 ---
-title: High Performance Computing 2025 SP CPU Architecture
+title: High Performance Computing 25 SP CPU Architecture
 date: 2025-03-13T23:59:08.8167680+08:00
 tags:
 - 学习资料
