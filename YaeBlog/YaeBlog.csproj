@@ -13,7 +13,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <Target Name="EnsurePnpmInstalled" BeforeTargets="Build">
+  <Target Name="EnsurePnpmInstalled" BeforeTargets="BeforeBuild">
     <Message Importance="low" Text="Ensure pnpm is installed..."/>
     <Exec Command="pnpm --version" ContinueOnError="true">
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
@@ -25,9 +25,13 @@
     <Exec Command="pnpm install"/>
   </Target>
 
-  <Target Name="TailwindGenerate" AfterTargets="EnsurePnpmInstalled">
+  <Target Name="TailwindGenerate" AfterTargets="EnsurePnpmInstalled" BeforeTargets="BeforeBuild" Condition="'$(_IsPublishing)' == 'yes'">
     <Message Importance="normal" Text="Generate css files using tailwind..."/>
-    <Exec Command="pnpm tailwind -i wwwroot/input.css -o wwwroot/output.css"/>
+    <Exec Command="pnpm tailwindcss -i wwwroot/tailwind.css -o $(IntermediateOutputPath)tailwind.g.css"/>
+
+    <ItemGroup>
+      <Content Include="$(IntermediateOutputPath)tailwind.g.css" Visible="false" TargetPath="wwwroot/tailwind.g.css"/>
+    </ItemGroup>
   </Target>
 
 </Project>
