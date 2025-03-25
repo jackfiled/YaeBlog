@@ -1,11 +1,11 @@
 ---
 title: 利用WSL设置CSAPP实验环境
+date: 2022-09-03T19:02:58.0000000
 tags:
-  - 技术笔记
-  - Linux
-typora-root-url: wsl-setup-csapp
-date: 2022-09-03 19:02:58
+- 技术笔记
+- Linux
 ---
+
 
 `CSAPP`这本书为自学的学生们提供了不少的`LAB`供大家在联系中提高，但是这些`LAB`的编写普遍需要一个`Linux`的实验环境，但是目前大多数人手中的环境都是`Windows`平台，没有办法原生的运行这些`LAB`。在以前的实践中，这个问题往往是通过安装虚拟机来解决的，但是现在我们有了更好的解决方案——`Windows Subsystem for Linux`，简称`WSL`。
 
@@ -29,7 +29,7 @@ wsl --install
 
 回车，等待所有的进度条都走完，重新启动系统。
 
-![设置的画面](1.png)
+![设置的画面](1.webp)
 
 在重启完成之后，Ubuntu系统会自动启动并完成一系列的配置，在其中需要你为这个系统设置一个用户。输入这个用户的名称和密码即可。
 
@@ -59,7 +59,7 @@ sudo apt update
 
 测试换源是否成功。
 
-![证书错误](2.png)
+![证书错误](2.webp)
 
 如果在换源的过程中报错`Certificate verification failed`，可以将配置文件中的所有`https`更改为`http`来临时解决。
 
@@ -160,7 +160,7 @@ gcc version 9.4.0 (Ubuntu 9.4.0-1ubuntu1~20.04.1)
 
 如果遇到报错，部分头文件未找到：
 
-![Error](3.png)
+![Error](3.webp)
 
 不要慌张，这是正常的。
 

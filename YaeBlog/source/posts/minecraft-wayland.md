@@ -1,10 +1,11 @@
 ---
 title: 让Minecraft运行在Wayland下
+date: 2024-01-12T20:10:06.0000000
 tags:
-  - Linux
-  - 生活小妙招
-date: 2024-1-12 20:10:06
+- Linux
+- 生活小妙招
 ---
+
 
 让Minecraft游戏使用`Wayland`显示协议。
 
@@ -127,15 +128,15 @@ export __GL_THREADED_OPTIMIZATIONS=0
 
 然后就是设置Minecraft使用我们自行编译的图形库，需要设置`java`启动参数，我使用的[hmcl](https://github.com/huanghongxun/HMCL)这款启动器，可以在设置里面很方便的设置启动参数：
 
-![image-20240105212744116](./minecraft-wayland/image-20240105212744116.png)
+![image-20240105212744116](./minecraft-wayland/image-20240105212744116.webp)
 
 但是，如果你使用的是`nvidia`显卡，这里还会遇到一个问题：
 
-![image-20240105213439528](./minecraft-wayland/image-20240105213439528.png)
+![image-20240105213439528](./minecraft-wayland/image-20240105213439528.webp)
 
 这个问题从一些资料显示仍然是老黄整的好活：
 
-![image-20240105213942445](./minecraft-wayland/image-20240105213942445.png)
+![image-20240105213942445](./minecraft-wayland/image-20240105213942445.webp)
 
 设置环境变量解决，再次强烈推荐[hmcl](https://github.com/huanghongxun/HMCL)启动器，可以方便的设置环境变量。
 

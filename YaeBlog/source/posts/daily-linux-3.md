@@ -1,11 +1,11 @@
 ---
 title: 日用Linux挑战 第3篇 放弃Wayland
+date: 2023-09-04T14:47:46.0000000
 tags:
-  - 杂谈
-  - Linux
-typora-root-url: daily-linux-3
-date: 2023-09-04 14:47:46
+- 杂谈
+- Linux
 ---
+
 
 
 成也开源，败也开源。
@@ -53,7 +53,7 @@ date: 2023-09-04 14:47:46
   - `Meta+F`全屏应用
   - `Meta+W`关闭应用
 
-![](Screenshot_20230904_144149.png)
+![](Screenshot_20230904_144149.webp)
 
 ### Fuck You NVIDIA
 

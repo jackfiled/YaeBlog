@@ -41,14 +41,14 @@ public partial class RendererService(
             uint wordCount = GetWordCount(content);
             BlogEssay essay = new()
             {
-                Title = content.Metadata.Title ?? content.FileName,
-                FileName = content.FileName,
+                Title = content.Metadata.Title ?? content.BlogName,
+                FileName = content.BlogName,
                 IsDraft = content.IsDraft,
                 Description = GetDescription(content),
                 WordCount = wordCount,
                 ReadTime = CalculateReadTime(wordCount),
                 PublishTime = content.Metadata.Date ?? DateTime.Now,
-                HtmlContent = content.FileContent
+                HtmlContent = content.Content
             };
 
             if (content.Metadata.Tags is not null)
@@ -156,17 +156,17 @@ public partial class RendererService(
     private string GetDescription(BlogContent content)
     {
         const string delimiter = "<!--more-->";
-        int pos = content.FileContent.IndexOf(delimiter, StringComparison.Ordinal);
+        int pos = content.Content.IndexOf(delimiter, StringComparison.Ordinal);
         bool breakSentence = false;
 
         if (pos == -1)
         {
             // 自动截取前50个字符
-            pos = content.FileContent.Length < 50 ? content.FileContent.Length : 50;
+            pos = content.Content.Length < 50 ? content.Content.Length : 50;
             breakSentence = true;
         }
 
-        string rawContent = content.FileContent[..pos];
+        string rawContent = content.Content[..pos];
         MatchCollection matches = DescriptionPattern.Matches(rawContent);
 
         StringBuilder builder = new();
@@ -182,18 +182,18 @@ public partial class RendererService(
 
         string description = builder.ToString();
 
-        logger.LogDebug("Description of {} is {}.", content.FileName,
+        logger.LogDebug("Description of {} is {}.", content.BlogName,
             description);
         return description;
     }
 
     private uint GetWordCount(BlogContent content)
     {
-        int count = (from c in content.FileContent
+        int count = (from c in content.Content
             where char.IsLetterOrDigit(c)
             select c).Count();
 
-        logger.LogDebug("Word count of {} is {}", content.FileName,
+        logger.LogDebug("Word count of {} is {}", content.BlogName,
             count);
         return (uint)count;
     }

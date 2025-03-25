@@ -1,11 +1,11 @@
 ---
 title: 初学Qt的一点小笔记
+date: 2022-07-01T14:32:39.0000000
 tags:
-  - 技术笔记
-  - C/C++
-typora-root-url: qt-learning
-date: 2022-07-01 14:32:39
+- 技术笔记
+- C/C++
 ---
+
 
 最近的大作业需要用 `C/C++`的技术栈实现一个图形化界面，`Qt`作为C++图形化框架久负盛名，正好借着这个写大作业的机会学习一下这个应用广泛的框架。
 <!--more-->
@@ -45,7 +45,7 @@ errorMsg.obj : error LNK2001: unresolved external symbol "public: virtual int __
 - 在`CMakeLists.txt`文件中需要定义`set(CMAKE_AUTOMOC ON)`
 - 在包含这个头文件的地方需要将头文件的名称改为预处理之后的名称`moc_*.cpp`，如下图所示
 
-![](1.png)
+![](1.webp)
 
 ## Qt Designer
 

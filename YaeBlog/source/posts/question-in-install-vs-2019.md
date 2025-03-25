@@ -1,9 +1,10 @@
 ---
 title: 安装vs2019踩的坑
-date: 2021-08-14 10:06:00
+date: 2021-08-14T10:06:00.0000000
 tags:
-    - 技术笔记
+- 技术笔记
 ---
+
 
 在某个月黑风高的夜晚，我在折腾了很久的Python之后，突然感觉自己应该去学学C和C++，于是乎我便打算折腾一下在vscode上写C和C++。在网上一番搜寻之后，我发现了这篇[知乎文章](https://zhuanlan.zhihu.com/p/87864677)和这篇[知乎文章](https://zhuanlan.zhihu.com/p/147366852),然后我就被安装MinGW编译器和配置一大堆的json文件给干碎了。<br>
 于是，我决定转向传说中的宇宙第一IDE——Visual Studio。<br>
@@ -12,7 +13,7 @@ tags:
 > 无他，就是太穷了。<br>
 
 在点击下载链接之后，跳转到了感谢下载的界面。<br>
-![](./question-in-install-vs-2019/1.png)
+![](./question-in-install-vs-2019/1.webp)
 上面清楚的写着，下载将很快开始。
 在经过漫长的等待之后，我下载下来了这个东西
 >vs_community__355502915.1625217430.exe
@@ -24,7 +25,7 @@ tags:
 >不可能，微软的软件不会出错，一定是我自己选错了。
 
 我立刻卸载了电脑上的vs2017和Visual Studio Installer,再次前往vs的[官网](https://visualstudio.microsoft.com/zh-hans/vs/),这次我前检查后检查，确定自己下载的是Visual Studio 2019的Community版本，在单击了下载链接之后，我又跳转到了感谢下载的界面。   
-![](./question-in-install-vs-2019/1.png)
+![](./question-in-install-vs-2019/1.webp)
 但是这次，在令人十分无语的等待之后，<strong>我不得不点了下单击此处以重试</strong>。
 在一段令人紧张的等待之后，Visual Studio Installer安装好了，我也失望的发现，我安装的仍然是vs2017。
 >谢谢，电脑已经砸了。

@@ -1,10 +1,15 @@
-﻿using System.Collections.Concurrent;
+﻿using System.Collections;
+using System.Collections.Concurrent;
 
 namespace YaeBlog.Models;
 
-public sealed class BlogContents(ConcurrentBag<BlogContent> drafts, ConcurrentBag<BlogContent> posts)
+public record BlogContents(ConcurrentBag<BlogContent> Drafts, ConcurrentBag<BlogContent> Posts)
+    : IEnumerable<BlogContent>
 {
-    public ConcurrentBag<BlogContent> Drafts { get; } = drafts;
+    IEnumerator<BlogContent> IEnumerable<BlogContent>.GetEnumerator()
+    {
+        return Posts.Concat(Drafts).GetEnumerator();
+    }
 
-    public ConcurrentBag<BlogContent> Posts { get; } = posts;
+    public IEnumerator GetEnumerator() => ((IEnumerable<BlogContent>)this).GetEnumerator();
 }

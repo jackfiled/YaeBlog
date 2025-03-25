@@ -1,10 +1,11 @@
 ---
 title: 日用Linux挑战 第4篇 新的开始
+date: 2024-03-09T14:00:00.0000000
 tags:
-  - Linux
-  - 杂谈
-date: 2024/03/09 14:00:00
+- Linux
+- 杂谈
 ---
+
 
 小步快跑，面向未来。
 
@@ -18,7 +19,7 @@ date: 2024/03/09 14:00:00
 
 相较于古老但是稳定的`Ext4`文件系统，`Btrfs`对我来说最大的好处便是可以零成本的创建快照，便于在出现错误的时候及时回滚或者直接重装系统。因此，为了方便快照的生成和回滚，我在安装系统时使用**扁平化**的子分区划分方法：即尽力避免出现嵌套的子分区，所有需要快照的分区都处在`/`目录之下：
 
-![Screenshot_20240309_115143](daily-linux-4/Screenshot_20240309_115143.png)
+![Screenshot_20240309_115143](daily-linux-4/Screenshot_20240309_115143.webp)
 
 - `@`为根分区，挂载在`/`目录之下，打开写时复制；
 - `@home`为家目录分区，挂载在`/home`目录之下，打开写时复制；
@@ -44,7 +45,7 @@ sudo btrfs send /.snapshots/home@20240225 | zstd | ssh root@remote "zstd -d | bt
 
 算起来，我已经和`Wayland`显示协议相爱相杀了整整一年了，从`KDE plasma X`到`Hyprland`，再尝试小众的`labwc`，最后回到了`KDE plasma X`。而在2024年2月29日`KDE plasma`释出6.0版本，将`Wayland`作为默认的显示协议，我也在第一时间更新了版本并使用`wayland`显示协议。现在，我可以比较确定的说，`Wayland`目前已经达到可用的水平了，而且我还是使用`RTX 3060`显卡。
 
-![image-20240309130329784](daily-linux-4/image-20240309130329784.png)
+![image-20240309130329784](daily-linux-4/image-20240309130329784.webp)
 
 不过相较于`AMDGPU`可以开箱即用，使用`NVIDIA`启动需要配置如下的模块参数：
 
@@ -64,7 +65,7 @@ options nvidia_drm modeset=1 fbdev=1
 
 不过`XWayland`应用程序在使用`NVIDIA`驱动时会存在一个神奇的**同步失败**问题，表现为在`xwayland`中部分控件闪烁，交替显示更新前和更新后的帧，而且这个问题几乎不能被截屏抓到，具体可以见`freedesktop`上的这个[issue](https://gitlab.freedesktop.org/xorg/xserver/-/issues/1317)。虽然这个议题下面有着很长的讨论，还是建议大家完整的看一遍，里面甚至还有：
 
-![image-20240309131750535](daily-linux-4/image-20240309131750535.png)
+![image-20240309131750535](daily-linux-4/image-20240309131750535.webp)
 
 省流：这个议题讨论了在`xserver`中提供显式同步的协议原语，方便图形驱动程序知道什么时候渲染的帧发生了变化。因此这并不是一个`NVIDIA`驱动程序的问题，而是需要将`Linux`显示协议栈从隐式同步迁移到显式同步。但是相关的工作还在开发过程中，因此解决方法有两个：
 
@@ -77,9 +78,9 @@ options nvidia_drm modeset=1 fbdev=1
 
 于是，我就在`Arch Wiki`上学到一条新知识：
 
-![image-20240309134847166](daily-linux-4/image-20240309134847166.png)
+![image-20240309134847166](daily-linux-4/image-20240309134847166.webp)
 
 原来`efi`分区其实只用放`grub`，，，
 
-![img](daily-linux-4/cfd17cff0701a8e8c69fecf247f17fc1-1709963611271-2.jpg)
+![img](daily-linux-4/cfd17cff0701a8e8c69fecf247f17fc1-1709963611271-2.webp)
 

@@ -6,6 +6,7 @@ tags:
 - 高性能计算
 ---
 
+
 How to use the newly available transistors?
 
 <!--more-->
@@ -54,11 +55,11 @@ Move the complexity of instruction scheduling from the CPU hardware to the softw
 - Assign instructions to the functional units.
 - Determine when instructions are initiated placed together into a single word.
 
-![image-20250313184421305](./hpc-2025-cpu-architecture/image-20250313184421305.png)
+![image-20250313184421305](./hpc-2025-cpu-architecture/image-20250313184421305.webp)
 
 Comparisons between different architecture:
 
-![image-20250313184732892](./hpc-2025-cpu-architecture/image-20250313184732892.png)
+![image-20250313184732892](./hpc-2025-cpu-architecture/image-20250313184732892.webp)
 
 ## Multi-Core Processor Gala
 
@@ -89,7 +90,7 @@ Hardware approaches to multithreading:
 
 - A variation on fine-grained multithreading
 
-![image-20250313190913475](./hpc-2025-cpu-architecture/image-20250313190913475.png)
+![image-20250313190913475](./hpc-2025-cpu-architecture/image-20250313190913475.webp)
 
 ## Data Parallelism: Vector Processors
 

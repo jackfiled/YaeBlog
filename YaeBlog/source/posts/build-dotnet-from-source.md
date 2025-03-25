@@ -7,6 +7,7 @@ tags:
 ---
 
 
+
 我们编译是这样的，在本平台上编译只要敲三条命令就好了，而交叉编译要考虑的就很多了。
 
 <!--more-->
@@ -45,7 +46,7 @@ tags:
 
 通常一份GNU工具链只能针对一个平台进行编译，但是LLVM工具链是一套先天的交叉编译工具链，例如对于`llc`工具，使用`llc --version`命令可以看见该编译器可以生成多种目标平台上的汇编代码：
 
-![image-20240824120646587](./build-dotnet-from-source/image-20240824120646587.png)
+![image-20240824120646587](./build-dotnet-from-source/image-20240824120646587.webp)
 
 在使用`clang++`时加上`--target=<triple>`指定目标三元组就可以进行交叉编译。
 
@@ -62,7 +63,7 @@ int main()
 }
 ```
 
-![image-20240824121425007](./build-dotnet-from-source/image-20240824121425007.png)
+![image-20240824121425007](./build-dotnet-from-source/image-20240824121425007.webp)
 
 看样子交叉编译也不是开箱即用的。最开始我们猜想系统提供的LLVM工具链没有被配置为交叉编译，因此尝试在本地自行编译一套LLVM工具链。
 
@@ -81,7 +82,7 @@ cmake ../llvm-project.src/llvm \
 
 编译之后的成果会安装到`/usr/local/`目录下，而在`$PATH`环境变量中`/usr/local`位置将在`/usr`目录之前，因此调用时将会优先调用我们自行编译的LLVM工具链，而不是系统中安装的LLVM工具链。
 
-![image-20240824134158262](./build-dotnet-from-source/image-20240824134158262.png)
+![image-20240824134158262](./build-dotnet-from-source/image-20240824134158262.webp)
 
 但是使用这套编译工具链仍然会爆出和之前一样的问题。说明这并不是系统安装LLVM工具链的问题。仔细一想也确实，这里提示找不到对应的头文件应该是找不到RISC-V架构之下的头文件——这里的也是交叉编译的主要问题所在：虽然LLVM工具链宣称自己是原生支持交叉编译的，但是没人宣称说标准库和头文件是原生的。这里我们就需要一个根文件系统来提供这些头文件和各种库文件。
 
@@ -198,7 +199,7 @@ clang++ --target=riscv64-linux-gnu --sysroot=$ROOTFS_DIR -fuse-ld=lld hello.cpp 
 
 第一个问题的回答是Arch Linux安装的LLVM工具是可以交叉编译的。虽然在Arch Linux官方构建LLVM工具链的[构建脚本](https://gitlab.archlinux.org/archlinux/packaging/packages/clang/-/blob/main/PKGBUILD?ref_type=heads)中没有使用`LLVM_TARGETS_TO_BUILD`参数，但是这个参数的默认值是`all`。这一点我们也可以通过实验来验证。
 
-![image-20240824153514149](./build-dotnet-from-source/image-20240824153514149.png)于是回到编译`llvm`的目录下执行`cat install_manifest.txt | sudo xargs rm`。
+![image-20240824153514149](./build-dotnet-from-source/image-20240824153514149.webp)于是回到编译`llvm`的目录下执行`cat install_manifest.txt | sudo xargs rm`。
 
 第二个问题的回答可以使用实验来验证，首先安装`riscv64-linux-gnu-gcc`，然后将根文件系统的位置设置为`/usr/riscv64-linux-gnu`，重新编译上面的你好世界样例。编译之后可以正常执行。
 
@@ -229,4 +230,4 @@ export ROOTFS_DIR=<rootfs>
 
 但是现在的.NET在RISC-V平台上还是废物一个，甚至连`dotnet new`都跑不过，下一步看看能不能运行一下运行时的测试集看看。
 
-![image-20240824214145759](./build-dotnet-from-source/image-20240824214145759.png)
+![image-20240824214145759](./build-dotnet-from-source/image-20240824214145759.webp)

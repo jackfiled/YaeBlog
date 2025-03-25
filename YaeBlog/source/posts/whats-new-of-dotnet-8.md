@@ -1,10 +1,11 @@
 ---
 title: .Net 8中我关心的新功能
-date: 2023-11-22 21:07:03
+date: 2023-11-22T21:07:03.0000000
 tags:
-  - 技术笔记
-  - dotnet
+- 技术笔记
+- dotnet
 ---
+
 
 
 ## .NET
@@ -307,11 +308,11 @@ ab -n 10000 -c 1000 http://locallhost:5000/todos/
 
 测试之后的结果的如图所示：
 
-![image-20231122100930849](./whats-new-of-dotnet-8/image-20231122100930849.png)
+![image-20231122100930849](./whats-new-of-dotnet-8/image-20231122100930849.webp)
 
 直接使用运行时运行编译出来的`dll`文件：
 
-![image-20231122101012416](./whats-new-of-dotnet-8/image-20231122101012416.png)
+![image-20231122101012416](./whats-new-of-dotnet-8/image-20231122101012416.webp)
 
 修改项目文件和源代码，取消`System.Text.Json`使用源生成器和对于`AOT`的支持。
 
@@ -346,11 +347,11 @@ public record Todo(int Id, string? Title, DateOnly? DueBy = null, bool IsComplet
 
 使用同样的命令测试得到的结果如图：
 
-![image-20231122101142080](./whats-new-of-dotnet-8/image-20231122101142080.png)
+![image-20231122101142080](./whats-new-of-dotnet-8/image-20231122101142080.webp)
 
 可以发现几次测试的结果都比较接近，几乎可以认为`AOT`编译不会对性能产生明显的影响。虽然按照官方博客中给出的图片，`AOT`编译是有性能下降，应该是我这边测试工具的瓶颈。
 
-![Before and After AOT](./whats-new-of-dotnet-8/AOTOptimizations4.png)
+![Before and After AOT](./whats-new-of-dotnet-8/AOTOptimizations4.webp)
 
 ### Identity API 终结点
 

@@ -1,11 +1,11 @@
 ---
 title: 日用Linux挑战 第0篇 初见Arch Linux
+date: 2023-01-15T22:23:08.0000000
 tags:
-  - Linux
-  - 杂谈
-date: 2023-01-15 22:23:08
-typora-root-url: daily-linux-0
+- Linux
+- 杂谈
 ---
+
 
 在将开发重心移到`WSL`上一年之后，我最终还是决定完全抛弃Windows，转向使用Linux作为我日常使用的主力系统。目前，我已经使用Linux作为主力系统一个月了。
 
@@ -92,7 +92,7 @@ sudo systemctl enable sddm.service
 
 我目前实现的效果大概长这样：
 
-![](2023-01-12-13-28-38-Screenshot_20230112_132829.png)
+![](2023-01-12-13-28-38-Screenshot_20230112_132829.webp)
 
 颇有一种`Windows`和`MacOS`杂交的风格。
 
@@ -106,7 +106,7 @@ sudo systemctl enable sddm.service
 
 先上一张`shell`的系统概览截图：
 
-![](2023-01-12-13-36-45-Screenshot_20230112_133628.png)
+![](2023-01-12-13-36-45-Screenshot_20230112_133628.webp)
 
 终端模拟器直接使用的`konsole`，目前没有进行改动。
 

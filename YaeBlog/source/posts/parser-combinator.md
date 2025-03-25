@@ -1,11 +1,12 @@
 ---
 title: 使用Parser Combinator编写编译器前端
+date: 2024-08-13T18:09:10.0000000
 tags:
-  - 编译原理
-  - C#
-  - 技术笔记
-date: 2024-08-13 18:09:10
+- 编译原理
+- C#
+- 技术笔记
 ---
+
 
 在函数式编程思想的指导下，使用Parser Combinator编写编译器前端。
 
@@ -402,7 +403,7 @@ public class C {
 
 
 
-![image-20240813214315576](./parser-combinator/image-20240813214315576.png)
+![image-20240813214315576](./parser-combinator/image-20240813214315576.webp)
 
 跳过组合子的实现则是使用我们之前提过的修改组合子（Fix Parser）进行的。
 
@@ -454,9 +455,9 @@ public static Parser<TToken, IEnumerable<T>> Quote<TToken, T, TLeft, TRight>(thi
 
 Pascal-S语言的词法约定如下所示：
 
-![image-20240813220521028](./parser-combinator/image-20240813220521028.png)
+![image-20240813220521028](./parser-combinator/image-20240813220521028.webp)
 
-![image-20240813220530717](./parser-combinator/image-20240813220530717.png)
+![image-20240813220530717](./parser-combinator/image-20240813220530717.webp)
 
 据此，我们可以开始编写对应的词法分析器。首先给出一个词法令牌的规定，将词法令牌分类为：
 

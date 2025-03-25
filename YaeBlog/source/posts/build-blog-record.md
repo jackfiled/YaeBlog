@@ -1,10 +1,10 @@
 ---
 title: 建立博客过程的记录
-typora-root-url: 建立博客过程的记录
-date: 2022-04-08 11:52:32
+date: 2022-04-08T11:52:32.0000000
 tags:
-    - 技术笔记
+- 技术笔记
 ---
+
 
 
 当我已经在Python的浩瀚大海遨（zheng）游（zha）了半个暑假后，我决定尝试一下传说中程序员专用的学(zhuang)习(bi)手(fangfa)段(fa)——建立自己的个人博客。作为一个半懂不懂的Python程序员，心中冒出的第一个想法自然是采用Python的Django作为开发自己的个人博客的手段。然而，在阅读了[用Django搭建个人博客](https://www.dusaiphoto.com/article/2/)等的其他人搭建这类动态博客的过程记录之后，我便义无反顾的转向了采用javascript开发的博客框架[Hexo](https://hexo.io)，<del>说好的Python信仰呢</del>。无他，唯简单尔。
@@ -131,7 +131,7 @@ Hexo init blog
 ```
 Hexo会以blog为名称创建一个博客文件夹，这个文件夹的内容为
 
-![文件夹截图](1.png)
+![文件夹截图](1.webp)
 
 `node_modules`文件夹是Hexo需要用到的一些npm依赖包的存放地址，`public`文件夹下是由Hexo渲染产生的静态博客文件，`scaffolds`文件夹是博客用到的模板文件，在默认情况下应该有`draft.md`,`page.md`,`post.md`三个模板文件。`themes`是Hexo中可以使用的主题文件。主题也是Hexo一个非常方便的设计，我们可以方便使用其他人编写的Hexo Themes，让自己的博客在不同的风格之间变换。`source`文件夹就是存放我们写作的博客的地方。一般这里面会有两个子文件夹，`_draft`, `_posts`。我们在里面在创建一个`img`文件夹，把自己的头像图片和网站的图标文件都放在里面，在之后的设置的时候使用。
 
@@ -146,7 +146,7 @@ INFO  Hexo is running at http://localhost:4000/ . Press Ctrl+C to stop.
 
 会在本地运行Hexo自带的一台静态博客服务器。我们用浏览器访问http://localhost:4000, 就可以看见Hexo博客的初始界面
 
-![初始截图](2.png)
+![初始截图](2.webp)
 
 这便说明安装成功了，~~可以开香槟了~~
 

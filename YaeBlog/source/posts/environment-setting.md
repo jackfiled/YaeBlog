@@ -1,10 +1,10 @@
 ---
 title: 环境配置备忘录
-date: 2022-01-15 20:19:39
+date: 2022-01-15T20:19:39.0000000
 tags:
-    - 技术笔记
-typora-root-url: 环境配置
+- 技术笔记
 ---
+
 
 电脑上的环境三天两头出问题，写下一个备忘录记录一下电脑上环境的配置过程。
 
@@ -236,7 +236,7 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser
 
 再重新运行配置文件就没有问题了。
 
-![终端预览](6.png)
+![终端预览](6.webp)
 
 ### PowerShell配置文件
 

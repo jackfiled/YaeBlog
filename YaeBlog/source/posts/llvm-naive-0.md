@@ -7,6 +7,7 @@ tags:
 - 技术笔记
 ---
 
+
 为什么说LLVM是神？
 
 <!--more-->
@@ -55,7 +56,7 @@ clang hello.c -o hello
 
 编译完成之后可以正常执行：
 
-![image-20240819213039409](./llvm-naive-0/image-20240819213039409.png)
+![image-20240819213039409](./llvm-naive-0/image-20240819213039409.webp)
 
 然后尝试将这个C语言文件编译为LLVM的字节码形式：
 
@@ -71,7 +72,7 @@ clang -O3 -emit-llvm hello.c -c -o hello.bc
 lli hello.bc
 ```
 
-![image-20240819213624927](./llvm-naive-0/image-20240819213624927.png)
+![image-20240819213624927](./llvm-naive-0/image-20240819213624927.webp)
 
 可以使用反编译器将字节码转换为人类可读的文本形式：
 
@@ -152,7 +153,7 @@ main:                                   # @main
 
 下面这张图展示了LLVM中各种文件的转换关系和使用的对应工具。
 
-![image-20240820221413791](./llvm-naive-0/image-20240820221413791.png)
+![image-20240820221413791](./llvm-naive-0/image-20240820221413791.webp)
 
 ## LLVM IR
 
@@ -268,5 +269,5 @@ entry:
 
 使用`lli`解释器可以直接运行这段代码：
 
-![image-20240825171858276](./llvm-naive-0/image-20240825171858276.png)
+![image-20240825171858276](./llvm-naive-0/image-20240825171858276.webp)
 

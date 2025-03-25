@@ -1,10 +1,11 @@
 ---
 title: SpringBoot自定义注解实现权限控制
+date: 2023-07-29T15:20:02.0000000
 tags:
-  - 技术笔记
-  - Java
-date: 2023-07-29 15:20:02
+- 技术笔记
+- Java
 ---
+
 
 如题。
 
@@ -131,13 +132,13 @@ public interface AuthorizeService {
 
 然后针对每个策略实现一个认证服务：
 
-![image-20230727175807814](spring-boot-custom-authorize/image-20230727175807814.png)
+![image-20230727175807814](spring-boot-custom-authorize/image-20230727175807814.webp)
 
 > 具体实现就不在这里给出。
 
 在注入每个服务时，使用策略枚举作为服务的名称，方便后续获得该服务实例。
 
-![image-20230727175955817](spring-boot-custom-authorize/image-20230727175955817.png)
+![image-20230727175955817](spring-boot-custom-authorize/image-20230727175955817.webp)
 
 ### 注解和注解解析
 

@@ -1,11 +1,10 @@
 ---
 title: 安装pytorch，来有深度的学习
-date: 2021-11-13 13:21:53
-toc: true
-tags: 
-        - 技术笔记 
-typora-root-url: 安装pytorch，来有深度的学习
+date: 2021-11-13T13:21:53.0000000
+tags:
+- 技术笔记
 ---
+
 
 鄙人在下不才我精通深度学习框架的安装和卸载。
 
@@ -40,7 +39,7 @@ typora-root-url: 安装pytorch，来有深度的学习
 
 我们访问`miniconda`的[官方网站](https://docs.conda.io/en/latest/miniconda.html) ，下滑找到最新的`miniconda`安装包下载链接（Latest Miniconda Installer Links）。 
 
-![](1.png)
+![](1.webp)
 
 按照自己的电脑系统下载相应的安装包就可以了。也不大，就50M出头的样子。
 
@@ -48,7 +47,7 @@ typora-root-url: 安装pytorch，来有深度的学习
 
 安装完成之后，我们就会发现自己的开始菜单里多出来了两个快捷方式,
 
-![](2.png)
+![](2.webp)
 在上面的那个快捷方式**Anaconda Prompt**是运行含有`conda`命令的CMD的快捷方式，而下面那个**Anaconda Power Shell Prompt**是运行含有`conda`命令的Power shell界面的快捷方式。因为我个人对于power shell更加的熟悉我们就是用下面的那个快捷方式。   
 
 这个时候肯定会有人好奇，竟然你都用power shell了，我们为啥不直接使用系统里已经有了的power shell，而要启动这里的这个显得有点奇怪的power shell呢？     
@@ -57,7 +56,7 @@ typora-root-url: 安装pytorch，来有深度的学习
 
 好，我们运行**Anaconda Power Shell Prompt**，打开了这个窗口
 
-![](3.png)
+![](3.webp)
 
 这个窗口的出现就标志着我们已经把`conda`正确的安装在我们的电脑之中了。
 
@@ -160,7 +159,7 @@ conda update python
 
 ### 使用conda安装pytorch
 我们访问pytorch的[官方网站](https://pytorch.org/),我们可以轻松在首页就找到这个表格
-![](4.png)
+![](4.webp)
 先简单介绍一下这个表格的每一行，第一行是选择我们安装`pytorch`的版本，是稳定版，预览版，还是长期支持版。第二行是选择我们索要下载的操作系统，这里就默认大家都是用Windows了，第三行是选择我们安装`pytorch`的方式，可以看见有我们刚学习的`conda`，我们很熟悉的`pip`, 还有两种其他的方式。我们选择`conda`。第三行是我们所使用的语言，我们自然选择`python`。然后是第四行，“Compute Platform”， 如果直译的话是计算平台，就是我们选择用来计算的设备。这里就是又一个新的知识点了。一般来说，我们在使用电脑时，都是使用CPU作为计算的主力，显卡（GPU)一般只是用来输出图像，但在深度学习出现后，人们发现显卡原本专精于图形计算的计算力也很适用于深度学习中人工神经网络的计算。为了能够使用GPU的算力，而不是让它仅仅输出图像，我们就得下载相关的工具，这个工具就是CUDA。当然，这种比较强大的能力并不是只要下载一个CUDA就可以拥有的，~~你还得有钱~~你还得拥有一块英伟达的显卡，如果你没有显卡，那你就只能老老实实的使用自己的CPU进行计算了，在表格的第四行选择CPU。而对于我们~~土豪~~有显卡的同学，我们得先确定确定自己电脑上CUDA的版本，打开我们的老朋友power shell，输入
 
 ```

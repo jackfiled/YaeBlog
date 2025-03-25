@@ -1,10 +1,11 @@
 ---
 title: 编译MediaPipe框架
+date: 2022-11-11T22:20:25.0000000
 tags:
-  - C/C++
-  - 技术笔记
-date: 2022-11-11 22:20:25
+- C/C++
+- 技术笔记
 ---
+
 
 编译MediaPipe框架。
 <!--more-->
@@ -198,7 +199,7 @@ bazel build -c opt --strip=ALWAYS \
 
 如果在编译的过程中提示缺失`dx.jar`这个文件而且你用的SDK版本还是高于31的，那可能是SDK中缺失了这个文件，可以将SDk降级到30就含有这个文件了。我使用的解决办法比较离奇，我是将30版本的SDK文件中的这个文件软链接过来，解决了这个问题。
 
-![](compile-mediapipe/2023-01-15-22-05-41-Screenshot_20230115_220521.png)
+![](compile-mediapipe/2023-01-15-22-05-41-Screenshot_20230115_220521.webp)
 
 编译消耗的时间可能比较的长，耐心等待即可。
 
@@ -227,7 +228,7 @@ bazel build -c opt //mediapipe/graphs/pose_tracking:pose_tracking_gpu_binary_gra
 
 然后还需要从服务器上下载`tflite`文件，`Pose Tracking`这个解决方案需要两个`tflite`文件，第一个是[pose_detection.tflite](https://storage.googleapis.com/mediapipe-assets/pose_detection.tflite)，第二个文件则有三个不同的选择，分别对于解决方案中提供的三个质量版本：
 
-![](compile-mediapipe/2023-01-19-20-20-40-Screenshot_20230119_202008.png)
+![](compile-mediapipe/2023-01-19-20-20-40-Screenshot_20230119_202008.webp)
 
 下载地址是[pose_landmark_full.tflite](https://storage.googleapis.com/mediapipe-assets/pose_landmark_full.tflite)，[pose_landmark_heavy.tflite](https://storage.googleapis.com/mediapipe-assets/pose_landmark_heavy.tflite)和[pose_landmark_lite.tflite](https://storage.googleapis.com/mediapipe-assets/pose_landmark_lite.tflite)。
 

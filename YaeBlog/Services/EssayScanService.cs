@@ -1,5 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
+using Imageflow.Bindings;
+using Imageflow.Fluent;
 using Microsoft.Extensions.Options;
 using YaeBlog.Abstraction;
 using YaeBlog.Core.Exceptions;
@@ -9,17 +11,30 @@ using YamlDotNet.Serialization;
 
 namespace YaeBlog.Services;
 
-public partial class EssayScanService(
-    ISerializer yamlSerializer,
-    IDeserializer yamlDeserializer,
-    IOptions<BlogOptions> blogOptions,
-    ILogger<EssayScanService> logger) : IEssayScanService
+public partial class EssayScanService : IEssayScanService
 {
-    private readonly BlogOptions _blogOptions = blogOptions.Value;
+    private readonly BlogOptions _blogOptions;
+    private readonly ISerializer _yamlSerializer;
+    private readonly IDeserializer _yamlDeserializer;
+    private readonly ILogger<EssayScanService> _logger;
+
+    public EssayScanService(ISerializer yamlSerializer,
+        IDeserializer yamlDeserializer,
+        IOptions<BlogOptions> blogOptions,
+        ILogger<EssayScanService> logger)
+    {
+        _yamlSerializer = yamlSerializer;
+        _yamlDeserializer = yamlDeserializer;
+        _logger = logger;
+        _blogOptions = blogOptions.Value;
+        RootDirectory = ValidateRootDirectory();
+    }
+
+    private DirectoryInfo RootDirectory { get; }
 
     public async Task<BlogContents> ScanContents()
     {
-        ValidateDirectory(_blogOptions.Root, out DirectoryInfo drafts, out DirectoryInfo posts);
+        ValidateDirectory(out DirectoryInfo drafts, out DirectoryInfo posts);
 
         return new BlogContents(
             await ScanContentsInternal(drafts, true),
@@ -28,82 +43,92 @@ public partial class EssayScanService(
 
     public async Task SaveBlogContent(BlogContent content, bool isDraft = true)
     {
-        ValidateDirectory(_blogOptions.Root, out DirectoryInfo drafts, out DirectoryInfo posts);
+        ValidateDirectory(out DirectoryInfo drafts, out DirectoryInfo posts);
 
         FileInfo targetFile = isDraft
-            ? new FileInfo(Path.Combine(drafts.FullName, content.FileName + ".md"))
-            : new FileInfo(Path.Combine(posts.FullName, content.FileName + ".md"));
-
-        if (!isDraft)
-        {
-            content.Metadata.Date = DateTime.Now;
-        }
+            ? new FileInfo(Path.Combine(drafts.FullName, content.BlogName + ".md"))
+            : new FileInfo(Path.Combine(posts.FullName, content.BlogName + ".md"));
 
         if (targetFile.Exists)
         {
-            logger.LogWarning("Blog {} exists, overriding.", targetFile.Name);
+            _logger.LogWarning("Blog {} exists, overriding.", targetFile.Name);
         }
 
         await using StreamWriter writer = targetFile.CreateText();
 
         await writer.WriteAsync("---\n");
-        await writer.WriteAsync(yamlSerializer.Serialize(content.Metadata));
+        await writer.WriteAsync(_yamlSerializer.Serialize(content.Metadata));
         await writer.WriteAsync("---\n");
 
-        if (isDraft)
+        if (string.IsNullOrEmpty(content.Content) && isDraft)
         {
+            // 如果博客为操作且内容为空
+            // 创建简介隔断符号
             await writer.WriteLineAsync("<!--more-->");
         }
         else
         {
-            await writer.WriteAsync(content.FileContent);
+            await writer.WriteAsync(content.Content);
         }
+
+        // 保存图片文件
+        await Task.WhenAll(from image in content.Images
+            select File.WriteAllBytesAsync(image.File.FullName, image.Content));
     }
+
+    private record struct BlogResult(
+        FileInfo BlogFile,
+        string BlogContent,
+        List<BlogImageInfo> Images,
+        List<FileInfo> NotFoundImages);
 
     private async Task<ConcurrentBag<BlogContent>> ScanContentsInternal(DirectoryInfo directory, bool isDraft)
     {
-        // 扫描以md结果的但是不是隐藏文件的文件
+        // 扫描以md结尾且不是隐藏文件的文件
         IEnumerable<FileInfo> markdownFiles = from file in directory.EnumerateFiles()
             where file.Extension == ".md" && !file.Name.StartsWith('.')
             select file;
 
-        ConcurrentBag<(string, string)> fileContents = [];
+        ConcurrentBag<BlogResult> fileContents = [];
 
         await Parallel.ForEachAsync(markdownFiles, async (file, token) =>
         {
             using StreamReader reader = file.OpenText();
-            fileContents.Add((file.Name, await reader.ReadToEndAsync(token)));
+            string blogName = file.Name.Split('.')[0];
+            string blogContent = await reader.ReadToEndAsync(token);
+            ImageResult imageResult =
+                await ScanImagePreBlog(directory, blogName,
+                    blogContent);
+
+            fileContents.Add(new BlogResult(file, blogContent, imageResult.Images, imageResult.NotfoundImages));
         });
 
         ConcurrentBag<BlogContent> contents = [];
 
         await Task.Run(() =>
         {
-            foreach ((string filename, string content) in fileContents)
+            foreach (BlogResult blog in fileContents)
             {
-                int endPos = content.IndexOf("---", 4, StringComparison.Ordinal);
-                if (!content.StartsWith("---") || endPos is -1 or 0)
+                int endPos = blog.BlogContent.IndexOf("---", 4, StringComparison.Ordinal);
+                if (!blog.BlogContent.StartsWith("---") || endPos is -1 or 0)
                 {
-                    logger.LogWarning("Failed to parse metadata from {}, skipped.", filename);
+                    _logger.LogWarning("Failed to parse metadata from {}, skipped.", blog.BlogFile.Name);
                     return;
                 }
 
-                string metadataString = content[4..endPos];
+                string metadataString = blog.BlogContent[4..endPos];
 
                 try
                 {
-                    MarkdownMetadata metadata = yamlDeserializer.Deserialize<MarkdownMetadata>(metadataString);
-                    logger.LogDebug("Scan metadata title: '{}' for {}.", metadata.Title, filename);
+                    MarkdownMetadata metadata = _yamlDeserializer.Deserialize<MarkdownMetadata>(metadataString);
+                    _logger.LogDebug("Scan metadata title: '{}' for {}.", metadata.Title, blog.BlogFile.Name);
 
-                    contents.Add(new BlogContent
-                    {
-                        FileName = filename[..^3], Metadata = metadata, FileContent = content[(endPos + 3)..],
-                        IsDraft = isDraft
-                    });
+                    contents.Add(new BlogContent(blog.BlogFile, metadata, blog.BlogContent[(endPos + 3)..], isDraft,
+                        blog.Images, blog.NotFoundImages));
                 }
                 catch (YamlException e)
                 {
-                    logger.LogWarning("Failed to parser metadata from {} due to {}, skipping", filename, e);
+                    _logger.LogWarning("Failed to parser metadata from {} due to {}, skipping", blog.BlogFile.Name, e);
                 }
             }
         });
@@ -111,99 +136,96 @@ public partial class EssayScanService(
         return contents;
     }
 
-    public async Task<ImageScanResult> ScanImages()
+    private record struct ImageResult(List<BlogImageInfo> Images, List<FileInfo> NotfoundImages);
+
+    private async Task<ImageResult> ScanImagePreBlog(DirectoryInfo directory, string blogName, string content)
     {
-        BlogContents contents = await ScanContents();
-        ValidateDirectory(_blogOptions.Root, out DirectoryInfo drafts, out DirectoryInfo posts);
+        MatchCollection matchResult = ImagePattern.Matches(content);
+        DirectoryInfo imageDirectory = new(Path.Combine(directory.FullName, blogName));
 
-        List<FileInfo> unusedFiles = [];
-        List<FileInfo> notFoundFiles = [];
+        Dictionary<string, bool> usedImages = imageDirectory.Exists
+            ? imageDirectory.EnumerateFiles().ToDictionary(file => file.FullName, _ => false)
+            : [];
+        List<FileInfo> notFoundImages = [];
 
-        ImageScanResult draftResult = await ScanUnusedImagesInternal(contents.Drafts, drafts);
-        ImageScanResult postResult = await ScanUnusedImagesInternal(contents.Posts, posts);
-
-        unusedFiles.AddRange(draftResult.UnusedImages);
-        notFoundFiles.AddRange(draftResult.NotFoundImages);
-        unusedFiles.AddRange(postResult.UnusedImages);
-        notFoundFiles.AddRange(postResult.NotFoundImages);
-
-        return new ImageScanResult(unusedFiles, notFoundFiles);
-    }
-
-    private static Task<ImageScanResult> ScanUnusedImagesInternal(IEnumerable<BlogContent> contents,
-        DirectoryInfo root)
-    {
-        ConcurrentBag<FileInfo> unusedImage = [];
-        ConcurrentBag<FileInfo> notFoundImage = [];
-
-        Parallel.ForEach(contents, content =>
+        foreach (Match match in matchResult)
         {
-            MatchCollection result = ImagePattern.Matches(content.FileContent);
-            DirectoryInfo imageDirectory = new(Path.Combine(root.FullName, content.FileName));
+            string imageName = match.Groups[1].Value;
 
-            Dictionary<string, bool> usedDictionary;
+            // 判断md文件中的图片名称中是否包含文件夹名称
+            // 例如 blog-1/image.png 或者 image.png
+            // 如果不带文件夹名称
+            // 默认添加同博客名文件夹
+            FileInfo usedFile = imageName.Contains(blogName)
+                ? new FileInfo(Path.Combine(directory.FullName, imageName))
+                : new FileInfo(Path.Combine(directory.FullName, blogName, imageName));
 
-            if (imageDirectory.Exists)
+            if (usedImages.TryGetValue(usedFile.FullName, out _))
             {
-                usedDictionary = (from file in imageDirectory.EnumerateFiles()
-                    select new KeyValuePair<string, bool>(file.FullName, false)).ToDictionary();
+                usedImages[usedFile.FullName] = true;
             }
             else
             {
-                usedDictionary = [];
+                notFoundImages.Add(usedFile);
             }
+        }
 
-            foreach (Match match in result)
-            {
-                string imageName = match.Groups[1].Value;
+        List<BlogImageInfo> images = (await Task.WhenAll((from pair in usedImages
+            select GetImageInfo(new FileInfo(pair.Key), pair.Value)).ToArray())).ToList();
 
-                FileInfo usedFile = imageName.Contains(content.FileName)
-                    ? new FileInfo(Path.Combine(root.FullName, imageName))
-                    : new FileInfo(Path.Combine(root.FullName, content.FileName, imageName));
+        return new ImageResult(images, notFoundImages);
+    }
 
-                if (usedDictionary.TryGetValue(usedFile.FullName, out _))
-                {
-                    usedDictionary[usedFile.FullName] = true;
-                }
-                else
-                {
-                    notFoundImage.Add(usedFile);
-                }
-            }
+    private static async Task<BlogImageInfo> GetImageInfo(FileInfo file, bool isUsed)
+    {
+        byte[] image = await File.ReadAllBytesAsync(file.FullName);
 
-            foreach (KeyValuePair<string, bool> pair in usedDictionary.Where(p => !p.Value))
-            {
-                unusedImage.Add(new FileInfo(pair.Key));
-            }
-        });
+        if (file.Extension is ".jpg" or ".jpeg" or ".png")
+        {
+            ImageInfo imageInfo =
+                await ImageJob.GetImageInfoAsync(MemorySource.Borrow(image), SourceLifetime.NowOwnedAndDisposedByTask);
 
-        return Task.FromResult(new ImageScanResult(unusedImage.ToList(), notFoundImage.ToList()));
+            return new BlogImageInfo(file, imageInfo.ImageWidth, imageInfo.ImageWidth, imageInfo.PreferredMimeType,
+                image, isUsed);
+        }
+
+        return new BlogImageInfo(file, 0, 0, file.Extension switch
+        {
+            "svg" => "image/svg",
+            "avif" => "image/avif",
+            _ => string.Empty
+        }, image, isUsed);
     }
 
     [GeneratedRegex(@"\!\[.*?\]\((.*?)\)")]
     private static partial Regex ImagePattern { get; }
 
-    private void ValidateDirectory(string root, out DirectoryInfo drafts, out DirectoryInfo posts)
+
+    private DirectoryInfo ValidateRootDirectory()
     {
-        root = Path.Combine(Environment.CurrentDirectory, root);
-        DirectoryInfo rootDirectory = new(root);
+        DirectoryInfo rootDirectory = new(Path.Combine(Environment.CurrentDirectory, _blogOptions.Root));
 
         if (!rootDirectory.Exists)
         {
-            throw new BlogFileException($"'{root}' is not a directory.");
+            throw new BlogFileException($"'{_blogOptions.Root}' is not a directory.");
         }
 
-        if (rootDirectory.EnumerateDirectories().All(dir => dir.Name != "drafts"))
+        return rootDirectory;
+    }
+
+    private void ValidateDirectory(out DirectoryInfo drafts, out DirectoryInfo posts)
+    {
+        if (RootDirectory.EnumerateDirectories().All(dir => dir.Name != "drafts"))
         {
-            throw new BlogFileException($"'{root}/drafts' not exists.");
+            throw new BlogFileException($"'{_blogOptions.Root}/drafts' not exists.");
         }
 
-        if (rootDirectory.EnumerateDirectories().All(dir => dir.Name != "posts"))
+        if (RootDirectory.EnumerateDirectories().All(dir => dir.Name != "posts"))
         {
-            throw new BlogFileException($"'{root}/posts' not exists.");
+            throw new BlogFileException($"'{_blogOptions.Root}/posts' not exists.");
         }
 
-        drafts = new DirectoryInfo(Path.Combine(root, "drafts"));
-        posts = new DirectoryInfo(Path.Combine(root, "posts"));
+        drafts = new DirectoryInfo(Path.Combine(_blogOptions.Root, "drafts"));
+        posts = new DirectoryInfo(Path.Combine(_blogOptions.Root, "posts"));
     }
 }

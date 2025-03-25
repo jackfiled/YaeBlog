@@ -1,4 +1,6 @@
 ﻿using System.CommandLine;
+using Microsoft.Extensions.Options;
+using YaeBlog.Abstraction;
 using YaeBlog.Commands.Binders;
 using YaeBlog.Components;
 using YaeBlog.Extensions;
@@ -19,6 +21,7 @@ public sealed class YaeBlogCommand
         AddNewCommand(_rootCommand);
         AddPublishCommand(_rootCommand);
         AddScanCommand(_rootCommand);
+        AddCompressCommand(_rootCommand);
     }
 
     public Task<int> RunAsync(string[] args)
@@ -94,22 +97,20 @@ public sealed class YaeBlogCommand
         Argument<string> filenameArgument = new(name: "blog name", description: "The created blog filename.");
         newCommand.AddArgument(filenameArgument);
 
-        newCommand.SetHandler(async (file, _, _, essayScanService) =>
+        newCommand.SetHandler(async (file, blogOption, _, essayScanService) =>
             {
                 BlogContents contents = await essayScanService.ScanContents();
 
-                if (contents.Posts.Any(content => content.FileName == file))
+                if (contents.Posts.Any(content => content.BlogName == file))
                 {
                     Console.WriteLine("There exists the same title blog in posts.");
                     return;
                 }
 
-                await essayScanService.SaveBlogContent(new BlogContent
-                {
-                    FileName = file,
-                    FileContent = string.Empty,
-                    Metadata = new MarkdownMetadata { Title = file, Date = DateTime.Now }
-                });
+                await essayScanService.SaveBlogContent(new BlogContent(
+                    new FileInfo(Path.Combine(blogOption.Value.Root, "drafts", file + ".md")),
+                    new MarkdownMetadata { Title = file, Date = DateTime.Now },
+                    string.Empty, true, [], []));
 
                 Console.WriteLine($"Created new blog '{file}.");
             }, filenameArgument, new BlogOptionsBinder(), new LoggerBinder<EssayScanService>(),
@@ -126,15 +127,15 @@ public sealed class YaeBlogCommand
             BlogContents contents = await essyScanService.ScanContents();
 
             Console.WriteLine($"All {contents.Posts.Count} Posts:");
-            foreach (BlogContent content in contents.Posts.OrderBy(x => x.FileName))
+            foreach (BlogContent content in contents.Posts.OrderBy(x => x.BlogName))
             {
-                Console.WriteLine($" - {content.FileName}");
+                Console.WriteLine($" - {content.BlogName}");
             }
 
             Console.WriteLine($"All {contents.Drafts.Count} Drafts:");
-            foreach (BlogContent content in contents.Drafts.OrderBy(x => x.FileName))
+            foreach (BlogContent content in contents.Drafts.OrderBy(x => x.BlogName))
             {
-                Console.WriteLine($" - {content.FileName}");
+                Console.WriteLine($" - {content.BlogName}");
             }
         }, new BlogOptionsBinder(), new LoggerBinder<EssayScanService>(), new EssayScanServiceBinder());
     }
@@ -150,32 +151,39 @@ public sealed class YaeBlogCommand
 
         command.SetHandler(async (_, _, essayScanService, removeOptionValue) =>
         {
-            ImageScanResult result = await essayScanService.ScanImages();
+            BlogContents contents = await essayScanService.ScanContents();
+            List<BlogImageInfo> unusedImages = (from content in contents
+                from image in content.Images
+                where image is { IsUsed: false }
+                select image).ToList();
 
-            if (result.UnusedImages.Count != 0)
+            if (unusedImages.Count != 0)
             {
                 Console.WriteLine("Found unused images:");
                 Console.WriteLine("HINT: use '--rm' to remove unused images.");
             }
 
-            foreach (FileInfo image in result.UnusedImages)
+            foreach (BlogImageInfo image in unusedImages)
             {
-                Console.WriteLine($" - {image.FullName}");
+                Console.WriteLine($" - {image.File.FullName}");
             }
 
             if (removeOptionValue)
             {
-                foreach (FileInfo image in result.UnusedImages)
+                foreach (BlogImageInfo image in unusedImages)
                 {
-                    image.Delete();
+                    image.File.Delete();
                 }
             }
 
             Console.WriteLine("Used not existed images:");
 
-            foreach (FileInfo image in result.NotFoundImages)
+            foreach (BlogContent content in contents)
             {
-                Console.WriteLine($" - {image.FullName}");
+                foreach (FileInfo file in content.NotfoundImages)
+                {
+                    Console.WriteLine($"- {file.Name} in {content.BlogName}");
+                }
             }
         }, new BlogOptionsBinder(), new LoggerBinder<EssayScanService>(), new EssayScanServiceBinder(), removeOption);
     }
@@ -193,7 +201,7 @@ public sealed class YaeBlogCommand
                 BlogContents contents = await essayScanService.ScanContents();
 
                 BlogContent? content = (from blog in contents.Drafts
-                    where blog.FileName == filename
+                    where blog.BlogName == filename
                     select blog).FirstOrDefault();
 
                 if (content is null)
@@ -202,14 +210,17 @@ public sealed class YaeBlogCommand
                     return;
                 }
 
+                // 设置发布的时间
+                content.Metadata.Date = DateTime.Now;
+
                 // 将选中的博客文件复制到posts
                 await essayScanService.SaveBlogContent(content, isDraft: false);
 
                 // 复制图片文件夹
                 DirectoryInfo sourceImageDirectory =
-                    new(Path.Combine(blogOptions.Value.Root, "drafts", content.FileName));
+                    new(Path.Combine(blogOptions.Value.Root, "drafts", content.BlogName));
                 DirectoryInfo targetImageDirectory =
-                    new(Path.Combine(blogOptions.Value.Root, "posts", content.FileName));
+                    new(Path.Combine(blogOptions.Value.Root, "posts", content.BlogName));
 
                 if (sourceImageDirectory.Exists)
                 {
@@ -223,9 +234,30 @@ public sealed class YaeBlogCommand
                 }
 
                 // 删除原始的文件
-                FileInfo sourceBlogFile = new(Path.Combine(blogOptions.Value.Root, "drafts", content.FileName + ".md"));
+                FileInfo sourceBlogFile = new(Path.Combine(blogOptions.Value.Root, "drafts", content.BlogName + ".md"));
                 sourceBlogFile.Delete();
             }, new BlogOptionsBinder(),
             new LoggerBinder<EssayScanService>(), new EssayScanServiceBinder(), filenameArgument);
+    }
+
+    private static void AddCompressCommand(RootCommand rootCommand)
+    {
+        Command command = new("compress", "Compress png/jpeg image to webp image to reduce size.");
+        rootCommand.Add(command);
+
+        Option<bool> dryRunOption = new("--dry-run", description: "Dry run the compression task but not write.",
+            getDefaultValue: () => false);
+        command.AddOption(dryRunOption);
+
+        command.SetHandler(ImageCommandHandler,
+            new BlogOptionsBinder(), new LoggerBinder<EssayScanService>(), new LoggerBinder<ImageCompressService>(),
+            new EssayScanServiceBinder(), new ImageCompressServiceBinder(), dryRunOption);
+    }
+
+    private static async Task ImageCommandHandler(IOptions<BlogOptions> _, ILogger<EssayScanService> _1,
+        ILogger<ImageCompressService> _2,
+        IEssayScanService _3, ImageCompressService imageCompressService, bool dryRun)
+    {
+        await imageCompressService.Compress(dryRun);
     }
 }

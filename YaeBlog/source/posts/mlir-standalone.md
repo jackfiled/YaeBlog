@@ -6,6 +6,7 @@ tags:
 - LLVM
 ---
 
+
 MLIR是多层次中间表示形式（Multi-Level Intermediate Representation），是LLVM项目中提供的一项新编译器开发基础设施，使得编译器开发者能够在源代码和可执行代码之间定义多层IR来保留程序信息指导编译优化。本博客指导如何创建一个独立（out-of-tree）的MLIR项目。
 
 <!--more-->
@@ -35,7 +36,7 @@ cd build
 cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="/home/ricardo/.local/share/llvm-20.1.0" -DLLVM_ENABLE_PROJECTS="llvm;clang;mlir" -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DLLVM_INSTALL_UTILS=true ../llvm
 ```
 
-![image-20250319192618697](./mlir-standalone/image-20250319192618697.png)
+![image-20250319192618697](./mlir-standalone/image-20250319192618697.webp)
 
 生成构建文件之后使用`ninja`进行构建。
 
@@ -43,7 +44,7 @@ cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="/home/ricardo/
 ninja
 ```
 
-![image-20250319194742171](./mlir-standalone/image-20250319194742171.png)
+![image-20250319194742171](./mlir-standalone/image-20250319194742171.webp)
 
 构建在我的i5-13600K上大约需要20分钟。
 
@@ -93,7 +94,7 @@ cmake -G Ninja -DMLIR_DIR=$LLVM_DIR/lib/cmake/mlir  ..
 
 可以顺利通过编译。
 
-![image-20250319202218503](./mlir-standalone/image-20250319202218503.png)
+![image-20250319202218503](./mlir-standalone/image-20250319202218503.webp)
 
 ### 启用测试
 
@@ -106,7 +107,7 @@ cmake -G Ninja -DMLIR_DIR=$LLVM_DIR/lib/cmake/mlir  ..
 
 很好顺利报错，报错的提示是缺失`FileCheck`、`count`和`not`。
 
-![image-20250319202553644](./mlir-standalone/image-20250319202553644.png)
+![image-20250319202553644](./mlir-standalone/image-20250319202553644.webp)
 
 那么按照`README.md`中的提示添加上来自构建目录的`llvm-lit`会怎么样呢？
 
@@ -120,7 +121,7 @@ cmake -G Ninja -DMLIR_DIR=$LLVM_DIR/lib/cmake/mlir -DLLVM_EXTERNAL_LIT=$LLVM_BUI
 
 经过对于LLVM文档的仔细研究，发现原来是没有启动这个变量：
 
-![image-20250319204057832](./mlir-standalone/image-20250319204057832.png)
+![image-20250319204057832](./mlir-standalone/image-20250319204057832.webp)
 
 遂修改最初的LLVM编译指令。
 
@@ -130,7 +131,7 @@ cmake -G Ninja -DMLIR_DIR=$LLVM_DIR/lib/cmake/mlir -DLLVM_EXTERNAL_LIT=$LLVM_BUI
 ninja test-standalone
 ```
 
-![image-20250319204522857](./mlir-standalone/image-20250319204522857.png)
+![image-20250319204522857](./mlir-standalone/image-20250319204522857.webp)
 
 不过这个还是有一点令我不是特别满意，这依赖了一个来自于构建目录的工具`llvm-lit`，如果我编译安装的时候眼疾手快的删除了编译目录不就完蛋了。而且我都**standalone**了还依赖似乎有点说不过去？
 
@@ -160,4 +161,4 @@ cmake -G Ninja -DMLIR_DIR=$LLVM_DIR/lib/cmake/mlir -DLLVM_EXTERNAL_LIT=$(which l
 ninja test-standalone
 ```
 
-![image-20250319205520649](./mlir-standalone/image-20250319205520649.png)
+![image-20250319205520649](./mlir-standalone/image-20250319205520649.webp)
