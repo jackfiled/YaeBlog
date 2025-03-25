@@ -6,6 +6,7 @@ tags:
 - dotnet
 ---
 
+
  如何使用`MSBuild`将构建过程中生成文件复制到生成目录中？
 
 <!--more-->
@@ -114,4 +115,33 @@ tags:
 ```
 
 经过测试，这套生成逻辑在`blazor`类库环境下也可以正常运行，类库的文件会被正确地生成到`wwwroot/_content/<ProjectName>/`文件夹下面。
+
+### 新的问题
+
+在上述代码合并之后，我在后续开发过程中却遇到的了新的问题：在开发环境下项目运行的目录是源代码目录，而此时的`wwwroot`目录下面没有`tailwind.g.css`文件，此时网站再次丢失了样式，而如果使用`pnpm tailwindcss -i wwroot/tailwind.css -o wwwroot/tailwind.g.css`生成文件的话，却会遇到构建错误：
+
+![image-20250325150841442](./msbuild-generate-files/image-20250325150841442.webp)
+
+这是因为`.NET SDK`也会尝试将已经存在的`wwwroot/tailwind.g.css`复制到输出文件中，这就会造成冲突。
+
+因此为了让开发环境和测试环境可以共存，我让`TailwindGenerate`目标只在`dotnet publish`运行，而在开发环境中使用`pnpm tailwindcss`手动生成`CSS`文件。
+
+```xml
+  <Target Name="EnsurePnpmInstalled" BeforeTargets="BeforeBuild">
+    <Message Importance="low" Text="Ensure pnpm is installed..."/>
+    <Exec Command="pnpm --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
+    </Exec>
+    <Error Condition="$(ErrorCode) != 0" Text="Pnpm is not installed which is required for build."/>
+    <Message Importance="normal" Text="Installing pakages using pnpm..."/>
+    <Exec Command="pnpm install"/>
+  </Target>
+  <Target Name="TailwindGenerate" AfterTargets="EnsurePnpmInstalled" BeforeTargets="BeforeBuild" Condition="'$(_IsPublishing)' == 'yes'">
+    <Message Importance="normal" Text="Generate css files using tailwind..."/>
+    <Exec Command="pnpm tailwindcss -i wwwroot/tailwind.css -o $(IntermediateOutputPath)tailwind.g.css"/>
+    <ItemGroup>
+      <Content Include="$(IntermediateOutputPath)tailwind.g.css" Visible="false" TargetPath="wwwroot/tailwind.g.css"/>
+    </ItemGroup>
+  </Target>
+```
 
