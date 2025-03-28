@@ -7,11 +7,15 @@
             <Anchor Address="https://dotnet.microsoft.com" Text="@DotnetVersion"/>
             驱动。
         </p>
+        <p class="text-md">
+            Build Commit #
+            <Anchor Address="@BuildCommitUrl" Text="@BuildCommitId"/>
+        </p>
     </div>
 
     <div>
         <p class="text-md">
-            <a href="https://beian.miit.gov.cn" target="_blank" class="text-black">蜀ICP备2022004429号-1</a>
+            <Anchor Address="https://beian.miit.gov.cn" Text="蜀ICP备2022004429号-1" NewPage="true"/>
         </p>
     </div>
 </div>
@@ -19,4 +23,8 @@
 @code
 {
     private string DotnetVersion => $".NET {Environment.Version}";
+
+    private string BuildCommitId => Environment.GetEnvironmentVariable("COMMIT_ID") ?? "local_build";
+
+    private string BuildCommitUrl => $"https://git.rrricardo.top/jackfiled/YaeBlog/commit/{BuildCommitId}";
 }

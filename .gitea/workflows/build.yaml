@@ -18,7 +18,7 @@ jobs:
             -   name: Build docker image
                 run: |
                     cd YaeBlog
-                    podman build . -t registry.cn-beijing.aliyuncs.com/jackfiled/blog:latest
+                    podman build . -t registry.cn-beijing.aliyuncs.com/jackfiled/blog:latest --build-arg COMMIT_ID=$(git rev-parse --short=10 HEAD)
             -   name: Workaround to make sure podman login succeed
                 run: |
                     mkdir /root/.docker
