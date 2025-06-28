@@ -6,10 +6,7 @@ namespace YaeBlog.Models;
 public record BlogContents(ConcurrentBag<BlogContent> Drafts, ConcurrentBag<BlogContent> Posts)
     : IEnumerable<BlogContent>
 {
-    IEnumerator<BlogContent> IEnumerable<BlogContent>.GetEnumerator()
-    {
-        return Posts.Concat(Drafts).GetEnumerator();
-    }
+    public IEnumerator<BlogContent> GetEnumerator() => Posts.Concat(Drafts).GetEnumerator();
 
-    public IEnumerator GetEnumerator() => ((IEnumerable<BlogContent>)this).GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
