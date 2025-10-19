@@ -1,33 +1,36 @@
 name: Build blog docker image
 on:
-    push:
-        branches:
-            - master
+  push:
+    branches:
+      - master
 jobs:
-    Build-Blog-Image:
-        runs-on: archlinux
-        steps:
-            -   uses: https://mirrors.rrricardo.top/actions/checkout.git@v4
-                name: Check out code
-                with:
-                    lfs: true
-            -   name: Build project
-                run: |
-                    cd YaeBlog
-                    dotnet publish
-            -   name: Build docker image
-                run: |
-                    cd YaeBlog
-                    podman build . -t registry.cn-beijing.aliyuncs.com/jackfiled/blog:latest --build-arg COMMIT_ID=$(git rev-parse --short=10 HEAD)
-            -   name: Workaround to make sure podman login succeed
-                run: |
-                    mkdir /root/.docker
-            -   name: Login aliyun docker registry
-                uses: https://mirrors.rrricardo.top/actions/podman-login.git@v1
-                with:
-                    registry: registry.cn-beijing.aliyuncs.com
-                    username: 初冬的朝阳
-                    password: ${{ secrets.ALIYUN_CR_PASSWORD }}
-                    auth_file_path: /etc/containers/auth.json
-            -   name: Push docker image
-                run: podman push registry.cn-beijing.aliyuncs.com/jackfiled/blog:latest
+  Build-Blog-Image:
+    runs-on: archlinux
+    steps:
+      - name: Check out code.
+        uses: https://mirrors.rrricardo.top/actions/checkout.git@v4
+        with:
+          lfs: true
+      - name: Build project.
+        run: |
+          cd YaeBlog
+          dotnet publish
+      - name: Build docker image.
+        run: |
+          proxy
+          podman pull mcr.microsoft.com/dotnet/aspnet:9.0
+          unproxy
+          cd YaeBlog
+          podman build . -t ccr.ccs.tencentyun.com/jackfiled/blog --build-arg COMMIT_ID=$(git rev-parse --short=10 HEAD)
+      - name: Workaround to make sure podman-login working.
+        run: |
+          mkdir /root/.docker
+      - name: Login tencent cloud docker registry.
+        uses: https://mirrors.rrricardo.top/actions/podman-login.git@v1
+        with:
+          registry: ccr.ccs.tencentyun.com
+          username: 100044380877
+          password: ${{ secrets.TENCENT_REGISTRY_PASSWORD }}
+          auth_file_path: /etc/containers/auth.json
+      - name: Push docker image.
+        run: podman push ccr.ccs.tencentyun.com/jackfiled/blog:latest
