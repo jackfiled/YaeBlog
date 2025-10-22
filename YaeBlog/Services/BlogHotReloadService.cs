@@ -16,11 +16,11 @@ public sealed class BlogHotReloadService(
 
         await rendererService.RenderAsync(true);
 
-        Task[] reloadTasks = [FileWatchTask(stoppingToken)];
+        Task[] reloadTasks = [WatchFileAsync(stoppingToken)];
         await Task.WhenAll(reloadTasks);
     }
 
-    private async Task FileWatchTask(CancellationToken token)
+    private async Task WatchFileAsync(CancellationToken token)
     {
         while (!token.IsCancellationRequested)
         {
@@ -31,6 +31,15 @@ public sealed class BlogHotReloadService(
             {
                 logger.LogInformation("File watcher is stopping.");
                 break;
+            }
+
+            FileInfo changeFileInfo = new(changeFile);
+
+            if (changeFileInfo.Name.StartsWith('.'))
+            {
+                // Ignore dot-started file and directory.
+                logger.LogDebug("Ignore hidden file: {}.", changeFile);
+                continue;
             }
 
             logger.LogInformation("{} changed, re-rendering.", changeFile);

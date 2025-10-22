@@ -39,6 +39,11 @@
     {
         _page = Page ?? 1;
         _pageCount = Contents.Count / EssaysPerPage + 1;
+        (_pageCount, int reminder) = int.DivRem(Contents.Count, EssaysPerPage);
+        if (reminder > 0)
+        {
+            _pageCount += 1;
+        }
 
         if (EssaysPerPage * _page > Contents.Count + EssaysPerPage)
         {

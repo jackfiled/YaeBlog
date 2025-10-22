@@ -109,6 +109,12 @@ public partial class EssayScanService : IEssayScanService
         {
             foreach (BlogResult blog in fileContents)
             {
+                if (blog.BlogContent.Length < 4)
+                {
+                    // Even not contains a legal header.
+                    continue;
+                }
+
                 int endPos = blog.BlogContent.IndexOf("---", 4, StringComparison.Ordinal);
                 if (!blog.BlogContent.StartsWith("---") || endPos is -1 or 0)
                 {
@@ -121,14 +127,14 @@ public partial class EssayScanService : IEssayScanService
                 try
                 {
                     MarkdownMetadata metadata = _yamlDeserializer.Deserialize<MarkdownMetadata>(metadataString);
-                    _logger.LogDebug("Scan metadata title: '{}' for {}.", metadata.Title, blog.BlogFile.Name);
+                    _logger.LogDebug("Scan metadata title: '{title}' for {name}.", metadata.Title, blog.BlogFile.Name);
 
                     contents.Add(new BlogContent(blog.BlogFile, metadata, blog.BlogContent[(endPos + 3)..], isDraft,
                         blog.Images, blog.NotFoundImages));
                 }
                 catch (YamlException e)
                 {
-                    _logger.LogWarning("Failed to parser metadata from {} due to {}, skipping", blog.BlogFile.Name, e);
+                    _logger.LogWarning("Failed to parser metadata from {name} due to {exception}, skipping", blog.BlogFile.Name, e);
                 }
             }
         });
