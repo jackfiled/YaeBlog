@@ -1,0 +1,53 @@
+<Project>
+  <PropertyGroup>
+    <ClientAssetsRestoreCommand Condition="'$(ClientAssesRestoreCommand)' == ''">pnpm install</ClientAssetsRestoreCommand>
+    <ClientAssetsBuildCommand Condition="'$(ClientAssetsBuildCommand)' == ''">pnpm run build</ClientAssetsBuildCommand>
+    <ClientAssetsBuildOutputParameter Condition="'$(ClientAssetsBuildOutputParameter)' == ''">--output</ClientAssetsBuildOutputParameter>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <_RestoreClientAssetsBeforeTargets Condition="'$(TargetFramework)' == ''">DispatchToInnerBuilds</_RestoreClientAssetsBeforeTargets>
+  </PropertyGroup>
+
+  <Target Name="RestoreClientAssets" BeforeTargets="$(_RestoreClientAssetsBeforeTargets)">
+    <Message Importance="high" Text="Running $(ClientAssetsRestoreCommand)"/>
+    <Exec Command="$(ClientAssetsRestoreCommand)"/>
+  </Target>
+
+  <Target Name="BuildClientAssets" DependsOnTargets="RestoreClientAssets" BeforeTargets="AssignTargetPaths">
+    <PropertyGroup>
+      <_ClientAssetsOutputFullPath>$([System.IO.Path]::GetFullPath('$(IntermediateOutputPath)ClientAssets'))</_ClientAssetsOutputFullPath>
+    </PropertyGroup>
+
+    <MakeDir Directories="$(_ClientAssetsOutputFullPath)"/>
+    <Exec Command="$(ClientAssetsBuildCommand) $(ClientAssetsBuildOutputParameter) $(_ClientAssetsOutputFullPath)"/>
+
+    <ItemGroup>
+      <_ClientAssetsBuildOutput Include="$(IntermediateOutputPath)ClientAssets\**"/>
+    </ItemGroup>
+  </Target>
+
+  <Target Name="DefineClientAssets" AfterTargets="BuildClientAssets" DependsOnTargets="ResolveStaticWebAssetsConfiguration">
+    <ItemGroup>
+      <FileWrites Include="@(_ClientAssetsBuildOutput)"/>
+    </ItemGroup>
+
+    <DefineStaticWebAssets
+      CandidateAssets="@(_ClientAssetsBuildOutput)"
+      SourceId="$(PackageId)"
+      SourceType="Computed"
+      ContentRoot="$(_ClientAssetsOutputFullPath)"
+      BasePath="$(StaticWebAssetBasePath)"
+    >
+      <Output TaskParameter="Assets" ItemName="StaticWebAsset"/>
+      <Output TaskParameter="Assets" ItemName="_ClientAssetsStaticWebAsset"/>
+    </DefineStaticWebAssets>
+
+    <DefineStaticWebAssetEndpoints
+      CandidateAssets="@(_ClientAssetsStaticWebAsset)"
+      ContentTypeMappings="@(StaticWebAssetContentTypeMapping)"
+    >
+      <Output TaskParameter="Endpoints" ItemName="StaticWebAssetEndpoint" />
+    </DefineStaticWebAssetEndpoints>
+  </Target>
+</Project>

@@ -11,30 +11,13 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <Target Name="EnsurePnpmInstalled" BeforeTargets="BeforeBuild">
-    <Message Importance="low" Text="Ensure pnpm is installed..."/>
-    <Exec Command="pnpm --version" ContinueOnError="true">
-      <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
-    </Exec>
-
-    <Error Condition="$(ErrorCode) != 0" Text="Pnpm is not installed which is required for build."/>
-
-    <Message Importance="normal" Text="Installing pakages using pnpm..."/>
-    <Exec Command="pnpm install"/>
-  </Target>
-
-  <Target Name="TailwindGenerate" AfterTargets="EnsurePnpmInstalled" BeforeTargets="BeforeBuild" Condition="'$(_IsPublishing)' == 'yes'">
-    <Message Importance="normal" Text="Generate css files using tailwind..."/>
-    <Exec Command="pnpm tailwindcss -i wwwroot/tailwind.css -o $(IntermediateOutputPath)tailwind.g.css"/>
-
-    <ItemGroup>
-      <Content Include="$(IntermediateOutputPath)tailwind.g.css" Visible="false" TargetPath="wwwroot/tailwind.g.css"/>
-    </ItemGroup>
-  </Target>
-
+  <PropertyGroup>
+    <ClientAssetsRestoreCommand>pnpm install</ClientAssetsRestoreCommand>
+    <ClientAssetsBuildCommand>pwsh build-tailwind.ps1</ClientAssetsBuildCommand>
+  </PropertyGroup>
 </Project>

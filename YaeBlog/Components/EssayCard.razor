@@ -3,7 +3,7 @@
 
 <div class="flex flex-col p-3">
     <div class="text-3xl font-bold py-2">
-        <a href="/blog/essays/@(Essay.FileName)" target="_blank">@(Essay.Title)</a>
+        <a href="/blog/essays/@(Essay.FileName)">@(Essay.Title)</a>
     </div>
 
     <div class="p-2 flex flex-row justify-content-start gap-2">
@@ -14,9 +14,7 @@
         @foreach (string key in Essay.Tags)
         {
             <div class="text-sky-600">
-                <a href="/blog/tags/?tagName=@(UrlEncoder.Default.Encode(key))">
-                    # @key
-                </a>
+                <Anchor Address="@($"/blog/tags/?tagName={UrlEncoder.Default.Encode(key)}")" Text="@($"# {key}")"/>
             </div>
         }
     </div>

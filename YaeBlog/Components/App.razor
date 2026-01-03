@@ -5,16 +5,33 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <base href="/"/>
-    <link rel="stylesheet" href="YaeBlog.styles.css"/>
-    <link rel="icon" href="images/favicon.ico"/>
-    <link rel="stylesheet" href="globals.css"/>
-    <link rel="stylesheet" href="tailwind.g.css"/>
+    <link rel="stylesheet" href="@Assets["YaeBlog.styles.css"]"/>
+    <link rel="icon" href="@Assets["images/favicon.ico"]"/>
+    <link rel="stylesheet" href="@Assets["tailwind.g.css"]"/>
+    <style>
+        @@font-face {
+            font-family: "Font Awesome 6 Free";
+            font-style: normal;
+            font-weight: 400;
+            font-display: block;
+            src: url(@Assets["fonts/fa-regular-400.woff2"]) format("woff2") url(@Assets["fonts/fa-regular-400.ttf"]) format("truetype");
+        }
+
+        @@font-face {
+            font-family: "Font Awesome 6 Free";
+            font-style: normal;
+            font-weight: 900;
+            font-display: block;
+            src: url(@Assets["fonts/fa-solid-900.woff2"]) format("woff2"), url(@Assets["fonts/fa-solid-900.ttf"]) format("truetype")
+        }
+    </style>
     <HeadOutlet/>
+    <ImportMap/>
 </head>
 
 <body>
-    <Routes/>
-    <script src="_framework/blazor.web.js"></script>
+<Routes/>
+<script src="@Assets["_framework/blazor.web.js"]"></script>
 </body>
 
 </html>
