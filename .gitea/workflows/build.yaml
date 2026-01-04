@@ -13,15 +13,11 @@ jobs:
           lfs: true
       - name: Build project.
         run: |
-          cd YaeBlog
-          dotnet publish
-      - name: Build docker image.
-        run: |
           proxy
           podman pull mcr.microsoft.com/dotnet/aspnet:10.0
           unproxy
           cd YaeBlog
-          podman build . -t ccr.ccs.tencentyun.com/jackfiled/blog --build-arg COMMIT_ID=$(git rev-parse --short=10 HEAD)
+          pwsh build.ps1 build
       - name: Workaround to make sure podman-login working.
         run: |
           mkdir /root/.docker

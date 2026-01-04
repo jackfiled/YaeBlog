@@ -18,6 +18,6 @@
 
   <PropertyGroup>
     <ClientAssetsRestoreCommand>pnpm install</ClientAssetsRestoreCommand>
-    <ClientAssetsBuildCommand>pwsh build-tailwind.ps1</ClientAssetsBuildCommand>
+    <ClientAssetsBuildCommand>pwsh build.ps1 tailwind</ClientAssetsBuildCommand>
   </PropertyGroup>
 </Project>
