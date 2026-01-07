@@ -16,8 +16,7 @@ public sealed class EssayStylesPostRenderProcessor : IPostRenderProcessor
     public async Task<BlogEssay> ProcessAsync(BlogEssay essay)
     {
         BrowsingContext context = new(Configuration.Default);
-        IDocument document = await context.OpenAsync(
-            req => req.Content(essay.HtmlContent));
+        IDocument document = await context.OpenAsync(req => req.Content(essay.HtmlContent));
 
         ApplyGlobalCssStyles(document);
         BeatifyTable(document);
@@ -36,6 +35,7 @@ public sealed class EssayStylesPostRenderProcessor : IPostRenderProcessor
         { "h5", "text-lg font-bold py-1" },
         { "p", "p-2" },
         { "img", "w-11/12 block mx-auto my-2 rounded-md shadow-md" },
+        { "a", "text-blue-600" }
     };
 
     private void ApplyGlobalCssStyles(IDocument document)

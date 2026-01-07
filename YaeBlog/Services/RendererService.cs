@@ -47,7 +47,10 @@ public partial class RendererService(
                 Description = GetDescription(content),
                 WordCount = wordCount,
                 ReadTime = CalculateReadTime(wordCount),
-                PublishTime = content.Metadata.Date ?? DateTime.Now,
+                PublishTime = content.Metadata.Date == default ? DateTimeOffset.Now : content.Metadata.Date,
+                // 如果不存在最后的更新时间，就把更新时间设置为发布时间
+                UpdateTime =
+                    content.Metadata.UpdateTime == default ? content.Metadata.Date : content.Metadata.UpdateTime,
                 HtmlContent = content.Content
             };
 
@@ -182,7 +185,7 @@ public partial class RendererService(
 
         string description = builder.ToString();
 
-        logger.LogDebug("Description of {} is {}.", content.BlogName,
+        logger.LogDebug("Description of {name} is {desc}.", content.BlogName,
             description);
         return description;
     }
@@ -193,7 +196,7 @@ public partial class RendererService(
             where char.IsLetterOrDigit(c)
             select c).Count();
 
-        logger.LogDebug("Word count of {} is {}", content.BlogName,
+        logger.LogDebug("Word count of {blog} is {count}", content.BlogName,
             count);
         return (uint)count;
     }

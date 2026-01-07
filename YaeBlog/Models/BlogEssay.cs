@@ -8,7 +8,9 @@ public class BlogEssay : IComparable<BlogEssay>
 
     public required bool IsDraft { get; init; }
 
-    public required DateTime PublishTime { get; init; }
+    public required DateTimeOffset PublishTime { get; init; }
+
+    public required DateTimeOffset UpdateTime { get; init; }
 
     public required string Description { get; init; }
 
@@ -28,6 +30,7 @@ public class BlogEssay : IComparable<BlogEssay>
             FileName = FileName,
             IsDraft = IsDraft,
             PublishTime = PublishTime,
+            UpdateTime = UpdateTime,
             Description = Description,
             WordCount = WordCount,
             ReadTime = ReadTime,

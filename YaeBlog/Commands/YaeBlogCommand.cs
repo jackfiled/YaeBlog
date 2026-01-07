@@ -19,6 +19,7 @@ public sealed class YaeBlogCommand
         AddWatchCommand(_rootCommand);
         AddListCommand(_rootCommand);
         AddNewCommand(_rootCommand);
+        AddUpdateCommand(_rootCommand);
         AddPublishCommand(_rootCommand);
         AddScanCommand(_rootCommand);
         AddCompressCommand(_rootCommand);
@@ -46,7 +47,7 @@ public sealed class YaeBlogCommand
 
             WebApplication application = builder.Build();
 
-            application.UseStaticFiles();
+            application.MapStaticAssets();
             application.UseAntiforgery();
             application.UseYaeBlog();
 
@@ -76,7 +77,7 @@ public sealed class YaeBlogCommand
 
             WebApplication application = builder.Build();
 
-            application.UseStaticFiles();
+            application.MapStaticAssets();
             application.UseAntiforgery();
             application.UseYaeBlog();
 
@@ -109,12 +110,39 @@ public sealed class YaeBlogCommand
 
                 await essayScanService.SaveBlogContent(new BlogContent(
                     new FileInfo(Path.Combine(blogOption.Value.Root, "drafts", file + ".md")),
-                    new MarkdownMetadata { Title = file, Date = DateTime.Now },
+                    new MarkdownMetadata { Title = file, Date = DateTimeOffset.Now, UpdateTime = DateTimeOffset.Now },
                     string.Empty, true, [], []));
 
                 Console.WriteLine($"Created new blog '{file}.");
             }, filenameArgument, new BlogOptionsBinder(), new LoggerBinder<EssayScanService>(),
             new EssayScanServiceBinder());
+    }
+
+    private static void AddUpdateCommand(RootCommand rootCommand)
+    {
+        Command newCommand = new("update", "Update the blog essay.");
+        rootCommand.AddCommand(newCommand);
+
+        Argument<string> filenameArgument = new(name: "blog name", description: "The blog filename to update.");
+        newCommand.AddArgument(filenameArgument);
+
+        newCommand.SetHandler(async (file, _, _, essayScanService) =>
+            {
+                Console.WriteLine("HINT: The update command only consider published blogs.");
+                BlogContents contents = await essayScanService.ScanContents();
+
+                BlogContent? content = contents.Posts.FirstOrDefault(c => c.BlogName == file);
+                if (content is null)
+                {
+                    Console.WriteLine($"Target essay {file} is not exist.");
+                    return;
+                }
+
+                content.Metadata.UpdateTime = DateTimeOffset.Now;
+                await essayScanService.SaveBlogContent(content, content.IsDraft);
+
+            }, filenameArgument,
+            new BlogOptionsBinder(), new LoggerBinder<EssayScanService>(), new EssayScanServiceBinder());
     }
 
     private static void AddListCommand(RootCommand rootCommand)

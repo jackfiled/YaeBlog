@@ -19,10 +19,6 @@
 
     <div class="px-6 pt-4 pb-2">
         <div class="flex flex-row gap-4">
-            <div class="font-light">
-                @(_essay!.PublishTime.ToString("yyyy-MM-dd"))
-            </div>
-
             @foreach (string tag in _essay!.Tags)
             {
                 <div class="text-sky-500">
@@ -32,10 +28,19 @@
                 </div>
             }
         </div>
-    </div>
 
-    <div class="px-6 pt-2 pb-4">
-        <div class="font-light">
+        <div class="font-light py-1">
+            发布于: @(_essay.PublishTime.ToString("yyyy年MM月dd日 hh:mm:ss"))
+        </div>
+
+        @if (_essay.UpdateTime != _essay.PublishTime)
+        {
+            <div class="font-light pb-1">
+                更新于: @(_essay.UpdateTime.ToString("yyyy年MM月dd日 hh:mm:ss"))
+            </div>
+        }
+
+        <div class="font-light pb-1">
             总字数：@(_essay!.WordCount)字，预计阅读时间 @(_essay!.ReadTime)。
         </div>
     </div>
