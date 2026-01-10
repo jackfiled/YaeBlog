@@ -38,7 +38,7 @@ public partial class RendererService(
         List<BlogEssay> essays = [];
         foreach (BlogContent content in preProcessedContents)
         {
-            uint wordCount = GetWordCount(content);
+            (uint wordCount, string readTime) = GetWordCount(content);
             BlogEssay essay = new()
             {
                 Title = content.Metadata.Title ?? content.BlogName,
@@ -46,7 +46,7 @@ public partial class RendererService(
                 IsDraft = content.IsDraft,
                 Description = GetDescription(content),
                 WordCount = wordCount,
-                ReadTime = CalculateReadTime(wordCount),
+                ReadTime = readTime,
                 PublishTime = content.Metadata.Date == default ? DateTimeOffset.Now : content.Metadata.Date,
                 // 如果不存在最后的更新时间，就把更新时间设置为发布时间
                 UpdateTime =
@@ -190,23 +190,16 @@ public partial class RendererService(
         return description;
     }
 
-    private uint GetWordCount(BlogContent content)
+    private (uint, string) GetWordCount(BlogContent content)
     {
-        int count = (from c in content.Content
-            where char.IsLetterOrDigit(c)
-            select c).Count();
+        uint count = MarkdownWordCounter.CountWord(content);
 
         logger.LogDebug("Word count of {blog} is {count}", content.BlogName,
             count);
-        return (uint)count;
-    }
-
-    private static string CalculateReadTime(uint wordCount)
-    {
         // 据说语文教学大纲规定，中国高中生阅读现代文的速度是600字每分钟
-        int second = (int)wordCount / 10;
-        TimeSpan span = new(0, 0, second);
+        uint second = count / 10;
+        TimeSpan span = new(0, 0, (int)second);
 
-        return span.ToString("mm'分 'ss'秒'");
+        return (count, span.ToString("mm'分'ss'秒'"));
     }
 }

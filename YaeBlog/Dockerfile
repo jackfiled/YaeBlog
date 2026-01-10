@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/aspnet:10.0
+FROM mcr.azure.cn/dotnet/aspnet:10.0
 
 ARG COMMIT_ID
 ENV COMMIT_ID=${COMMIT_ID}

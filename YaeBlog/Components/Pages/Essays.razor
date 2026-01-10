@@ -12,52 +12,42 @@
 
 <div class="flex flex-col py-8">
     <div>
-        <h1 id="title" class="text-4xl">@(_essay!.Title)</h1>
-        <div class="col-auto">
-        </div>
-    </div>
+        <div class="flex flex-col items-center">
+            <div>
+                <h1 id="title" class="text-4xl">@(_essay!.Title)</h1>
+            </div>
 
-    <div class="px-6 pt-4 pb-2">
-        <div class="flex flex-row gap-4">
-            @foreach (string tag in _essay!.Tags)
+            <div class="flex flex-row gap-4 py-2">
+                @foreach (string tag in _essay!.Tags)
+                {
+                    <div class="text-sky-500">
+                        <a href="/blog/tags/?tagName=@(UrlEncoder.Default.Encode(tag))">
+                            # @(tag)
+                        </a>
+                    </div>
+                }
+            </div>
+
+            <div class="font-light pb-1">
+                发布于: @(_essay.PublishTime.ToString("yyyy年MM月dd日 HH:mm:ss"))
+            </div>
+
+            @if (_essay.UpdateTime != _essay.PublishTime)
             {
-                <div class="text-sky-500">
-                    <a href="/blog/tags/?tagName=@(UrlEncoder.Default.Encode(tag))">
-                        # @(tag)
-                    </a>
+                <div class="font-light pb-1">
+                    更新于: @(_essay.UpdateTime.ToString("yyyy年MM月dd日 HH:mm:ss"))
                 </div>
             }
-        </div>
 
-        <div class="font-light py-1">
-            发布于: @(_essay.PublishTime.ToString("yyyy年MM月dd日 hh:mm:ss"))
-        </div>
-
-        @if (_essay.UpdateTime != _essay.PublishTime)
-        {
             <div class="font-light pb-1">
-                更新于: @(_essay.UpdateTime.ToString("yyyy年MM月dd日 hh:mm:ss"))
+                总字数：@(_essay!.WordCount)字，预计阅读时间 @(_essay!.ReadTime)
             </div>
-        }
-
-        <div class="font-light pb-1">
-            总字数：@(_essay!.WordCount)字，预计阅读时间 @(_essay!.ReadTime)。
         </div>
     </div>
 
     <div class="grid grid-cols-3">
-        <div class="col-span-3 md:col-span-2 flex flex-col gap-3">
-            <div>
-                @((MarkupString)_essay!.HtmlContent)
-            </div>
-
-            <div>
-                <LicenseDisclaimer EssayFilename="@BlogKey"/>
-            </div>
-        </div>
-
         <div class="col-span-3 md:col-span-1">
-            <div class="flex flex-col sticky top-0 px-8">
+            <div class="flex flex-col sticky top-20 px-8 pt-20">
                 <div>
                     <h3 class="text-2xl">文章目录</h3>
                 </div>
@@ -98,8 +88,17 @@
                 }
             </div>
         </div>
-    </div>
 
+        <div class="col-span-3 md:col-span-2 flex flex-col gap-3">
+            <div>
+                @((MarkupString)_essay!.HtmlContent)
+            </div>
+
+            <div>
+                <LicenseDisclaimer EssayFilename="@BlogKey"/>
+            </div>
+        </div>
+    </div>
 </div>
 
 @code {

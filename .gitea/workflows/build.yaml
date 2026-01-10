@@ -13,9 +13,7 @@ jobs:
           lfs: true
       - name: Build project.
         run: |
-          proxy
-          podman pull mcr.microsoft.com/dotnet/aspnet:10.0
-          unproxy
+          podman pull mcr.azure.cn/dotnet/aspnet:10.0
           cd YaeBlog
           pwsh build.ps1 build
       - name: Workaround to make sure podman-login working.

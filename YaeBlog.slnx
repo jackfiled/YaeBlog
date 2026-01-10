@@ -10,5 +10,6 @@
     <File Path="LICENSE" />
     <File Path="README.md" />
   </Folder>
+  <Project Path="YaeBlog.Tests/YaeBlog.Tests.csproj" />
   <Project Path="YaeBlog/YaeBlog.csproj" />
 </Solution>

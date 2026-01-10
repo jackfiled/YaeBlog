@@ -3,7 +3,7 @@
 [cmdletbinding()]
 param(
     [Parameter(Mandatory = $true, Position = 0, HelpMessage = "Specify the build target")]
-    [ValidateSet("tailwind", "watch", "publish", "compress", "build")]
+    [ValidateSet("tailwind", "watch", "publish", "compress", "build", "dev")]
     [string]$Target,
     [string]$Output = "wwwroot",
     [string]$Essay,
@@ -56,6 +56,28 @@ process {
         podman build . -t ccr.ccs.tencentyun.com/jackfiled/blog --build-arg COMMIT_ID=$commitId
     }
 
+    function Start-Develop {
+        Write-Host "Start tailwindcss and dotnet watch servers..."
+        $pnpmProcess = Start-Process pnpm "tailwindcss -i wwwroot/tailwind.css -o obj/Debug/net10.0/ClientAssets/tailwind.g.css -w" `
+            -PassThru
+
+        try
+        {
+            Write-Host "Started pnpm process exit? " $pnpmProcess.HasExited
+            Start-Process dotnet "watch -- serve" -PassThru | Wait-Process
+        }
+        finally
+        {
+            if ($pnpmProcess.HasExited)
+            {
+                 Write-Error "pnpm process has exited!"
+                 exit 1
+            }
+            Write-Host "Kill tailwindcss and dotnet watch servers..."
+            $pnpmProcess | Stop-Process
+        }
+    }
+
     switch ($Target)
     {
         "tailwind" {
@@ -83,6 +105,10 @@ process {
         }
         "build" {
             Build-Image
+            break
+        }
+        "dev" {
+            Start-Develop
             break
         }
     }
