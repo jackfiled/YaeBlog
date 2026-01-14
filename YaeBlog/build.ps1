@@ -3,7 +3,7 @@
 [cmdletbinding()]
 param(
     [Parameter(Mandatory = $true, Position = 0, HelpMessage = "Specify the build target")]
-    [ValidateSet("tailwind", "watch", "publish", "compress", "build", "dev")]
+    [ValidateSet("tailwind", "publish", "compress", "build", "dev", "new")]
     [string]$Target,
     [string]$Output = "wwwroot",
     [string]$Essay,
@@ -18,6 +18,15 @@ begin {
         if ($Essay -eq "")
         {
             Write-Error "No publish target, please add with --essay argument."
+            exit 1
+        }
+    }
+
+    if ($Target -eq "new")
+    {
+        if ($Essay -eq "")
+        {
+            Write-Error "No  new name, please add with --essay argument."
             exit 1
         }
     }
@@ -85,10 +94,6 @@ process {
             pnpm tailwindcss -i wwwroot/tailwind.css -o $Output/tailwind.g.css
             break
         }
-        "watch" {
-            dotnet run -- watch
-            break
-        }
         "publish" {
             Write-Host "Publish essay $Essay..."
             dotnet run -- publish $Essay
@@ -110,6 +115,9 @@ process {
         "dev" {
             Start-Develop
             break
+        }
+        "new" {
+            dotnet run -- new $Essay
         }
     }
 }

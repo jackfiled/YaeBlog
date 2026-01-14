@@ -39,6 +39,14 @@ public partial class RendererService(
         foreach (BlogContent content in preProcessedContents)
         {
             (uint wordCount, string readTime) = GetWordCount(content);
+            DateTimeOffset publishDate = content.Metadata.Date is null
+                ? DateTimeOffset.Now
+                : DateTimeOffset.Parse(content.Metadata.Date);
+            // 如果不存在最后的更新时间，就把更新时间设置为发布时间
+            DateTimeOffset updateTime = content.Metadata.UpdateTime is null
+                ? publishDate
+                : DateTimeOffset.Parse(content.Metadata.UpdateTime);
+
             BlogEssay essay = new()
             {
                 Title = content.Metadata.Title ?? content.BlogName,
@@ -47,10 +55,8 @@ public partial class RendererService(
                 Description = GetDescription(content),
                 WordCount = wordCount,
                 ReadTime = readTime,
-                PublishTime = content.Metadata.Date == default ? DateTimeOffset.Now : content.Metadata.Date,
-                // 如果不存在最后的更新时间，就把更新时间设置为发布时间
-                UpdateTime =
-                    content.Metadata.UpdateTime == default ? content.Metadata.Date : content.Metadata.UpdateTime,
+                PublishTime = publishDate,
+                UpdateTime = updateTime,
                 HtmlContent = content.Content
             };
 

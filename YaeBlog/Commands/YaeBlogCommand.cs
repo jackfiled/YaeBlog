@@ -110,7 +110,12 @@ public sealed class YaeBlogCommand
 
                 await essayScanService.SaveBlogContent(new BlogContent(
                     new FileInfo(Path.Combine(blogOption.Value.Root, "drafts", file + ".md")),
-                    new MarkdownMetadata { Title = file, Date = DateTimeOffset.Now, UpdateTime = DateTimeOffset.Now },
+                    new MarkdownMetadata
+                    {
+                        Title = file,
+                        Date = DateTimeOffset.Now.ToString("o"),
+                        UpdateTime = DateTimeOffset.Now.ToString("o")
+                    },
                     string.Empty, true, [], []));
 
                 Console.WriteLine($"Created new blog '{file}.");
@@ -138,9 +143,8 @@ public sealed class YaeBlogCommand
                     return;
                 }
 
-                content.Metadata.UpdateTime = DateTimeOffset.Now;
+                content.Metadata.UpdateTime = DateTimeOffset.Now.ToString("o");
                 await essayScanService.SaveBlogContent(content, content.IsDraft);
-
             }, filenameArgument,
             new BlogOptionsBinder(), new LoggerBinder<EssayScanService>(), new EssayScanServiceBinder());
     }
@@ -239,7 +243,8 @@ public sealed class YaeBlogCommand
                 }
 
                 // 设置发布的时间
-                content.Metadata.Date = DateTime.Now;
+                content.Metadata.Date = DateTimeOffset.Now.ToString("o");
+                content.Metadata.UpdateTime = DateTimeOffset.Now.ToString("o");
 
                 // 将选中的博客文件复制到posts
                 await essayScanService.SaveBlogContent(content, isDraft: false);

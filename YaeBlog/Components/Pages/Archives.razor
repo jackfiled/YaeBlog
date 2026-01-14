@@ -19,7 +19,7 @@
         </span>
     </div>
 
-    @foreach (IGrouping<DateTime, BlogEssay> group in _essays)
+    @foreach (IGrouping<DateTimeOffset, BlogEssay> group in _essays)
     {
         <div class="p-2">
             <div class="flex flex-col">
@@ -30,7 +30,7 @@
                 <div class="px-4 py-4 flex flex-col">
                     @foreach (BlogEssay essay in group)
                     {
-                        <a target="_blank" href="@($"/blog/essays/{essay.FileName}")">
+                        <a href="@($"/blog/essays/{essay.FileName}")">
                             <div class="flex flex-row p-2 mx-1 rounded-lg hover:bg-gray-300">
                                 <div class="w-20">
                                     @(essay.PublishTime.ToString("MM月dd日"))
@@ -51,13 +51,13 @@
 </div>
 
 @code {
-    private readonly List<IGrouping<DateTime, BlogEssay>> _essays = [];
+    private readonly List<IGrouping<DateTimeOffset, BlogEssay>> _essays = [];
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
 
         _essays.AddRange(from essay in Contents.Essays
-            group essay by new DateTime(essay.PublishTime.Year, 1, 1));
+            group essay by new DateTimeOffset(essay.PublishTime.Year, 1, 1,0, 0, 0, TimeSpan.Zero));
     }
 }
