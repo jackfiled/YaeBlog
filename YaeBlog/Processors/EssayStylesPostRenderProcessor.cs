@@ -102,17 +102,33 @@ public sealed class EssayStylesPostRenderProcessor : IPostRenderProcessor
         }
     }
 
+    /// <summary>
+    /// 美化各种列表元素
+    /// </summary>
+    /// <param name="document"></param>
     private static void BeatifyList(IDocument document)
     {
-        foreach (IElement ulElement in from e in document.All
-                 where e.LocalName == "ul"
+        foreach (IElement listElement in from e in document.All
+                 where e.LocalName is "ol" or "ul"
                  select e)
         {
-            // 首先给<ul>元素添加样式
-            ulElement.ClassList.Add("list-disc ml-10");
+            // 给有序或者无序列表添加不同的样式
+            listElement.ClassList.Add("ml-10");
+            switch (listElement.LocalName)
+            {
+                case "ul":
+                    {
+                        listElement.ClassList.Add("list-disc");
+                        break;
+                    }
+                case "ol":
+                    {
+                        listElement.ClassList.Add("list-decimal");
+                        break;
+                    }
+            }
 
-
-            foreach (IElement liElement in from e in ulElement.Children
+            foreach (IElement liElement in from e in listElement.Children
                      where e.LocalName == "li"
                      select e)
             {

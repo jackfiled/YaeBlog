@@ -9,7 +9,7 @@ using YaeBlog.Models;
 
 namespace YaeBlog.Services;
 
-public partial class RendererService(
+public sealed partial class RendererService(
     ILogger<RendererService> logger,
     IEssayScanService essayScanService,
     MarkdownPipeline markdownPipeline,
