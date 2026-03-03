@@ -1,0 +1,50 @@
+@using Microsoft.Extensions.Options
+@using YaeBlog.Abstraction
+@using YaeBlog.Models
+
+@inject IEssayContentService Contents
+@inject IOptions<BlogOptions> Options
+
+<div class="flex flex-col">
+    <div class="p-10">
+        <img src="images/avatar.png" alt="Ricardo's Avatar" class="h-auto max-w-full"/>
+    </div>
+
+    <div class="px-10 py-2 text-xl">
+        “奇奇怪怪东西的聚合地”
+    </div>
+
+    <div class="flex flex-row justify-between px-6 py-2 text-xl">
+        <div>
+            文章
+        </div>
+
+        <a href="/blog/archives/">
+            <div>
+                @(Contents.Count)
+            </div>
+        </a>
+    </div>
+
+    <div class="flex flex-row justify-between px-6 py-2 text-xl">
+        <div>
+            标签
+        </div>
+
+        <a href="/blog/tags/">
+            <div>
+                @(Contents.Tags.Count)
+            </div>
+        </a>
+    </div>
+
+    <div class="text-xl px-2 py-2">
+        广而告之
+    </div>
+
+    <div class="px-6">
+        <p class="text-lg">
+            @(Options.Value.Announcement)
+        </p>
+    </div>
+</div>

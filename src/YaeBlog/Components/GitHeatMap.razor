@@ -1,0 +1,122 @@
+@using YaeBlog.Models
+@using YaeBlog.Services
+@inject GitHeapMapService GitHeapMapInstance
+
+<div class="w-full">
+    <SvgContainer ViewBox="@(CalculateViewBox())" Width="100%" Height="auto">
+        <SvgGroup Transform="@GlobalMonthTransform">
+            @foreach ((int i, string text) in _monthIndices)
+            {
+                <SvgText Content="@text" Transform="@(MonthTextTransform(i))" Class="text-[10px]"/>
+            }
+        </SvgGroup>
+        <SvgGroup Transform="@GlobalWeekTransform">
+            @foreach ((int i, string text) in Weekdays.Index())
+            {
+                <SvgText Content="@text" Transform="@(DayTextTransform(i))" Class="text-[10px]"/>
+            }
+        </SvgGroup>
+        <SvgGroup Transform="@GlobalMapTransform">
+            @foreach ((int i, GitContributionGroupedByWeek contribution) in _contributions.Index())
+            {
+                <SvgGroup Transform="@(WeekGridTransform(i))">
+                    @foreach ((int j, GitContributionItem item) in contribution.Contributions.Index())
+                    {
+                        <Rectangle Width="@Width" Height="@Width" Transform="@(WeekdayGridTransform(j))"
+                                   Class="@(GetColorByContribution(item.ContributionCount))"/>
+                    }
+                </SvgGroup>
+            }
+        </SvgGroup>
+    </SvgContainer>
+</div>
+
+@code {
+    private const int Width = 10;
+    private const int Spacing = 2;
+    private const int GridXOffset = 25;
+    private const int GridYOffset = 15;
+
+    private readonly record struct MonthIndex(int Pos, string Month);
+
+    private readonly List<MonthIndex> _monthIndices = [];
+    private readonly List<GitContributionGroupedByWeek> _contributions = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        _contributions.AddRange(await GitHeapMapInstance.GetGitContributionGroupedByWeek());
+
+        // 遍历寻找月份变化的时候，i指向上一个item
+        foreach ((int i, GitContributionGroupedByWeek contributionGroupedByWeek) in _contributions.Skip(1).Index())
+        {
+            if (contributionGroupedByWeek.Monday.Month == _contributions[i].Monday.Month)
+            {
+                continue;
+            }
+
+            // 找到当前周和上一周月份不一致
+            _monthIndices.Add(new MonthIndex(i + 1, Months[contributionGroupedByWeek.Monday.Month - 1]));
+        }
+    }
+
+    private SvgViewBox CalculateViewBox()
+    {
+        int width = GridXOffset + Width * _contributions.Count + Spacing * (_contributions.Count - 1);
+        const int height = GridYOffset + Width * 7 + Spacing * 6;
+
+        // 添加一个10px的额外大小防止出现意外问题
+        return new SvgViewBox(0, 0, width + 10, height + 10);
+    }
+
+    private static SvgTransform GlobalMonthTransform => SvgTransform.CreateBuilder().Translate(23, 10).Build();
+
+    private static SvgTransform GlobalWeekTransform => SvgTransform.CreateBuilder().Translate(2, 24).Build();
+
+    private static SvgTransform GlobalMapTransform => SvgTransform.CreateBuilder().Translate(GridXOffset, GridYOffset).Build();
+
+    private static readonly List<string> Months =
+    [
+        "1月", "2月", "3月", "4月", "5月", "6月",
+        "7月", "8月", "9月", "10月", "11月", "12月"
+    ];
+
+    // private static readonly List<string> Weekdays = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
+    private static readonly List<string> Weekdays = ["周一", "周三", "周五"];
+
+    private static SvgTransform WeekdayGridTransform(int y)
+    {
+        return SvgTransform.CreateBuilder().Translate(0, y * (Width + Spacing)).Build();
+    }
+
+    private static SvgTransform WeekGridTransform(int x)
+    {
+        return SvgTransform.CreateBuilder().Translate(x * (Width + Spacing)).Build();
+    }
+
+    private static SvgTransform MonthTextTransform(int x)
+    {
+        return SvgTransform.CreateBuilder().Translate(x * (Width + Spacing)).Build();
+    }
+
+    private static SvgTransform DayTextTransform(int y)
+    {
+        // We only show Monday, Wednesday and Friday, so there are two days between texts.
+        return SvgTransform.CreateBuilder().Translate(0, y * 2 * (Width + Spacing)).Build();
+    }
+
+    private static string GetColorByContribution(long contribution)
+    {
+        return contribution switch
+        {
+            0 => "fill-gray-200",
+            1 or 2 => "fill-blue-100",
+            3 or 4 => "fill-blue-300",
+            5 or 6 => "fill-blue-500",
+            7 or 8 => "fill-blue-700",
+            _ => "fill-blue-800"
+        };
+    }
+
+}

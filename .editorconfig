@@ -12,7 +12,7 @@ indent_style = space
 indent_size = 4
 trim_trailing_whitespace = true
 
-[project.json]
+[{project.json,appsettings.json,appsettings.*.json}]
 indent_size = 2
 
 [*.{yaml,yml}]
