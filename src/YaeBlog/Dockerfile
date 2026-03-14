@@ -4,8 +4,10 @@ ARG COMMIT_ID
 ENV COMMIT_ID=${COMMIT_ID}
 
 WORKDIR /app
-COPY bin/Release/net10.0/publish/ ./
+COPY out/ ./
 COPY source/ ./source/
-COPY appsettings.json .
+COPY src/YaeBlog/appsettings.json .
+
+ENV BLOG__ROOT="./source"
 
 ENTRYPOINT ["dotnet", "YaeBlog.dll", "serve"]

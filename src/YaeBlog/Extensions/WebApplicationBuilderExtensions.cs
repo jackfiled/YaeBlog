@@ -1,4 +1,5 @@
 ﻿using AngleSharp;
+using Microsoft.Extensions.Options;
 using YaeBlog.Abstraction;
 using YaeBlog.Services;
 using YaeBlog.Models;
@@ -27,22 +28,25 @@ public static class WebApplicationBuilderExtensions
                 .AddTransient<HeadlinePostRenderProcessor>()
                 .AddTransient<EssayStylesPostRenderProcessor>()
                 .AddTransient<GiteaFetchService>()
+                .AddTransient<BlogChangeWatcher>()
+                .AddTransient<BlogHotReloadService>()
                 .AddSingleton<GitHeapMapService>();
 
             return builder;
         }
 
-        public WebApplicationBuilder AddServer()
+        public WebApplicationBuilder AddYaeCommand(string[] arguments)
         {
-            builder.Services.AddHostedService<BlogHostedService>();
+            builder.Services.AddHostedService<YaeCommandService>(provider =>
+            {
+                IEssayScanService essayScanService = provider.GetRequiredService<IEssayScanService>();
+                IOptions<BlogOptions> blogOptions = provider.GetRequiredService<IOptions<BlogOptions>>();
+                ILogger<YaeCommandService> logger = provider.GetRequiredService<ILogger<YaeCommandService>>();
+                IHostApplicationLifetime applicationLifetime = provider.GetRequiredService<IHostApplicationLifetime>();
 
-            return builder;
-        }
-
-        public WebApplicationBuilder AddWatcher()
-        {
-            builder.Services.AddTransient<BlogChangeWatcher>();
-            builder.Services.AddHostedService<BlogHotReloadService>();
+                return new YaeCommandService(arguments, essayScanService, provider, blogOptions, logger,
+                    applicationLifetime);
+            });
 
             return builder;
         }

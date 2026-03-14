@@ -13,8 +13,8 @@ jobs:
           lfs: true
       - name: Build project.
         run: |
+          git submodule update --init
           podman pull mcr.azure.cn/dotnet/aspnet:10.0
-          cd YaeBlog
           pwsh build.ps1 build
       - name: Workaround to make sure podman-login working.
         run: |

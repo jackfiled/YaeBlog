@@ -3,16 +3,15 @@
 [cmdletbinding()]
 param(
     [Parameter(Mandatory = $true, Position = 0, HelpMessage = "Specify the build target")]
-    [ValidateSet("tailwind", "publish", "compress", "build", "dev", "new", "watch", "serve", "list")]
+    [ValidateSet("publish", "compress", "build", "dev", "new", "watch", "serve")]
     [string]$Target,
-    [string]$Output = "wwwroot",
     [string]$Essay,
     [switch]$Compress,
     [string]$Root = "source"
 )
 
 begin {
-    if ($Target -eq "tailwind")
+    if (($Target -eq "tailwind") -or ($Target -eq "build"))
     {
         # Handle tailwind specially.
         return
@@ -82,8 +81,10 @@ process {
     function Build-Image
     {
         $commitId = git rev-parse --short=10 HEAD
-        dotnet publish
-        podman build . -t ccr.ccs.tencentyun.com/jackfiled/blog --build-arg COMMIT_ID=$commitId
+        dotnet publish ./src/YaeBlog/YaeBlog.csproj -o out
+        podman build . -t ccr.ccs.tencentyun.com/jackfiled/blog --build-arg COMMIT_ID=$commitId `
+            -f ./src/YaeBlog/Dockerfile
+        Remove-Item -Recurse -Force ./out
     }
 
     function Start-Develop {
@@ -111,11 +112,6 @@ process {
 
     switch ($Target)
     {
-        "tailwind" {
-            Write-Host "Build tailwind css into $Output."
-            pnpm tailwindcss -i wwwroot/tailwind.css -o $Output/tailwind.g.css
-            break
-        }
         "publish" {
             Write-Host "Publish essay $Essay..."
             dotnet run -- publish $Essay
