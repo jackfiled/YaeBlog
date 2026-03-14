@@ -1,0 +1,28 @@
+@inherits LayoutComponentBase
+
+@attribute [StreamRendering]
+
+<main class="container mx-auto flex flex-col min-h-screen">
+    <div class="grid grid-cols-3 mx-3">
+        <div class="md:col-span-2 col-span-3 h-20 flex items-center">
+            <a href="/blog/">
+                <span class="text-blue-600 text-2xl">Ricardo's Blog</span>
+            </a>
+        </div>
+
+        <div class="md:col-span-1 col-span-3 h-20 flex items-center">
+            <div class="flex flex-row w-full px-2 md:justify-center justify-end text-xl gap-3">
+                <Anchor Address="/blog/archives" Text="归档"/>
+                <Anchor Address="/blog/tags/" Text="标签"/>
+                <Anchor Address="/about/" Text="关于" NewPage="@(true)"/>
+                <Anchor Address="/friends" Text="友链" NewPage="@(true)"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="px-4 py-2 flex-grow">
+        @Body
+    </div>
+
+    <Foonter/>
+</main>

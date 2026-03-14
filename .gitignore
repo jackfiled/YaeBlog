@@ -184,6 +184,7 @@ DocProject/Help/html
 
 # Click-Once directory
 publish/
+out/
 
 # Publish Web Output
 *.[Pp]ublish.xml
@@ -484,4 +485,4 @@ $RECYCLE.BIN/
 *.swp
 
 # Tailwind auto-generated stylesheet
-output.css
+*.g.css

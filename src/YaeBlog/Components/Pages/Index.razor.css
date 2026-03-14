@@ -1,0 +1,47 @@
+.fa-brands {
+    font-family: "Font Awesome 7 Brands", "Font Awesome 7 Free";
+    font-style: normal;
+    font-synthesis: none;
+    font-variant: normal;
+    line-height: 1;
+    text-rendering: auto;
+    font-weight: 400;
+}
+
+.fa-github::before {
+    content: "\f09b";
+    color: #24292e;
+}
+
+.fa-bilibili::before {
+    content: "\e3d9";
+    color: #00AEEC;
+}
+
+.gitea-icon {
+    display: inline-block;
+    vertical-align: -0.125em;
+    width: 1em;
+    height: 1em;
+
+    background-image: url("https://docs.gitea.com/img/gitea.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    user-select: none;
+}
+
+.rednote-icon {
+    display: inline-block;
+    vertical-align: -0.125em;
+    width: 1em;
+    height: 1em;
+
+    background-image: url("images/xiaohongshu-seeklogo.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    user-select: none;
+}

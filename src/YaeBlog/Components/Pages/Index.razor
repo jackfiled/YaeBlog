@@ -1,0 +1,101 @@
+@page "/"
+@using YaeBlog.Abstraction
+@using YaeBlog.Models
+@inject IEssayContentService EssayContentInstance
+
+<PageTitle>
+    Jackfiled's Index
+</PageTitle>
+
+<div class="mx-14 lg:mx-20">
+    <div class="grid grid-cols-3 py-4 lg:mx-20">
+        <div class="col-span-3 md:col-span-1 lg:m-10">
+            <img src="@Assets["images/avatar.png"]" alt="Ricardo's Avatar"
+                 class="h-auto max-w-full rounded-md border border-gray-400">
+        </div>
+
+        <div class="col-span-3 md:col-span-2">
+            <div class="flex flex-col gap-y-3 items-center md:items-start md:px-6">
+                <div class="">
+                    <div class="text-3xl font-bold">初冬的朝阳</div>
+                </div>
+
+                <div class="">
+                    <p class="text-lg">a.k.a jackfiled</p>
+                </div>
+
+                <div class="">
+                    <p class="text-lg italic">世界很大，时间很长。</p>
+                </div>
+
+                <div class="flex flex-row gap-2">
+                    <a href="https://github.com/jackfiled" target="_blank">
+                        <div>
+                            <span class="fa-brands fa-github text-xl"></span>
+                        </div>
+                    </a>
+
+                    <a href="https://git.rrricardo.top/jackfiled/" target="_blank">
+                        <div>
+                            <span class="gitea-icon text-xl"></span>
+                        </div>
+                    </a>
+
+                    <a href="https://space.bilibili.com/378831522" target="_blank">
+                        <div>
+                            <span class="fa-brands fa-bilibili text-xl"></span>
+                        </div>
+                    </a>
+
+                    <a href="https://xhslink.com/m/5GVDzyKf3De" target="_blank">
+                        <div>
+                            <span class="rednote-icon text-xl"></span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pt-5 pb-1">
+        <p class="text-lg">恕我不能亲自为您沏茶，还是非常欢迎您来，能在广阔的互联网世界中发现这里实属不易。</p>
+    </div>
+
+    <div class="text-lg">
+        <p class="py-1">
+            正在攻读计算机科学与技术的硕士学位，研究方向是AI编译和异构编译！
+            喜欢优雅的代码，香甜的蛋糕等等一切可爱的事物。
+            更多的情报请见<Anchor Text="关于" Address="/about/"></Anchor>。
+        </p>
+        <p class="py-1">
+        </p>
+        <p class="py-1">
+            <Anchor Address="/blog/" Text="个人博客"/>中收集了我的各种奇思妙想，如果感兴趣欢迎移步。
+            @if (_latestEssay is not null)
+            {
+                <span>
+                    最新的一期博客关注 <Anchor Text="@(_latestEssay.Title)" Address="@(_latestEssay.EssayLink)"/>。
+                </span>
+            }
+        </p>
+        <p class="py-1">
+            日常的代码开发使用自建的<Anchor Text="Gitea" Address="https://git.rrricardo.top" NewPage="@(true)"/>进行，个人
+            开发的各种项目都可以在上面找到。下面的热力图展示了我在Git上的各种动态<span class="line-through">（Everything as Code）</span>。
+        </p>
+    </div>
+
+    <div class="mt-4">
+        <GitHeatMap/>
+    </div>
+</div>
+
+@code {
+    private BlogEssay? _latestEssay;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _latestEssay = EssayContentInstance.Essays.OrderByDescending(e => e.UpdateTime).FirstOrDefault();
+    }
+
+}

@@ -1,0 +1,3 @@
+[submodule "third-party/BlazorSvgComponents"]
+	path = third-party/BlazorSvgComponents
+	url = https://git.rrricardo.top/jackfiled/BlazorSvgComponents.git

@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <PackageReference Include="DotNext" Version="5.26.3" />
+    <PackageReference Include="ImageFlow.NativeRuntime.ubuntu-x86_64" Version="2.1.0-rc11" Condition="$([MSBuild]::IsOsPlatform('Linux'))" />
+    <PackageReference Include="ImageFlow.NativeRuntime.osx-arm64" Version="2.1.0-rc11" Condition="$([MSBuild]::IsOsPlatform('OSX'))" />
+    <PackageReference Include="ImageFlow.Net" Version="0.13.2" />
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+    <PackageReference Include="AngleSharp" Version="1.1.0" />
+    <PackageReference Include="Markdig" Version="0.38.0" />
+    <PackageReference Include="YamlDotNet" Version="16.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../third-party/BlazorSvgComponents/src/BlazorSvgComponents/BlazorSvgComponents.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="YaeBlog.Tests"/>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <ClientAssetsRestoreCommand>pnpm install</ClientAssetsRestoreCommand>
+    <ClientAssetsBuildCommand>pwsh tailwind.ps1</ClientAssetsBuildCommand>
+  </PropertyGroup>
+</Project>

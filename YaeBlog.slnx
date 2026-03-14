@@ -1,0 +1,23 @@
+<Solution>
+  <Folder Name="/.gitea/" />
+  <Folder Name="/.gitea/workflows/">
+    <File Path=".gitea/workflows/build.yaml" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path="build.ps1" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/YaeBlog.Tests/YaeBlog.Tests.csproj" />
+    <Project Path="src/YaeBlog/YaeBlog.csproj" />
+  </Folder>
+  <Folder Name="/third-party/" />
+  <Folder Name="/third-party/BlazorSvgComponents/" />
+  <Folder Name="/third-party/BlazorSvgComponents/src/">
+    <Project Path="third-party/BlazorSvgComponents/src/BlazorSvgComponents/BlazorSvgComponents.csproj" />
+  </Folder>
+</Solution>
