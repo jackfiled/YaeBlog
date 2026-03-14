@@ -82,9 +82,10 @@ process {
     {
         $commitId = git rev-parse --short=10 HEAD
         dotnet publish ./src/YaeBlog/YaeBlog.csproj -o out
+        Write-Host "Succeed to build blog appliocation."
         podman build . -t ccr.ccs.tencentyun.com/jackfiled/blog --build-arg COMMIT_ID=$commitId `
             -f ./src/YaeBlog/Dockerfile
-        Remove-Item -Recurse -Force ./out
+        Write-Host "Succeed to build ccr.ccs.tencentyun.com/jackfiled/blog image."
     }
 
     function Start-Develop {
