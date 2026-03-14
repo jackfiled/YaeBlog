@@ -20,7 +20,7 @@ jobs:
         run: |
           mkdir /root/.docker
       - name: Login tencent cloud docker registry.
-        uses: https://mirrors.rrricardo.top/actions/podman-login.git@v1
+        uses: http://github-mirrors.infra.svc.cluster.local/actions/podman-login.git@v1
         with:
           registry: ccr.ccs.tencentyun.com
           username: 100044380877
