@@ -8,7 +8,7 @@ jobs:
     runs-on: archlinux
     steps:
       - name: Check out code.
-        uses: https://mirrors.rrricardo.top/actions/checkout.git@v4
+        uses: http://github-mirrors.infra.svc.cluster.local/actions/checkout.git@v4
         with:
           lfs: true
       - name: Build project.
