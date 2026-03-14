@@ -1,9 +1,9 @@
 ﻿using AngleSharp;
 using AngleSharp.Dom;
 using Microsoft.Extensions.Options;
-using YaeBlog.Abstraction;
+using YaeBlog.Abstractions;
 using YaeBlog.Core.Exceptions;
-using YaeBlog.Models;
+using YaeBlog.Abstractions.Models;
 
 namespace YaeBlog.Processors;
 

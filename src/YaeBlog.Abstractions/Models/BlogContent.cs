@@ -1,4 +1,4 @@
-﻿namespace YaeBlog.Models;
+﻿namespace YaeBlog.Abstractions.Models;
 
 /// <summary>
 /// 单个博客文件的所有数据和元数据

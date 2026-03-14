@@ -1,5 +1,5 @@
 ﻿using YaeBlog.Extensions;
-using YaeBlog.Models;
+using YaeBlog.Abstractions.Models;
 
 namespace YaeBlog.Services
 {

@@ -1,4 +1,4 @@
-﻿namespace YaeBlog.Models;
+﻿namespace YaeBlog.Abstractions.Models;
 
 public record BlogEssay(
     string Title,

@@ -1,7 +1,7 @@
 ﻿using DotNext;
 using Microsoft.Extensions.Options;
 using Moq;
-using YaeBlog.Models;
+using YaeBlog.Abstractions.Models;
 using YaeBlog.Services;
 
 namespace YaeBlog.Tests;

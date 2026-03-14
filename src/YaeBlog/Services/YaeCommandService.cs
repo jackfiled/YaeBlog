@@ -2,9 +2,9 @@
 using System.CommandLine.Invocation;
 using System.Text;
 using Microsoft.Extensions.Options;
-using YaeBlog.Abstraction;
+using YaeBlog.Abstractions;
 using YaeBlog.Core.Exceptions;
-using YaeBlog.Models;
+using YaeBlog.Abstractions.Models;
 
 namespace YaeBlog.Services;
 

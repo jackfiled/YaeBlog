@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
-using YaeBlog.Abstraction;
-using YaeBlog.Models;
+using YaeBlog.Abstractions;
+using YaeBlog.Abstractions.Models;
 
 namespace YaeBlog.Services;
 

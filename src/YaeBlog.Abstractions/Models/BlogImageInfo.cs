@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace YaeBlog.Models;
+namespace YaeBlog.Abstractions.Models;
 
 public record BlogImageInfo(FileInfo File, long Width, long Height, string MineType, byte[] Content, bool IsUsed)
     : IComparable<BlogImageInfo>

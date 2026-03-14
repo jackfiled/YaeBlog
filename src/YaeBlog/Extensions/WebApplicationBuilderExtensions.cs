@@ -1,8 +1,8 @@
 ﻿using AngleSharp;
 using Microsoft.Extensions.Options;
-using YaeBlog.Abstraction;
+using YaeBlog.Abstractions;
 using YaeBlog.Services;
-using YaeBlog.Models;
+using YaeBlog.Abstractions.Models;
 using YaeBlog.Processors;
 
 namespace YaeBlog.Extensions;

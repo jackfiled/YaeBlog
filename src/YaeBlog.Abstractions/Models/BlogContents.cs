@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Concurrent;
 
-namespace YaeBlog.Models;
+namespace YaeBlog.Abstractions.Models;
 
 public record BlogContents(ConcurrentBag<BlogContent> Drafts, ConcurrentBag<BlogContent> Posts)
     : IEnumerable<BlogContent>

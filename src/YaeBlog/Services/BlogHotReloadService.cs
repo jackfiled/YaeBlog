@@ -1,4 +1,4 @@
-﻿using YaeBlog.Abstraction;
+﻿using YaeBlog.Abstractions;
 
 namespace YaeBlog.Services;
 
