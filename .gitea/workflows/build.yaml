@@ -18,7 +18,7 @@ jobs:
           pwsh build.ps1 build
       - name: Workaround to make sure podman-login working.
         run: |
-          mkdir /root/.docker
+          mkdir -p /root/.docker
       - name: Login tencent cloud docker registry.
         uses: http://github-mirrors.infra.svc.cluster.local/actions/podman-login.git@v1
         with:
