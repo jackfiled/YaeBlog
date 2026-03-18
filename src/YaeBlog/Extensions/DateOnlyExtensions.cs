@@ -18,5 +18,17 @@ public static class DateOnlyExtensions
                 };
             }
         }
+
+        public int DayNumberOfWeek
+        {
+            get
+            {
+                return date.DayOfWeek switch
+                {
+                    DayOfWeek.Sunday => 7,
+                    _ => (int)date.DayOfWeek + 1
+                };
+            }
+        }
     }
 }

@@ -10,27 +10,38 @@ namespace YaeBlog.Services;
 public sealed class GiteaFetchService
 {
     private readonly HttpClient _httpClient;
+    private readonly ILogger<GiteaFetchService> _logger;
 
     private static readonly JsonSerializerOptions s_serializerOptions = new()
     {
-        PropertyNameCaseInsensitive = true, PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
-        RespectRequiredConstructorParameters = true, RespectNullableAnnotations = true
+        PropertyNameCaseInsensitive = true,
+        PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
+        RespectRequiredConstructorParameters = true,
+        RespectNullableAnnotations = true
     };
 
     /// <summary>
     /// For test only.
     /// </summary>
-    internal GiteaFetchService(IOptions<GiteaOptions> giteaOptions, HttpClient httpClient)
+    internal GiteaFetchService(IOptions<GiteaOptions> giteaOptions, HttpClient httpClient,
+        ILogger<GiteaFetchService> logger)
     {
         _httpClient = httpClient;
+        _logger = logger;
 
         _httpClient.BaseAddress = new Uri(giteaOptions.Value.BaseAddress);
-        _httpClient.DefaultRequestHeaders.Authorization =
-            new AuthenticationHeaderValue("Bearer", giteaOptions.Value.ApiKey);
+        if (string.IsNullOrWhiteSpace(giteaOptions.Value.ApiKey))
+        {
+            return;
+        }
+
+        logger.LogInformation("Api Token is set.");
+        httpClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("token", giteaOptions.Value.ApiKey);
     }
 
-    public GiteaFetchService(IOptions<GiteaOptions> giteaOptions, IHttpClientFactory httpClientFactory) : this(
-        giteaOptions, httpClientFactory.CreateClient())
+    public GiteaFetchService(IOptions<GiteaOptions> giteaOptions, IHttpClientFactory httpClientFactory,
+        ILogger<GiteaFetchService> logger) : this(giteaOptions, httpClientFactory.CreateClient(), logger)
     {
     }
 
@@ -50,6 +61,7 @@ public sealed class GiteaFetchService
                     new GiteaFetchException("Failed to fetch valid data."));
             }
 
+            _logger.LogInformation("Fetch new user heat map data.");
             return Result.FromValue(data.Select(i =>
                 new GitContributionItem(DateOnly.FromDateTime(DateTimeOffset.FromUnixTimeSeconds(i.Timestamp).DateTime),
                     i.Contributions)).ToList());

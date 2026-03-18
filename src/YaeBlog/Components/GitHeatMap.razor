@@ -7,13 +7,13 @@
         <SvgGroup Transform="@GlobalMonthTransform">
             @foreach ((int i, string text) in _monthIndices)
             {
-                <SvgText Content="@text" Transform="@(MonthTextTransform(i))" Class="text-[10px]"/>
+                <SvgText Content="@text" Transform="@(MonthTextTransform(i))" Class="text-[8px] font-light"/>
             }
         </SvgGroup>
         <SvgGroup Transform="@GlobalWeekTransform">
             @foreach ((int i, string text) in Weekdays.Index())
             {
-                <SvgText Content="@text" Transform="@(DayTextTransform(i))" Class="text-[10px]"/>
+                <SvgText Content="@text" Transform="@(DayTextTransform(i))" Class="text-[8px] font-light"/>
             }
         </SvgGroup>
         <SvgGroup Transform="@GlobalMapTransform">
@@ -23,7 +23,8 @@
                     @foreach ((int j, GitContributionItem item) in contribution.Contributions.Index())
                     {
                         <Rectangle Width="@Width" Height="@Width" Transform="@(WeekdayGridTransform(j))"
-                                   Class="@(GetColorByContribution(item.ContributionCount))"/>
+                                   Class="@(GetColorByContribution(item.ContributionCount))"
+                                   Id="@(item.ItemId)"/>
                     }
                 </SvgGroup>
             }
@@ -118,5 +119,4 @@
             _ => "fill-blue-800"
         };
     }
-
 }

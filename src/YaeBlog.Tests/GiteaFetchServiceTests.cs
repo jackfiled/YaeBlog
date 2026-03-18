@@ -1,4 +1,5 @@
 ﻿using DotNext;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using YaeBlog.Models;
@@ -9,6 +10,7 @@ namespace YaeBlog.Tests;
 public sealed class GiteaFetchServiceTests
 {
     private static readonly Mock<IOptions<GiteaOptions>> s_giteaOptionsMock = new();
+    private static readonly Mock<ILogger<GiteaFetchService>> s_logger = new();
     private readonly GiteaFetchService _giteaFetchService;
 
     public GiteaFetchServiceTests()
@@ -16,12 +18,10 @@ public sealed class GiteaFetchServiceTests
         s_giteaOptionsMock.SetupGet(o => o.Value)
             .Returns(new GiteaOptions
             {
-                BaseAddress = "https://git.rrricardo.top/api/v1/",
-                ApiKey = "7e33617e5d084199332fceec3e0cb04c6ddced55",
-                HeatMapUsername = "jackfiled"
+                BaseAddress = "https://git.rrricardo.top/api/v1/", HeatMapUsername = "jackfiled"
             });
 
-        _giteaFetchService = new GiteaFetchService(s_giteaOptionsMock.Object, new HttpClient());
+        _giteaFetchService = new GiteaFetchService(s_giteaOptionsMock.Object, new HttpClient(), s_logger.Object);
     }
 
     [Fact]

@@ -5,7 +5,9 @@ using YaeBlog.Models;
 
 namespace YaeBlog.Services;
 
-public sealed class GitHeapMapService(IServiceProvider serviceProvider, IOptions<GiteaOptions> giteaOptions,
+public sealed class GitHeapMapService(
+    IServiceProvider serviceProvider,
+    IOptions<GiteaOptions> giteaOptions,
     ILogger<GitHeapMapService> logger)
 {
     /// <summary>
@@ -83,7 +85,24 @@ public sealed class GitHeapMapService(IServiceProvider serviceProvider, IOptions
             groupedContribution.Contributions.Add(new GitContributionItem(date, contributions));
         }
 
-        // Not fill the last item and add directly.
+        // If the last contributing day is not today, fill the spacing.
+        // But be careful here! If the last grouped contribution is current week, just fill the spacing until today.
+        // If the last grouped contribution is before current week, first fill the blank week then fill until today.
+        while (groupedContribution.Monday < today.LastMonday)
+        {
+            FillSpacing(groupedContribution, today);
+            result.Add(groupedContribution);
+            groupedContribution = new GitContributionGroupedByWeek(groupedContribution.Monday.AddDays(7), []);
+        }
+
+        // Currently the grouped contribution must be current week.
+        for (DateOnly date = groupedContribution.Monday.AddDays(groupedContribution.Contributions.Count);
+             date <= today;
+             date = date.AddDays(1))
+        {
+            groupedContribution.Contributions.Add(new GitContributionItem(date, 0));
+        }
+
         result.Add(groupedContribution);
 
         _gitContributionsGroupedByWeek = result;
