@@ -8,24 +8,25 @@ using YaeBlog.Models;
 
 namespace YaeBlog.Services;
 
-public class YaeCommandService(
+public sealed class YaeCommandService(
     string[] arguments,
     IEssayScanService essayScanService,
-    IServiceProvider serviceProvider,
+    ImageCompressService imageCompressService,
+    ConsoleInfoService consoleInfoService,
+    IHostApplicationLifetime hostApplicationLifetime,
     IOptions<BlogOptions> blogOptions,
-    ILogger<YaeCommandService> logger,
-    IHostApplicationLifetime applicationLifetime)
-    : IHostedService
+    ILogger<YaeCommandService> logger)
+    : BackgroundService
 {
     private readonly BlogOptions _blogOptions = blogOptions.Value;
     private bool _oneShotCommandFlag = true;
 
-    public async Task StartAsync(CancellationToken cancellationToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         RootCommand rootCommand = new("YaeBlog CLI");
 
         RegisterServeCommand(rootCommand);
-        RegisterWatchCommand(rootCommand, cancellationToken);
+        RegisterWatchCommand(rootCommand);
 
         RegisterNewCommand(rootCommand);
         RegisterUpdateCommand(rootCommand);
@@ -33,6 +34,10 @@ public class YaeCommandService(
         RegisterPublishCommand(rootCommand);
         RegisterCompressCommand(rootCommand);
 
+        // Shit code: wait for the application starting.
+        // If the command service finished early before the application starting, there will be an ugly exception.
+        await Task.Delay(500, stoppingToken);
+        logger.LogInformation("Running YaeBlog Command.");
         int exitCode = await rootCommand.InvokeAsync(arguments);
 
         if (exitCode != 0)
@@ -40,13 +45,14 @@ public class YaeCommandService(
             throw new BlogCommandException($"YaeBlog command exited with no-zero code {exitCode}");
         }
 
-        if (_oneShotCommandFlag)
-        {
-            applicationLifetime.StopApplication();
-        }
-    }
+        consoleInfoService.IsOneShotCommand = _oneShotCommandFlag;
 
-    public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+        if (!consoleInfoService.IsOneShotCommand)
+        {
+            logger.LogInformation("Start YaeBlog command: {}", consoleInfoService.Command);
+        }
+        hostApplicationLifetime.StopApplication();
+    }
 
     private void RegisterServeCommand(RootCommand rootCommand)
     {
@@ -59,27 +65,23 @@ public class YaeCommandService(
         rootCommand.SetHandler(HandleServeCommand);
     }
 
-    private async Task HandleServeCommand(InvocationContext context)
+    private Task HandleServeCommand(InvocationContext context)
     {
         _oneShotCommandFlag = false;
+        consoleInfoService.Command = ServerCommand.Serve;
 
-        logger.LogInformation("Failed to load cache, re-render essays.");
-        RendererService rendererService = serviceProvider.GetRequiredService<RendererService>();
-        await rendererService.RenderAsync();
+        return Task.CompletedTask;
     }
 
-    private void RegisterWatchCommand(RootCommand rootCommand, CancellationToken cancellationToken)
+    private void RegisterWatchCommand(RootCommand rootCommand)
     {
         Command command = new("watch", "Start a blog watcher that re-render when file changes.");
         rootCommand.AddCommand(command);
 
-        command.SetHandler(async _ =>
+        command.SetHandler(_ =>
         {
             _oneShotCommandFlag = false;
-
-            // BlogHotReloadService is derived from BackgroundService, but we do not let framework trigger it.
-            BlogHotReloadService blogHotReloadService = serviceProvider.GetRequiredService<BlogHotReloadService>();
-            await blogHotReloadService.StartAsync(cancellationToken);
+            consoleInfoService.Command = ServerCommand.Watch;
         });
     }
 
@@ -270,12 +272,6 @@ public class YaeCommandService(
             getDefaultValue: () => false);
         command.AddOption(dryRunOption);
 
-        command.SetHandler(HandleCompressCommand, dryRunOption);
-    }
-
-    private async Task HandleCompressCommand(bool dryRun)
-    {
-        ImageCompressService imageCompressService = serviceProvider.GetRequiredService<ImageCompressService>();
-        await imageCompressService.Compress(dryRun);
+        command.SetHandler(async dryRun => { await imageCompressService.Compress(dryRun); }, dryRunOption);
     }
 }

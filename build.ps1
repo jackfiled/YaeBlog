@@ -146,10 +146,6 @@ process {
             dotnet run -- serve
             break
         }
-        "list" {
-            dotnet run -- list
-            break
-        }
     }
 }
 

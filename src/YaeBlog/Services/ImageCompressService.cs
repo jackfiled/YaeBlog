@@ -34,6 +34,7 @@ public sealed class ImageCompressService(IEssayScanService essayScanService, ILo
 
         if (needCompressContents.Count == 0)
         {
+            logger.LogInformation("No candidates found to be compressed.");
             return;
         }
 
@@ -51,7 +52,7 @@ public sealed class ImageCompressService(IEssayScanService essayScanService, ILo
 
             foreach (BlogImageInfo image in uncompressedImages)
             {
-                logger.LogInformation("Uncompressed image: {} belonging to blog {}.", image.File.Name,
+                logger.LogInformation("Uncompressed image: {filename} belonging to blog {blog}.", image.File.Name,
                     content.BlogName);
             }
 
@@ -82,7 +83,7 @@ public sealed class ImageCompressService(IEssayScanService essayScanService, ILo
 
         logger.LogInformation("Compression ratio: {}%.", (double)compressedSize / uncompressedSize * 100.0);
 
-        if (dryRun is false)
+        if (!dryRun)
         {
             await Task.WhenAll(from content in compressedContent
                 select essayScanService.SaveBlogContent(content, content.IsDraft));

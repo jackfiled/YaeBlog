@@ -1,13 +1,25 @@
 using YaeBlog.Components;
 using YaeBlog.Extensions;
+using YaeBlog.Services;
+
+HostApplicationBuilder consoleBuilder = Host.CreateApplicationBuilder(args);
+
+ConsoleInfoService consoleInfoService = consoleBuilder.AddYaeCommand(args);
+
+IHost consoleApp = consoleBuilder.Build();
+await consoleApp.RunAsync();
+
+if (consoleInfoService.IsOneShotCommand)
+{
+    return;
+}
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddControllers();
-builder.AddYaeBlog();
-builder.AddYaeCommand(args);
+builder.AddYaeServer(consoleInfoService);
 
 WebApplication application = builder.Build();
 
