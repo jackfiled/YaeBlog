@@ -1,7 +1,7 @@
 ﻿using Imageflow.Fluent;
-using YaeBlog.Abstraction;
+using YaeBlog.Abstractions;
 using YaeBlog.Core.Exceptions;
-using YaeBlog.Models;
+using YaeBlog.Abstractions.Models;
 
 namespace YaeBlog.Services;
 

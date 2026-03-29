@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
-using YaeBlog.Models;
+using YaeBlog.Abstractions.Models;
 
-namespace YaeBlog.Abstraction;
+namespace YaeBlog.Abstractions;
 
 public interface IEssayContentService
 {

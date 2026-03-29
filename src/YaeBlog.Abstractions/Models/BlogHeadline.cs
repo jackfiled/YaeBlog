@@ -1,4 +1,4 @@
-namespace YaeBlog.Models;
+namespace YaeBlog.Abstractions.Models;
 
 public class BlogHeadline(string title, string selectorId)
 {

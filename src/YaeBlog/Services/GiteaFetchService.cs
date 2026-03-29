@@ -3,7 +3,7 @@ using System.Text.Json;
 using DotNext;
 using Microsoft.Extensions.Options;
 using YaeBlog.Core.Exceptions;
-using YaeBlog.Models;
+using YaeBlog.Abstractions.Models;
 
 namespace YaeBlog.Services;
 

@@ -3,9 +3,9 @@ using System.Text.RegularExpressions;
 using Imageflow.Bindings;
 using Imageflow.Fluent;
 using Microsoft.Extensions.Options;
-using YaeBlog.Abstraction;
+using YaeBlog.Abstractions;
 using YaeBlog.Core.Exceptions;
-using YaeBlog.Models;
+using YaeBlog.Abstractions.Models;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 

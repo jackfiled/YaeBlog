@@ -1,7 +1,7 @@
 using AngleSharp;
 using AngleSharp.Dom;
-using YaeBlog.Abstraction;
-using YaeBlog.Models;
+using YaeBlog.Abstractions;
+using YaeBlog.Abstractions.Models;
 
 namespace YaeBlog.Processors;
 

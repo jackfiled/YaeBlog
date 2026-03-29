@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
-using YaeBlog.Models;
+using YaeBlog.Abstractions.Models;
 
 namespace YaeBlog.Services;
 

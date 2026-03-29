@@ -1,4 +1,4 @@
-﻿using YaeBlog.Abstraction;
+﻿using YaeBlog.Abstractions;
 using YaeBlog.Processors;
 using YaeBlog.Services;
 

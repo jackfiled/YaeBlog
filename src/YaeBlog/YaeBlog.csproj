@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../../third-party/BlazorSvgComponents/src/BlazorSvgComponents/BlazorSvgComponents.csproj" />
+    <ProjectReference Include="..\YaeBlog.Abstractions\YaeBlog.Abstractions.csproj" />
   </ItemGroup>
 
   <ItemGroup>

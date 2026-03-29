@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace YaeBlog.Models;
+namespace YaeBlog.Abstractions.Models;
 
 public class GiteaOptions
 {

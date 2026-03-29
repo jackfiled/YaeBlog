@@ -1,4 +1,4 @@
-﻿namespace YaeBlog.Models;
+﻿namespace YaeBlog.Abstractions.Models;
 
 public record GitContributionItem(DateOnly Time, long ContributionCount)
 {

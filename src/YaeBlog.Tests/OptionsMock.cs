@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Moq;
-using YaeBlog.Models;
+using YaeBlog.Abstractions.Models;
 
 namespace YaeBlog.Tests;
 

@@ -1,6 +1,6 @@
 using System.Text.Encodings.Web;
 
-namespace YaeBlog.Models;
+namespace YaeBlog.Abstractions.Models;
 
 public class EssayTag(string tagName) : IEquatable<EssayTag>
 {
