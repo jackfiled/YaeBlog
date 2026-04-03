@@ -1,11 +1,12 @@
 ---
 title: 使用System.Text.Json序列化和反序列化JSON
 date: 2026-01-21T22:07:38.4297603+08:00
-updateTime: 2026-01-21T22:07:38.4370636+08:00
+updateTime: 2026-04-03T17:16:16.0831040+08:00
 tags:
 - 技术笔记
 - dotnet
 ---
+
 
 
 
@@ -216,6 +217,14 @@ record MyPoco(
         Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<JsonBody>(input, s_serializerOptions));
     }
 ```
+
+但是在实际的生产和生活中，并不会有人将可选的属性序列化为`null` 之后再返回，而是直接忽略这个属性。这就让“可为空”这个属性显得有点鸡肋，因此可为空的属性一般也需要提供了一个可选的构造函数参数：
+
+```csharp
+record MyPocp(string RequiredField, string? NotRequiredField = null)
+```
+
+更本质的说，这是因为Javascript中提供了两种空`undefined`和`null`，然而在C#中并没有提供`undefined`对应的语言构造，因此只能通过这种默认值为`null`的构造函数参数来模拟。
 
 #### 反序列化为结构
 
