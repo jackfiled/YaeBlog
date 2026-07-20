@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using Xunit.Abstractions;
 
 namespace YaeBlog.Tests;
 
@@ -13,6 +12,32 @@ public sealed class JsonDeserializationTests(ITestOutputHelper outputHelper)
         RespectNullableAnnotations = true,
         RespectRequiredConstructorParameters = true
     };
+
+    [Fact]
+    public void NullableTest()
+    {
+        const string input1 = """
+                             {
+                                "code": 111,
+                                "username": null
+                             }
+                             """;
+
+        const string input2 = """
+                             {
+                                "code": 111
+                             }
+                             """;
+
+        JsonBody? body1 = JsonSerializer.Deserialize<JsonBody>(input1);
+        JsonBody? body2 = JsonSerializer.Deserialize<JsonBody>(input2);
+
+        Assert.NotNull(body1);
+        outputHelper.WriteLine($"Username of input1 is null? {body1.Username is null}");
+
+        Assert.NotNull(body2);
+        outputHelper.WriteLine($"Username of input2 is null? {body2.Username is null}");
+    }
 
     [Fact]
     public void DeserializeTest()

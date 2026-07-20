@@ -68,48 +68,43 @@ tags:
     }
 ```
 
-但是这样进行反序列化有一个小小的坑，就是缺少对于空值的有效处理。例如对于下面的JSON，上面的代码都会正常地进行反序列化。
+但是这样进行反序列化有一个小小的坑，就是缺少对于空值的有效处理。例如对于下面的两段JSON，上面的代码都会正常地进行反序列化。
 
 ```csharp
     [Fact]
-    public void DeserializeFromNonexistFieldTest()
+    public void NullableTest()
     {
-        const string input = """
-                             {
-                                "code": 111
-                             }
-                             """;
-
-        JsonBody? body = JsonSerializer.Deserialize<JsonBody>(input, s_serializerOptions);
-        Assert.NotNull(body);
-
-        Assert.Equal(111, body.Code);
-        Assert.Equal("", body.Username);
-    }
-```
-
-```csharp
-    [Fact]
-    public void DeserializeFromNullValueTest()
-    {
-        const string input = """
+        const string input1 = """
                              {
                                 "code": 111,
                                 "username": null
                              }
                              """;
 
-        JsonBody? body = JsonSerializer.Deserialize<JsonBody>(input, s_serializerOptions);
-        Assert.NotNull(body);
+        const string input2 = """
+                             {
+                                "code": 111
+                             }
+                             """;
 
-        Assert.Equal(111, body.Code);
-        Assert.Equal("", body.Username);
+        JsonBody? body1 = JsonSerializer.Deserialize<JsonBody>(input1);
+        JsonBody? body2 = JsonSerializer.Deserialize<JsonBody>(input2);
+
+        Assert.NotNull(body1);
+        outputHelper.WriteLine($"Username of input1 is null? {body1.Username is null}");
+
+        Assert.NotNull(body2);
+        outputHelper.WriteLine($"Username of input2 is null? {body2.Username is null}");
     }
 ```
 
 但是对于返回结果的校验会发现`body.Username`实际上是一个空值。
 
-![image-20260121221219618](./system-text-json/image-20260121221219618.webp)
+![image-20260720203407452](./system-text-json/image-20260720203407452.png)
+
+这段测试代码同样也让静态分析工具感到不安，这就让实际代码编写过程中非常容易遇到这种错误。
+
+![image-20260720203924460](./system-text-json/image-20260720203924460.png)
 
 幸好，在.NET 9中为`JsonSerializerOptions`添加了一个尊重可为空注释的选项`RespectNullableAnnotations`，将这个选项设置为`true`可以在**一定程度上**缓解这个问题。打开这个开关之后，对于`"username": null`的反序列化就会抛出异常了。
 
