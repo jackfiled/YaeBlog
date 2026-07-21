@@ -10,4 +10,5 @@ crate-type = ["cdylib"]
 anyhow = "1.0.104"
 libc = "0.2.187"
 typst = "0.15.1"
-typst-kit = "0.15.1"
+typst-html = "0.15.1"
+typst-kit = { version = "0.15.1", features = ["datetime", "system-packages", "embedded-fonts"]}
