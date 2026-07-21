@@ -1,0 +1,6 @@
+/target
+/tmp
+.idea/
+*.S
+*.wav
+.DS_Store

@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <RustProjectPath>$([System.IO.Path]::Combine($(MSBuildProjectDirectory), `..`, `yaeblog-typst`))</RustProjectPath>
+  </PropertyGroup>
+
+  <Target Name="BuildRustProject" BeforeTargets="Build">
+      <Exec Command="cargo build --release" WorkingDirectory="$(RustProjectPath)"/>
+  </Target>
+
+  <ItemGroup>
+    <Content Include="../yaeblog-typst/target/release/libyaeblog_typst.so"
+             Link="runtimes/linux-x64/native/libyaeblog_typst.so" CopyToOutputDirectory="Always"/>
+  </ItemGroup>
+
+</Project>

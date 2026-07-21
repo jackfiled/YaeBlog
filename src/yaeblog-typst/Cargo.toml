@@ -1,0 +1,13 @@
+[package]
+name = "yaeblog-typst"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+anyhow = "1.0.104"
+libc = "0.2.187"
+typst = "0.15.1"
+typst-kit = "0.15.1"

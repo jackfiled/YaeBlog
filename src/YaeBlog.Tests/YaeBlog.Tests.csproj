@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\YaeBlog.Typst\YaeBlog.Typst.csproj" />
     <ProjectReference Include="..\YaeBlog\YaeBlog.csproj" />
   </ItemGroup>
 

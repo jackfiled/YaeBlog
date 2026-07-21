@@ -14,6 +14,7 @@
   <Folder Name="/src/">
     <Project Path="src/YaeBlog.Abstractions/YaeBlog.Abstractions.csproj" />
     <Project Path="src/YaeBlog.Tests/YaeBlog.Tests.csproj" />
+    <Project Path="src/YaeBlog.Typst/YaeBlog.Typst.csproj" />
     <Project Path="src/YaeBlog/YaeBlog.csproj" />
   </Folder>
   <Folder Name="/third-party/" />
